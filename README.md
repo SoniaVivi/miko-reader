@@ -28,6 +28,8 @@ An application to read manga on Mangadex
 
 -Thin progression bar at the bottom
 
+-Automatic offset when previewing chapters of a manga
+
 **Features to be included (Anilist)**
 
 -Connects to an Anilist account

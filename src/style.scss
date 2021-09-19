@@ -46,13 +46,55 @@ h3 {
   font-family: "Lato Bold";
 }
 
-// ======================== REMOVE THIS FOR PRODUCTION ========================
 .cover {
   background-color: $loading-background;
 }
 
 .page-counter {
   user-select: none;
+}
+
+.icon-container {
+  @include force-size(20px, 20px);
+  position: relative;
+
+  &:hover {
+    * {
+      display: flex;
+    }
+  }
+}
+
+.icon {
+  @include force-size(20px, 20px);
+}
+
+.flex {
+  display: flex;
+}
+
+.hint {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: -100%;
+  z-index: 3;
+  padding: 4px;
+  font-family: "Lato Bold";
+  color: $hint-color;
+  background-color: $hint-background;
+  user-select: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 100%;
+    left: calc(50% - 5px);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid $hint-background;
+  }
 }
 
 /* Arrows */
@@ -80,6 +122,17 @@ h3 {
 
 .hover:hover {
   background-color: $hover-background;
+}
+
+.center,
+.center-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-row {
+  justify-content: flex-start;
 }
 
 /* Navbar */
@@ -161,6 +214,26 @@ nav {
 
   > * {
     flex-basis: 50%;
+  }
+}
+
+.manga.metadata {
+  > * {
+    margin-bottom: 3px;
+  }
+  .publication-status,
+  h3 {
+    margin-left: 25px;
+  }
+
+  .center-row {
+    margin-bottom: 5px;
+  }
+
+  .vertical-icon-container {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-right: 0;
   }
 }
 

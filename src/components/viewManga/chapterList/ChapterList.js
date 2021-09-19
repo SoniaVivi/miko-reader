@@ -1,32 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import ArrowContainer from "./ArrowContainer";
+import { useGetChaptersQuery } from "../../../apiSlice";
 import ChapterListChild from "./ChapterListChild";
+import ArrowContainer from "./ArrowContainer";
 import { pageMenu } from "./pageMenu";
+import PageCounterChild from "./PageCounterChild";
 
 const ChapterList = () => {
-  const chapters = useSelector((state) => state.manga.chapters);
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [offset, setOffset] = useState(0);
+  const [maxOffset, setMaxOffset] = useState(2 ** 32);
+  const mangaId = useSelector((state) => state.manga.id);
+  const [requestChapters, setRequestChapters] = useState(false);
+  const { chapters: chapterData } = useGetChaptersQuery(
+    { mangaId, offset },
+    {
+      selectFromResult: ({ data }) => ({
+        chapters: data?.entities,
+      }),
+      skip: !requestChapters,
+    }
+  );
+  const chapters = useMemo(
+    () =>
+      chapterData
+        ? Object.values(chapterData)
+            .filter((chapter) => chapter.language == selectedLanguage)
+            .sort((a, b) => Number(a.chapterNumber) < Number(b.chapterNumber))
+        : [],
+    [chapterData, selectedLanguage]
+  );
+  const languages = useMemo(
+    () =>
+      chapterData
+        ? Object.values(chapterData)
+            .map((chapter) => chapter.language)
+            .filter((x, i, a) => a.indexOf(x) == i)
+        : [],
+    [chapterData, selectedLanguage]
+  );
   const [currentPage, setCurrentPage] = useState(0);
-  const [currentChapters, setCurrentChapters] = useState(chapters.slice(0, 11));
-  const totalPages = Math.ceil((chapters.length + 1) / 12);
+  const [currentChapters, setCurrentChapters] = useState([]);
+  const totalPages = chapters ? Math.ceil((chapters.length + 1) / 12) : 0;
   const decrementPage = () =>
     setCurrentPage((current) => (current != 0 ? current - 1 : current));
   const incrementPage = () =>
     setCurrentPage((current) =>
       current != totalPages - 1 ? current + 1 : current
     );
+  const resetPage = () => setCurrentPage(0);
+
   useEffect(() => {
-    let start = currentPage * 12;
-    start = start == chapters.length ? start - 1 : start;
-    setCurrentChapters(chapters.slice(start, currentPage * 12 + 11));
+    if (chapters.length > 1) {
+      let lowerLimit = currentPage * 12;
+      lowerLimit = currentPage == totalPages - 1 ? lowerLimit - 1 : lowerLimit;
+      setCurrentChapters(chapters.slice(lowerLimit, currentPage * 12 + 11));
+    }
   }, [currentPage, chapters]);
+
+  useEffect(
+    () => (mangaId && !requestChapters ? setRequestChapters(true) : ""),
+    [mangaId, requestChapters]
+  );
+
+  if (!languages.length) {
+    if (offset != 0) {
+      setMaxOffset(offset);
+      setOffset((prev) => prev - 96);
+    }
+    return <div className="chapter-list main-background"></div>;
+  }
 
   return (
     <div className="chapter-list main-background">
       <div className="languages-list manga">
-        {["Eng", "Jp", "Es"].map((language, i) => (
-          <div key={i} className="languages manga">
-            {language}
+        {languages.map((language, i) => (
+          <div
+            key={i}
+            className="languages manga"
+            onClick={() => {
+              resetPage();
+              setSelectedLanguage(language);
+            }}
+          >
+            {language.slice(0, 1).toUpperCase() + language.slice(1)}
           </div>
         ))}
       </div>
@@ -43,11 +100,11 @@ const ChapterList = () => {
         {currentChapters.map((chapterData, i) => (
           <ChapterListChild
             key={i}
-            uploader={chapterData.uploader}
-            group={chapterData.group}
+            chapterId={chapterData.id}
+            group={chapterData.group?.id || "Unknown"}
+            uploader={chapterData.uploader?.id}
             title={chapterData.title}
             uploaded={chapterData.uploaded}
-            chapterId={chapterData.id}
           />
         ))}
       </ul>
@@ -56,22 +113,39 @@ const ChapterList = () => {
         onLeftArrowClick={decrementPage}
         onRightArrowClick={incrementPage}
       >
-        {pageMenu(totalPages, currentPage + 1).map((pageNum, i) =>
-          pageNum != "..." ? (
-            <button
-              key={i}
-              onClick={(e) => setCurrentPage(e.target.textContent - 1)}
-              className={`hover chapter-list${
-                pageNum == currentPage + 1 ? " current" : ""
-              }`}
-            >
-              {pageNum}
-            </button>
-          ) : (
-            <div className="dot-placeholder">...</div>
-          )
-        )}
+        {pageMenu(totalPages, currentPage + 1).map((pageNum, i) => (
+          <PageCounterChild
+            key={i}
+            pageNum={pageNum}
+            currentPage={currentPage + 1}
+            setCurrentPage={setCurrentPage}
+          />
+        ))}
       </ArrowContainer>
+      {offset + 96 < maxOffset ? (
+        <button
+          onClick={() => {
+            resetPage();
+            setOffset((prev) => (prev += 96));
+          }}
+        >
+          Look for more Chapters
+        </button>
+      ) : (
+        ""
+      )}
+      {offset != 0 ? (
+        <button
+          onClick={() => {
+            resetPage();
+            setOffset((prev) => (prev -= 96));
+          }}
+        >
+          Go Back
+        </button>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

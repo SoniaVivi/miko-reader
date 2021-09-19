@@ -1,37 +1,27 @@
 import React from "react";
 import MangaPreview from "./MangaPreview";
+import { useGetMangasQuery } from "../apiSlice";
 
 const Home = () => {
+  const {
+    data: mangaData,
+    isLoading,
+    isSuccess,
+  } = useGetMangasQuery(["6670ee28-f26d-4b61-b49c-d71149cd5a6e"]);
+
+  let content;
+
+  if (isLoading) {
+    content = [];
+  } else if (isSuccess) {
+    content = mangaData.ids.map((id, i) => <MangaPreview id={id} key={i} />);
+  }
+
   return (
     <div className="container">
       <section>
         <h3>Recently Updated From Your List</h3>
-        <ul className="showcase manga">
-          {Array.apply(null, Array(12)).map((_, i) => (
-            <MangaPreview
-              id={"Test"}
-              name={"Lorem ipsum dolor sit amet, insolens maiestatis pri eu"}
-              cover={"coverUrl"}
-              publicationStatus={"Testing"}
-              synopsis={`Lorem ipsum dolor sit amet, at ius quas dicunt tamquam,
-                mea altera vivendo persecuti eu. Legimus dissentiet accommodare
-                nec at, primis aeterno fastidii usu eu`}
-              author={"Nullpo Gah"}
-              artist={"Nullpo Gah"}
-              //eslint-disable-next-line no-unused-vars
-              chapters={Array.apply(null, Array(120)).map((_, i) => {
-                return {
-                  uploader: "Lorem ipsum dolor",
-                  group: "Lorem ipsum dolor sit amet",
-                  title: `Lorem Ipsum${i}`,
-                  uploaded: "2013-09-04T05:24:55",
-                  id: "-1",
-                };
-              })}
-              key={i}
-            />
-          ))}
-        </ul>
+        <ul className="showcase manga">{content}</ul>
       </section>
       {/* <li>
           <h3>Currently Reading</h3>

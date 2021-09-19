@@ -1,34 +1,30 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { setMangaAttributes } from "../mangaSlice";
+import { useGetMangasQuery } from "../apiSlice";
+import { setActiveManga } from "../mangaSlice";
 import PropTypes from "prop-types";
 
 const MangaPreview = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { mangaData } = useGetMangasQuery([props.id], {
+    selectFromResult: ({ data }) => ({
+      mangaData: data.entities[props.id],
+    }),
+  });
 
   return (
     <li>
       <img
-        src=""
+        src={mangaData.coverUrl}
         className="cover preview"
         onClick={() => {
-          dispatch(
-            setMangaAttributes(
-              props.id,
-              props.name,
-              props.cover,
-              props.publicationStatus,
-              props.synopsis,
-              props.author,
-              props.artist,
-              props.chapters
-            )
-          );
-          history.push(`/${props.name}`);
+          dispatch(setActiveManga(props.id));
+          history.push(`/${mangaData.title.replace(/\s/g, "_")}`);
         }}
       ></img>
+      <h3>{mangaData.title}</h3>
     </li>
   );
 };
@@ -37,11 +33,4 @@ export default MangaPreview;
 
 MangaPreview.propTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  cover: PropTypes.string.isRequired,
-  publicationStatus: PropTypes.string.isRequired,
-  synopsis: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  artist: PropTypes.string.isRequired,
-  chapters: PropTypes.array.isRequired,
 };

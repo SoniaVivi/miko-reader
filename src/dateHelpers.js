@@ -117,7 +117,10 @@ export const relativeTime = (time, formatTime = null) => {
   const millisecondsPast = Date.now() - time;
   const timeUnits = {
     years: () => new Date(millisecondsPast).getUTCFullYear() - 1970,
-    months: () => new Date().getMonth() - new Date(time).getMonth(),
+    months: () => {
+      const diff = new Date().getMonth() - new Date(time).getMonth();
+      return diff >= 0 ? diff : 12 + diff;
+    },
     weeks: () => millisecondsPast / 604800000,
     days: () => millisecondsPast / 86400000,
     hours: () => millisecondsPast / 3600000,
