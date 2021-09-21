@@ -37,8 +37,19 @@ const ChapterList = () => {
             .map((chapter) => chapter.language)
             .filter((x, i, a) => a.indexOf(x) == i)
         : [],
-    [chapterData, selectedLanguage]
+    [chapterData]
   );
+  const groups = useMemo(
+    () =>
+      chapterData
+        ? Object.values(chapterData)
+            .map((chapter) => chapter.group?.id)
+            .filter((x, i, a) => a.indexOf(x) == i)
+            .filter((a) => a !== undefined)
+        : undefined,
+    [chapterData]
+  );
+
   const [currentPage, setCurrentPage] = useState(0);
   const [currentChapters, setCurrentChapters] = useState([]);
   const totalPages = chapters ? Math.ceil((chapters.length + 1) / 12) : 0;
@@ -73,20 +84,28 @@ const ChapterList = () => {
 
   return (
     <div className="chapter-list main-background">
-      <div className="languages-list manga">
-        {languages.map((language, i) => (
-          <div
-            key={i}
-            className="languages manga"
-            onClick={() => {
-              resetPage();
-              setSelectedLanguage(language);
-            }}
-          >
-            {language.slice(0, 1).toUpperCase() + language.slice(1)}
-          </div>
-        ))}
-      </div>
+      <ul className="languages-list manga">
+        {[...languages]
+          .sort((a, b) => a.localeCompare(b))
+          .map((language, i) => (
+            <li
+              key={i}
+              className="languages manga"
+              onClick={() => {
+                resetPage();
+                setSelectedLanguage(language);
+              }}
+            >
+              <button
+                className={`hover${
+                  language == selectedLanguage ? " current" : ""
+                }`}
+              >
+                {language.slice(0, 1).toUpperCase() + language.slice(1)}
+              </button>
+            </li>
+          ))}
+      </ul>
       <ArrowContainer
         top={true}
         onLeftArrowClick={decrementPage}
@@ -105,9 +124,36 @@ const ChapterList = () => {
             uploader={chapterData.uploader?.id}
             title={chapterData.title}
             uploaded={chapterData.uploaded}
+            groups={groups}
           />
         ))}
       </ul>
+      <div className="chapter-list-bottom-buttons">
+        {offset != 0 ? (
+          <button
+            onClick={() => {
+              resetPage();
+              setOffset((prev) => (prev -= 96));
+            }}
+          >
+            Go Back
+          </button>
+        ) : (
+          ""
+        )}
+        {offset + 96 < maxOffset && currentPage == totalPages - 1 ? (
+          <button
+            onClick={() => {
+              resetPage();
+              setOffset((prev) => (prev += 96));
+            }}
+          >
+            Look for more Chapters
+          </button>
+        ) : (
+          ""
+        )}
+      </div>
       <ArrowContainer
         className="align-btm"
         onLeftArrowClick={decrementPage}
@@ -122,30 +168,6 @@ const ChapterList = () => {
           />
         ))}
       </ArrowContainer>
-      {offset + 96 < maxOffset ? (
-        <button
-          onClick={() => {
-            resetPage();
-            setOffset((prev) => (prev += 96));
-          }}
-        >
-          Look for more Chapters
-        </button>
-      ) : (
-        ""
-      )}
-      {offset != 0 ? (
-        <button
-          onClick={() => {
-            resetPage();
-            setOffset((prev) => (prev -= 96));
-          }}
-        >
-          Go Back
-        </button>
-      ) : (
-        ""
-      )}
     </div>
   );
 };

@@ -1,0 +1,159 @@
+/* CSS Reset */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Lato";
+  // outline: 1px solid #000000;
+}
+
+/* Miscellaneous */
+
+body {
+  background-color: $body-background;
+}
+
+input {
+  background-color: $input-background;
+
+  &:focus {
+    border-color: $input-focus-border;
+    background-color: $main-background;
+    outline: unset;
+  }
+}
+
+button {
+  border: unset;
+  background-color: unset;
+}
+
+.main-background {
+  background-color: $main-background;
+}
+
+h3 {
+  font-size: 24px;
+  font-family: "Lato Bold";
+}
+
+.cover {
+  background-color: $loading-background;
+}
+
+.page-counter {
+  user-select: none;
+}
+
+.icon-container,
+.icon {
+  @include force-size(20px, 20px);
+
+  .hint {
+    top: 125%;
+    left: -80%;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.hint-container {
+  position: relative;
+  display: flex;
+  text-align: center;
+}
+
+.hint-container:hover .hint {
+  display: flex;
+}
+
+.hint {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: -30%;
+  width: fit-content;
+  z-index: 3;
+  padding: 4px;
+  font-family: "Lato Bold";
+  color: $hint-color;
+  background-color: $hint-background;
+  user-select: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 100%;
+    left: calc(50% - 5px);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid $hint-background;
+  }
+}
+
+.container {
+  display: flex;
+  max-width: 100%;
+  width: 960px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* Arrows */
+
+.arrow-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.arrow {
+  @include circle(25px);
+}
+
+.arrow.left {
+  transform: rotate(90deg);
+}
+
+.arrow.right {
+  transform: rotate(-90deg);
+}
+
+.hover:hover {
+  background-color: $hover-background;
+}
+
+.center,
+.center-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-row {
+  justify-content: flex-start;
+}
+
+/* Frontpage Styling */
+
+.manga.showcase {
+  display: flex;
+  max-width: 100%;
+  padding: -5px;
+}
+
+.cover.preview {
+  width: 140px;
+  height: 200px;
+  margin-left: 5px;
+}

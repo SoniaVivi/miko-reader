@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Brush = (props) => (
-  <div className="icon-container">
+  <div className="icon-container hint-container">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"

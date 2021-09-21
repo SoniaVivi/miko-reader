@@ -1,0 +1,58 @@
+nav {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 48px;
+  background-color: $main-background;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding: 8px 20px;
+  border: 1px solid $light-border;
+}
+
+.nav {
+  margin-right: 8px;
+}
+
+.nav-home {
+  margin-right: auto;
+  font-family: "Lato Black";
+
+  a {
+    color: $home;
+  }
+}
+
+.nav-search {
+  @include bevel(24px);
+  width: 196px;
+  padding: 0 10px;
+  border: 1px solid $dark-border;
+}
+
+.nav-profile {
+  display: flex;
+  align-items: center;
+  width: 120px;
+  padding-left: 5px;
+  border: 1px solid $main-background;
+
+  &:hover {
+    border-color: $extra-light-border;
+  }
+
+  :last-child {
+    margin-left: 5px;
+  }
+}
+
+.profile.round {
+  @include circle(32px);
+  border: 1px solid $main-background;
+}

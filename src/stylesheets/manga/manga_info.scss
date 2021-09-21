@@ -1,0 +1,53 @@
+.manga.container {
+  display: flex;
+  padding: 8px;
+
+  > * {
+    flex-basis: 50%;
+  }
+}
+
+.manga.metadata {
+  > * {
+    margin-bottom: 3px;
+  }
+  .publication-status,
+  h3 {
+    margin-left: 25px;
+  }
+
+  .center-row {
+    margin-bottom: 5px;
+  }
+
+  .vertical-icon-container {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-right: 0;
+  }
+}
+
+.cover {
+  @include force-size(200px, 250px);
+}
+
+.manga-info,
+.chapter-list.main-background {
+  display: flex;
+  padding: 8px;
+}
+
+.manga-info {
+  &.wrapper {
+    flex-flow: column nowrap;
+  }
+
+  &:not(.wrapper) * {
+    margin-right: 5px;
+  }
+}
+
+.manga.metadata {
+  display: flex;
+  flex-flow: column nowrap;
+}
