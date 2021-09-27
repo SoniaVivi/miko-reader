@@ -8,8 +8,8 @@ import Navbar from "./components//Navbar";
 const Routes = () => {
   return (
     <React.Fragment>
-      <Navbar test={true} />
       <BrowserRouter>
+        <Navbar test={true} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/:manga/:chapter/:page" component={Chapter} />

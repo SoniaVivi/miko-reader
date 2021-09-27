@@ -8,6 +8,8 @@
   list-style: none;
   text-decoration: none;
   font-family: "Lato";
+  font-size: 16px;
+  color: $text-color;
   // outline: 1px solid #000000;
 }
 
@@ -63,6 +65,10 @@ h3 {
   display: flex;
 }
 
+.column {
+  flex-direction: column;
+}
+
 .hint-container {
   position: relative;
   display: flex;
@@ -106,6 +112,19 @@ h3 {
   margin: 0 auto;
 }
 
+.hover:hover {
+  background-color: $hover-background;
+}
+
+.divider {
+  @include force-size(100%, 1px);
+  background-color: $light-border;
+
+  &.vertical {
+    @include force-size(1px, 100%);
+  }
+}
+
 /* Arrows */
 
 .arrow-container {
@@ -119,18 +138,18 @@ h3 {
 
 .arrow {
   @include circle(25px);
-}
 
-.arrow.left {
-  transform: rotate(90deg);
-}
+  &.left {
+    transform: rotate(90deg);
+  }
 
-.arrow.right {
-  transform: rotate(-90deg);
-}
+  &.right {
+    transform: rotate(-90deg);
+  }
 
-.hover:hover {
-  background-color: $hover-background;
+  &.rectangle {
+    border-radius: 0;
+  }
 }
 
 .center,

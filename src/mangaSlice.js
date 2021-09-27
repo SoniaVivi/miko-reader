@@ -1,13 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//eslint-disable-next-line no-unused-vars
 const emptyState = {
   id: -1,
-  chapters: [],
+  chapterId: -1,
+  showNav: true,
+  language: "",
+};
+
+//eslint-disable-next-line no-unused-vars
+const testState = {
+  id: "6670ee28-f26d-4b61-b49c-d71149cd5a6e",
+  chapterId: "478a3742-b70a-4f4c-892b-b9b1b6ad4fb1",
+  showNav: true,
+  language: "en",
 };
 
 export const slice = createSlice({
   name: "manga",
-  initialState: emptyState,
+  initialState: testState, // ===========CHANGE THIS FOR PRODUCTION===========
   reducers: {
     setActiveManga: {
       reducer(state, action) {
@@ -21,13 +32,29 @@ export const slice = createSlice({
         };
       },
     },
+    toggleNav: {
+      reducer(state) {
+        state.showNav = !state.showNav;
+      },
+      prepare() {
+        return { payload: {} };
+      },
+    },
     closeManga: (state) => {
-      //eslint-disable-next-line no-unused-vars
       state.manga = { ...emptyState };
+    },
+    setLanguage: {
+      reducer(state, action) {
+        state.language = action.payload.language;
+      },
+      prepare(language) {
+        return { payload: { language } };
+      },
     },
   },
 });
 
-export const { setActiveManga, closeManga } = slice.actions;
+export const { setActiveManga, closeManga, toggleNav, setLanguage } =
+  slice.actions;
 
 export default slice.reducer;

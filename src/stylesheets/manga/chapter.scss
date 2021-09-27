@@ -1,0 +1,190 @@
+.chapter-view {
+  justify-content: center;
+  align-items: center;
+  max-height: 100%;
+  height: 100vh;
+}
+
+.manga-page {
+  flex-direction: row-reverse;
+  justify-content: center;
+  max-width: 100%;
+  max-height: calc(100vh - #{$navbar-height});
+  padding: 0 10px;
+  transition: max-height $nav-transition-timing;
+
+  &.full-height {
+    max-height: 100vh;
+  }
+
+  img {
+    flex-grow: 0;
+    max-width: 50%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+.sidebar-container {
+  flex-shrink: 0;
+  flex-basis: 360px;
+  height: 100%;
+  padding: 0 30px;
+  padding-top: 36px;
+  background-color: $main-background;
+  transition: margin-right $nav-transition-timing;
+
+  &.hide {
+    margin-right: -360px;
+  }
+
+  > * {
+    display: flex;
+    margin-bottom: 15px;
+  }
+}
+
+/* Sidebar Counter */
+
+.counter-container {
+  justify-content: center;
+}
+
+.counter.sidebar {
+  position: relative;
+  z-index: 3;
+  align-items: baseline;
+  min-width: 25%;
+  margin-right: 5px;
+}
+
+.sidebar.counter.form {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  margin-left: 5px;
+  padding: 1px 4px 2px 4px;
+  border: 1px solid $light-border;
+  user-select: none;
+
+  &.active {
+    border-bottom: 1px solid $main-background;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.counter-text {
+  width: 25px;
+}
+
+.counter.selection {
+  $square-size: 28px;
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, $square-size);
+  width: fit-content;
+  padding: 2px;
+  padding-right: 4px;
+  border: 1px solid $dark-border;
+  border-top-left-radius: 0;
+
+  &.hide {
+    display: none;
+  }
+
+  button {
+    $side-padding: 4px;
+    padding: 2px $side-padding 4px $side-padding;
+  }
+
+  .current {
+    background-color: $read;
+  }
+}
+
+.upload.sidebar {
+  > *:not(:first-child) {
+    margin-left: 5px;
+  }
+}
+
+.page-layout.sidebar {
+  width: 50%;
+  height: 30px;
+
+  button {
+    width: 50%;
+  }
+
+  :first-child,
+  :last-child {
+    border: 1px solid $light-border;
+  }
+
+  :first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: unset;
+  }
+
+  :last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: unset;
+  }
+}
+
+.page-mode.sidebar {
+  width: 50%;
+  height: 30px;
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+
+  .arrow.rectangle {
+    @include force-size(30px, 30px);
+    margin: 0 5px;
+    border-radius: 5px;
+  }
+}
+
+.progression-bar {
+  $height: 36px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row-reverse;
+  height: $height;
+  margin-top: -$height;
+  border-top: 1px solid $light-border;
+  background-color: $main-background;
+  transition: margin-top $nav-transition-timing;
+
+  &.to-right {
+    flex-direction: row;
+  }
+
+  &.hide {
+    margin-top: 0;
+  }
+
+  *:not(.divider) {
+    flex-grow: 1;
+    border-radius: 0;
+  }
+
+  .read {
+    background-color: $read;
+  }
+
+  .current {
+    background-color: $current-page;
+  }
+}

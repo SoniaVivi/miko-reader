@@ -5,10 +5,10 @@ const Arrow = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width={props.width ?? "16"}
+      height={props.height ?? "16"}
       fill="currentColor"
-      className={`arrow ${props.className} hover`}
+      className={`arrow hover ${props.className ?? ""}`}
       viewBox="0 0 16 16"
       onClick={props.onClick ?? (() => {})}
     >
@@ -23,6 +23,8 @@ const Arrow = (props) => {
 export default Arrow;
 
 Arrow.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   onClick: PropTypes.func,
+  width: PropTypes.string,
+  height: PropTypes.string,
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Arrow from "./Arrow";
+import Arrow from "../../../assets/svgs/Arrow";
 
 const ArrowContainer = (props) => (
   <div className={`chapter-list arrow-container ${props.className ?? ""}`}>
