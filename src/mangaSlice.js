@@ -18,7 +18,7 @@ const testState = {
 
 export const slice = createSlice({
   name: "manga",
-  initialState: testState, // ===========CHANGE THIS FOR PRODUCTION===========
+  initialState: emptyState, // ===========CHANGE THIS FOR PRODUCTION===========
   reducers: {
     setActiveManga: {
       reducer(state, action) {
@@ -51,10 +51,23 @@ export const slice = createSlice({
         return { payload: { language } };
       },
     },
+    setChapterId: {
+      reducer(state, action) {
+        state.chapterId = action.payload.chapterId;
+      },
+      prepare(chapterId) {
+        return { payload: { chapterId } };
+      },
+    },
   },
 });
 
-export const { setActiveManga, closeManga, toggleNav, setLanguage } =
-  slice.actions;
+export const {
+  setActiveManga,
+  closeManga,
+  toggleNav,
+  setLanguage,
+  setChapterId,
+} = slice.actions;
 
 export default slice.reducer;

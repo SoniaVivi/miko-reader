@@ -4,6 +4,11 @@ import onOutsideClick from "../helpers/onOutsideClick";
 
 const Counter = (props) => {
   const [showForm, setShowForm] = useState(false);
+  if (!props.data) {
+    return <div></div>;
+  }
+
+  const getDisplayTitle = (title) => (title == "none" ? "-" : title);
 
   return (
     <div className={`counter sidebar flex ${props.className}`}>
@@ -17,18 +22,18 @@ const Counter = (props) => {
           });
         }}
       >
-        <span>{props.current + 1}</span>
+        <span>{getDisplayTitle(props.current)}</span>
       </div>
       <div
         className={`counter selection${showForm ? "" : " hide"}`}
         onMouseLeave={() => setShowForm(false)}
       >
-        {[...Array(props.length)].map((_, i) => (
+        {props.data.map((title, i) => (
           <button
             key={i}
-            className={`hover${i == props.current ? " current" : ""}`}
+            className={`hover${title == props.current ? " current" : ""}`}
           >
-            {i + 1}
+            {getDisplayTitle(title)}
           </button>
         ))}
       </div>
@@ -39,8 +44,8 @@ const Counter = (props) => {
 export default Counter;
 
 Counter.propTypes = {
-  length: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
   text: PropTypes.string.isRequired,
-  current: PropTypes.number.isRequired,
+  current: PropTypes.string.isRequired,
   className: PropTypes.string,
 };

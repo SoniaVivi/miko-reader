@@ -125,6 +125,8 @@ const ChapterList = () => {
             title={chapterData.title}
             uploaded={chapterData.uploaded}
             groups={groups}
+            language={chapterData?.language}
+            chapterNumber={chapterData?.chapterNumber}
           />
         ))}
       </ul>

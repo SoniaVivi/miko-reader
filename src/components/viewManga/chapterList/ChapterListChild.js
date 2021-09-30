@@ -1,27 +1,21 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import { relativeTime } from "../../../dateHelpers";
-import { useGetUserQuery, useGetGroupsQuery } from "../../../apiSlice";
+import useGetUserAndGroupQuery from "../../useGetUserAndGroupQuery";
+import { setLanguage, setChapterId } from "../../../mangaSlice";
 import TrimmedSpan from "./TrimmedSpan";
 
 const ChapterListChild = (props) => {
   //eslint-disable-next-line no-unused-vars
-  const mangaName = useSelector((state) => state.manga.name);
-  //eslint-disable-next-line no-unused-vars
   const history = useHistory();
-  const { name: uploaderName } = useGetUserQuery(props.uploader, {
-    selectFromResult: ({ data }) => ({
-      name: data?.data.attributes.username,
-    }),
-    skip: !props.uploader,
-  });
-  const { name: groupName } = useGetGroupsQuery(props.groups, {
-    selectFromResult: ({ data }) => ({
-      name: data?.entities[props.group].attributes?.name,
-    }),
-    skip: !props.groups,
+  const params = useParams();
+  const dispatch = useDispatch();
+  const { user: uploaderName, group: groupName } = useGetUserAndGroupQuery({
+    user: props.uploader,
+    groups: props.groups,
+    group: props.group,
   });
 
   const timeFormatFunc = (time, units) => {
@@ -41,7 +35,11 @@ const ChapterListChild = (props) => {
   return (
     <li
       className="chapter-list-item hover"
-      // onClick={() => history.push(`/${mangaName}/${props.chapterId}/1`)}
+      onClick={() => {
+        dispatch(setChapterId(props.chapterId));
+        dispatch(setLanguage(props.language));
+        history.push(`/${params.manga}/${props.chapterNumber}/1`);
+      }}
     >
       <div>
         <TrimmedSpan maxLength={22} text={props.title} />
@@ -63,5 +61,7 @@ ChapterListChild.propTypes = {
   title: PropTypes.string.isRequired,
   uploaded: PropTypes.string.isRequired,
   chapterId: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  chapterNumber: PropTypes.string.isRequired,
   groups: PropTypes.array,
 };

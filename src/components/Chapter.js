@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import firstPage from "../assets/01.png";
-import secondPage from "../assets/02.png";
 import { toggleNav } from "../mangaSlice";
 import "../stylesheets/manga/no_scroll.scss";
+import PageDisplay from "./viewChapter/PageDisplay";
 import ProgressBar from "./viewChapter/ProgressBar";
 import Sidebar from "./viewChapter/Sidebar";
 
 const Chapter = () => {
+  const queryParams = useSelector((state) => ({
+    id: state.manga.id,
+  }));
   const [showSidebar, setShowSidebar] = useState(false);
   const [showProgressBar, setShowProgressBar] = useState(false);
   const showNav = useSelector((state) => state.manga.showNav);
@@ -17,7 +19,7 @@ const Chapter = () => {
   const revealWithin = 48;
 
   useEffect(() => {
-    if (!mangaPageRef) return;
+    if (!mangaPageRef || !mangaPageRef.current) return;
     let classes = mangaPageRef.current.className.split(" ");
 
     if (!classes.includes("full-height") && !showNav) {
@@ -40,22 +42,9 @@ const Chapter = () => {
     }
   };
 
-  const sidebarCheck = (e, xCoords) => {
-    if (e.clientY >= revealWithin && xCoords >= -360) {
-      setShowSidebar(true);
-    } else if (xCoords <= -360) {
-      setShowSidebar(false);
-    }
-  };
-
-  const progressBarCheck = (e, xCoords) => {
-    const yCoords = e.clientY - window.screen.height;
-    if (yCoords >= -200 && xCoords <= -360) {
-      setShowProgressBar(true);
-    } else {
-      setShowProgressBar(false);
-    }
-  };
+  if (!queryParams || queryParams.id == -1) {
+    return <div className="chapter-view flex"></div>;
+  }
 
   return (
     <React.Fragment>
@@ -63,20 +52,18 @@ const Chapter = () => {
         className="chapter-view flex"
         onMouseMove={(e) => {
           const xCoords = e.clientX - window.screen.width;
+          const yCoords = e.clientY - window.screen.height;
           navCheck(e, xCoords);
-          sidebarCheck(e, xCoords);
-          progressBarCheck(e, xCoords);
+          setShowSidebar(e.clientY >= revealWithin && xCoords >= -360);
+          setShowProgressBar(yCoords >= -200 && xCoords <= -360);
         }}
       >
         <div className="manga-page wrapper flex">
-          <div className="manga-page flex" ref={mangaPageRef}>
-            <img src={firstPage}></img>
-            <img src={secondPage}></img>
-          </div>
+          <PageDisplay classRef={mangaPageRef} />
         </div>
         <Sidebar show={showSidebar} />
       </div>
-      <ProgressBar length={30} current={[12, 13]} show={showProgressBar} />
+      <ProgressBar show={showProgressBar} />
     </React.Fragment>
   );
 };

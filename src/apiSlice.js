@@ -13,6 +13,10 @@ const getCoverURL = (mangaData) =>
 const getTitle = (mangaData) =>
   mangaData.attributes.title[Object.keys(mangaData.attributes.title)[0]];
 
+const findInRelationships = (relationshipName, data = null) =>
+  data &&
+  data.relationships.find((relation) => relation.type === relationshipName);
+
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.mangadex.org" }),
   endpoints: (builder) => ({
@@ -52,12 +56,8 @@ export const apiSlice = createApi({
             return {
               ...chapter,
               id: chapter.id,
-              uploader: chapter.relationships.find(
-                (relation) => relation.type === "user"
-              ),
-              group: chapter.relationships.find(
-                (relation) => relation.type === "scanlation_group"
-              ),
+              uploader: findInRelationships("user", chapter),
+              group: findInRelationships("scanlation_group", chapter),
               title:
                 chapter.attributes.title ||
                 `Chapter ${chapter.attributes.chapter}`,
@@ -87,6 +87,27 @@ export const apiSlice = createApi({
         );
       },
     }),
+    getMangaAggregate: builder.query({
+      query: ({ mangaId, language }) =>
+        `/manga/${mangaId}/aggregate?translatedLanguage[]=${language}`,
+      transformResponse: (responseData) => responseData.volumes,
+    }),
+    getChapter: builder.query({
+      query: (chapterId) => `/chapter/${chapterId}`,
+      transformResponse: (responseData) => ({
+        ...responseData.data,
+        ...{
+          group: findInRelationships("scanlation_group", responseData.data),
+          uploader: findInRelationships("user", responseData.data),
+          pages: responseData.data?.attributes.data,
+          id: responseData.data.id,
+          hash: responseData.data?.attributes.hash,
+        },
+      }),
+    }),
+    getServerURL: builder.query({
+      query: (chapterId) => `/at-home/server/${chapterId}`,
+    }),
   }),
 });
 
@@ -96,4 +117,7 @@ export const {
   useGetAuthorQuery,
   useGetUserQuery,
   useGetGroupsQuery,
+  useGetMangaAggregateQuery,
+  useGetChapterQuery,
+  useGetServerURLQuery,
 } = apiSlice;
