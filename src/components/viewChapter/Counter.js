@@ -28,10 +28,11 @@ const Counter = (props) => {
         className={`counter selection${showForm ? "" : " hide"}`}
         onMouseLeave={() => setShowForm(false)}
       >
-        {props.data.map((title, i) => (
+        {Object.keys(props.data).map((title, i) => (
           <button
             key={i}
             className={`hover${title == props.current ? " current" : ""}`}
+            onClick={() => props.onChildClick(title, props.data[title].id)}
           >
             {getDisplayTitle(title)}
           </button>
@@ -44,8 +45,9 @@ const Counter = (props) => {
 export default Counter;
 
 Counter.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   text: PropTypes.string.isRequired,
   current: PropTypes.string.isRequired,
+  onChildClick: PropTypes.func.isRequired,
   className: PropTypes.string,
 };

@@ -3,17 +3,15 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import MangaInfo from "./viewManga/MangaInfo";
 import ChapterList from "./viewManga/chapterList/ChapterList";
+import useFetchMangaFromTitle from "./useFetchMangaFromTitle";
 
 const Manga = () => {
   const mangaData = useSelector((state) => state.manga);
+  //eslint-disable-next-line no-unused-vars
+  const fetchMangaDataIfNotPresent = useFetchMangaFromTitle();
 
   if (mangaData.id == "-1") {
-    return (
-      <div>
-        {`Show Loading screen => Fetch data from the API => if manga not found go
-        to homepage else show the next part`}
-      </div>
-    );
+    return <div></div>;
   }
 
   return (

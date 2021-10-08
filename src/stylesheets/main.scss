@@ -125,6 +125,10 @@ h3 {
   }
 }
 
+.current {
+  background-color: $current;
+}
+
 /* Arrows */
 
 .arrow-container {
@@ -175,4 +179,8 @@ h3 {
   width: 140px;
   height: 200px;
   margin-left: 5px;
+}
+
+.manga-title.preview {
+  max-width: 140px;
 }

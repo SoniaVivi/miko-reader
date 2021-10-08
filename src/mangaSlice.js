@@ -1,24 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//eslint-disable-next-line no-unused-vars
 const emptyState = {
   id: -1,
   chapterId: -1,
-  showNav: true,
-  language: "",
-};
-
-//eslint-disable-next-line no-unused-vars
-const testState = {
-  id: "6670ee28-f26d-4b61-b49c-d71149cd5a6e",
-  chapterId: "478a3742-b70a-4f4c-892b-b9b1b6ad4fb1",
-  showNav: true,
-  language: "en",
+  title: "",
 };
 
 export const slice = createSlice({
   name: "manga",
-  initialState: emptyState, // ===========CHANGE THIS FOR PRODUCTION===========
+  initialState: emptyState,
   reducers: {
     setActiveManga: {
       reducer(state, action) {
@@ -32,24 +22,8 @@ export const slice = createSlice({
         };
       },
     },
-    toggleNav: {
-      reducer(state) {
-        state.showNav = !state.showNav;
-      },
-      prepare() {
-        return { payload: {} };
-      },
-    },
     closeManga: (state) => {
       state.manga = { ...emptyState };
-    },
-    setLanguage: {
-      reducer(state, action) {
-        state.language = action.payload.language;
-      },
-      prepare(language) {
-        return { payload: { language } };
-      },
     },
     setChapterId: {
       reducer(state, action) {
@@ -59,15 +33,18 @@ export const slice = createSlice({
         return { payload: { chapterId } };
       },
     },
+    setTitle: {
+      reducer(state, action) {
+        state.title = action.payload.title;
+      },
+      prepare(title) {
+        return { payload: { title } };
+      },
+    },
   },
 });
 
-export const {
-  setActiveManga,
-  closeManga,
-  toggleNav,
-  setLanguage,
-  setChapterId,
-} = slice.actions;
+export const { setActiveManga, closeManga, setChapterId, setTitle } =
+  slice.actions;
 
 export default slice.reducer;

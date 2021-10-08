@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import getCoverUrl from "./components/helpers/getCoverUrl";
+import getTitle from "./components/helpers/getTitle";
 
 const mangaAdapter = createEntityAdapter();
 const chapterAdapter = createEntityAdapter();
@@ -7,11 +9,6 @@ const groupAdapter = createEntityAdapter();
 const mangaInitialState = mangaAdapter.getInitialState();
 const chapterInitialState = chapterAdapter.getInitialState();
 const groupInitialState = groupAdapter.getInitialState();
-
-const getCoverURL = (mangaData) =>
-  `https://uploads.mangadex.org/covers/${mangaData.id}/${mangaData.relationships[2].attributes.fileName}.512.jpg`;
-const getTitle = (mangaData) =>
-  mangaData.attributes.title[Object.keys(mangaData.attributes.title)[0]];
 
 const findInRelationships = (relationshipName, data = null) =>
   data &&
@@ -31,7 +28,7 @@ export const apiSlice = createApi({
           responseData.data.map((manga) => {
             return {
               ...manga,
-              coverUrl: getCoverURL(manga),
+              coverUrl: getCoverUrl(manga),
               title: getTitle(manga),
               publicationStatus: manga.attributes.status,
               synopsis: manga.attributes.description.en,

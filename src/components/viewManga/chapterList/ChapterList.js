@@ -62,12 +62,12 @@ const ChapterList = () => {
   const resetPage = () => setCurrentPage(0);
 
   useEffect(() => {
-    if (chapters.length > 1) {
+    if (chapters.length > 0) {
       let lowerLimit = currentPage * 12;
       lowerLimit = currentPage == totalPages - 1 ? lowerLimit - 1 : lowerLimit;
       setCurrentChapters(chapters.slice(lowerLimit, currentPage * 12 + 11));
     }
-  }, [currentPage, chapters]);
+  }, [currentPage, chapters, totalPages]);
 
   useEffect(
     () => (mangaId && !requestChapters ? setRequestChapters(true) : ""),
@@ -122,7 +122,7 @@ const ChapterList = () => {
             chapterId={chapterData.id}
             group={chapterData.group?.id || "Unknown"}
             uploader={chapterData.uploader?.id}
-            title={chapterData.title}
+            title={chapterData.title ?? "Untitled"}
             uploaded={chapterData.uploaded}
             groups={groups}
             language={chapterData?.language}

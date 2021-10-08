@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { relativeTime } from "../../../dateHelpers";
 import useGetUserAndGroupQuery from "../../useGetUserAndGroupQuery";
-import { setLanguage, setChapterId } from "../../../mangaSlice";
+import { setChapterId } from "../../../mangaSlice";
+import { setLanguage } from "../../../settingsSlice";
 import TrimmedSpan from "./TrimmedSpan";
 
 const ChapterListChild = (props) => {

@@ -22,6 +22,10 @@ button.chapter-list {
   &.current {
     font-weight: 700;
     font-family: "Lato Bold";
+
+    &:not(:hover) {
+      background-color: unset;
+    }
   }
 }
 
@@ -37,6 +41,10 @@ ul.chapter-list {
   .current {
     font-weight: 700;
     font-family: "Lato Bold";
+
+    &:not(:hover) {
+      background-color: unset;
+    }
   }
 }
 

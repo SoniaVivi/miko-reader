@@ -7,7 +7,7 @@ const useGetCurrentChapterQuery = () => {
   }));
 
   const { data: chapterData } = useGetChapterQuery(chapterId, {
-    skip: !chapterId,
+    skip: !chapterId || chapterId == -1,
   });
 
   return (

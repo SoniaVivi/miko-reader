@@ -11,19 +11,25 @@ import { useParams, useHistory } from "react-router";
 import getImages from "./getImages";
 import { useDispatch, useSelector } from "react-redux";
 import { setChapterId } from "../../mangaSlice";
+import { setCurrentlyViewing } from "../../settingsSlice";
 
 const PageDisplay = (props) => {
+  const dispatch = useDispatch();
+  const params = useParams();
+  const history = useHistory();
   const queryParams = useSelector((state) => ({
     mangaId: state.manga.id,
-    language: state.manga.language,
+    language: state.settings.language,
   }));
-  const dispatch = useDispatch();
+  const readingSettings = useSelector((state) => ({
+    pageLayout: state.settings.pageLayout,
+    currentlyViewing: state.settings.currentlyViewing,
+    pageDirection: state.settings.pageDirection,
+  }));
   const [firstImage, setFirstImage] = useState(null);
   const [secondImage, setSecondImage] = useState(null);
   const loading = useRef(false);
   const [wasPrevImageLandscape, setWasPrevImageLandscape] = useState(false);
-  const params = useParams();
-  const history = useHistory();
   const { hash, pages, id } = useGetCurrentChapterQuery();
   const { serverUrl } = useGetServerURLQuery(id, {
     selectFromResult: ({ data }) => ({
@@ -46,13 +52,12 @@ const PageDisplay = (props) => {
       }
       // Prefetch second image to render only if first and second images are not
       // landscape
-      if (newPage + 1 <= pages.length) {
+      if (newPage + 1 <= pages.length && readingSettings.pageLayout == "dual") {
         imageUrls = [...imageUrls, getImageUrl(1)];
       }
       getImages(imageUrls).then((sizes) => {
-        if (newPage > 1) {
-          setWasPrevImageLandscape(sizes.shift());
-        }
+        if (newPage > 1) setWasPrevImageLandscape(sizes.shift());
+
         const isLandscape = sizes.shift();
         setFirstImage(
           <img
@@ -62,14 +67,18 @@ const PageDisplay = (props) => {
         );
         if (isLandscape || !sizes.length) {
           setSecondImage(null);
-          loading.current = false;
-          return;
+          dispatch(setCurrentlyViewing(1));
+        } else {
+          // Returns false if portrait, true if landscape
+          setSecondImage(
+            sizes.shift() ? null : <img src={getImageUrl(1)}></img>
+          );
+          dispatch(setCurrentlyViewing(2));
         }
-        setSecondImage(sizes.shift() ? null : <img src={getImageUrl(1)}></img>);
         loading.current = false;
       });
     },
-    [hash, pages, serverUrl]
+    [hash, pages, serverUrl, readingSettings.pageLayout, dispatch]
   );
 
   useEffect(
@@ -77,7 +86,7 @@ const PageDisplay = (props) => {
     [history.location, setImages, params.page]
   );
 
-  if (!id || !serverUrl) {
+  if (!id || !serverUrl || !readingSettings) {
     return (
       <div className="manga-page flex">
         <img src={firstPage}></img>
@@ -128,18 +137,29 @@ const PageDisplay = (props) => {
   return (
     <div
       tabIndex="-1"
-      className="manga-page flex"
+      className={`manga-page flex ${readingSettings.pageDirection
+        .slice(2)
+        .toLowerCase()}`}
       ref={props.classRef}
       onKeyDown={(e) => {
         if (e.repeat) return;
-        if (e.key == "ArrowLeft") {
-          changePage("increment");
+        else if (e.key == "ArrowLeft") {
+          changePage(
+            readingSettings.pageDirection == "toLeft"
+              ? "increment"
+              : "decrement"
+          );
         } else if (e.key == "ArrowRight") {
-          changePage("decrement");
+          changePage(
+            readingSettings.pageDirection == "toLeft"
+              ? "decrement"
+              : "increment"
+          );
         }
       }}
     >
-      {[firstImage, secondImage]}
+      {firstImage}
+      {secondImage}
     </div>
   );
 };

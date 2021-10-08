@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Person from "../../assets/svgs/Person";
 import People from "../../assets/svgs/People";
-import Arrow from "../../assets/svgs/Arrow";
 import Counter from "./Counter";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useGetMangaAggregateQuery } from "../../apiSlice";
 import useGetUserAndGroupQuery from "../useGetUserAndGroupQuery";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
+import { setChapterId } from "../../mangaSlice";
+import PageLayout from "./PageLayout";
+import PageDirection from "./PageDirection";
 
 const Sidebar = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { user: uploaderData, group: groupData } = useGetCurrentChapterQuery();
+  const mangaTitle = useSelector((state) => state.manga.title);
   const queryParams = useSelector((state) => ({
     mangaId: state.manga.id,
-    language: state.manga.language,
+    language: state.settings.language,
   }));
   const { user: uploader, group } = useGetUserAndGroupQuery({
     user: uploaderData?.id,
@@ -24,21 +29,20 @@ const Sidebar = (props) => {
   const { data: mangaData } = useGetMangaAggregateQuery(queryParams, {
     skip: !queryParams || queryParams.id == -1,
   });
+  const [currentVolume, setCurrentVolume] = useState(null);
+  useEffect(() => {
+    if (!currentVolume && mangaData) {
+      setCurrentVolume(
+        Object.values(mangaData).find(
+          (volume) =>
+            volume.chapters &&
+            Object.keys(volume.chapters).includes(params.chapter)
+        )
+      );
+    }
+  }, [currentVolume, mangaData, params.chapter]);
 
-  if (!mangaData) {
-    return (
-      <div
-        className={`sidebar-container flex column${props.show ? "" : " hide"}`}
-      ></div>
-    );
-  }
-
-  const currentVolume = Object.values(mangaData).find(
-    (volume) =>
-      volume.chapters && Object.keys(volume.chapters).includes(params.chapter)
-  );
-
-  if (!currentVolume) {
+  if (!mangaData || !currentVolume) {
     return (
       <div
         className={`sidebar-container flex column${props.show ? "" : " hide"}`}
@@ -50,19 +54,24 @@ const Sidebar = (props) => {
     <div
       className={`sidebar-container flex column${props.show ? "" : " hide"}`}
     >
-      <h3 className="sidebar">{params.manga}</h3>
+      <h3 className="sidebar">{mangaTitle}</h3>
       <div className="counter-container">
         <Counter
-          data={Object.keys(mangaData)}
+          data={mangaData}
           current={currentVolume.volume}
           className="volume"
           text={"Vol"}
+          onChildClick={(title) => setCurrentVolume(mangaData[title])}
         />
         <Counter
-          data={Object.keys(currentVolume.chapters)}
+          data={currentVolume.chapters}
           current={params.chapter}
           className="chapter"
           text={"Ch"}
+          onChildClick={(chapterNum, id) => {
+            history.push(`/${params.manga}/${chapterNum}/1`);
+            dispatch(setChapterId(id));
+          }}
         />
       </div>
       <div className="upload sidebar">
@@ -73,16 +82,8 @@ const Sidebar = (props) => {
         <People />
         <span>{group ?? "Unknown"}</span>
       </div>
-      <div className="page-layout sidebar">
-        <button className="hover active">Dual</button>
-        <div className="divider vertical"></div>
-        <button className="hover">Single</button>
-      </div>
-      <div className="page-mode sidebar">
-        <span>Left</span>
-        <Arrow className="left rectangle" width="40" height="20" />
-        <span>Right</span>
-      </div>
+      <PageLayout />
+      <PageDirection />
     </div>
   );
 };

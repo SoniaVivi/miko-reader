@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useGetMangasQuery } from "../apiSlice";
-import { setActiveManga } from "../mangaSlice";
+import { setActiveManga, setTitle } from "../mangaSlice";
 import PropTypes from "prop-types";
 
 const MangaPreview = (props) => {
@@ -10,9 +10,18 @@ const MangaPreview = (props) => {
   const history = useHistory();
   const { mangaData } = useGetMangasQuery([props.id], {
     selectFromResult: ({ data }) => ({
-      mangaData: data.entities[props.id],
+      mangaData: data?.entities[props.id],
     }),
   });
+
+  if (!mangaData) {
+    return (
+      <li>
+        <img className="cover preview"></img>
+        <h3>Loading...</h3>
+      </li>
+    );
+  }
 
   return (
     <li>
@@ -21,10 +30,16 @@ const MangaPreview = (props) => {
         className="cover preview"
         onClick={() => {
           dispatch(setActiveManga(props.id));
-          history.push(`/${mangaData.title.replace(/\s/g, "_")}`);
+          dispatch(setTitle(mangaData.title));
+          history.push(
+            `/${mangaData.title
+              .toLowerCase()
+              .replace(/ /g, "-")
+              .replace(/[^\w-]+/g, "")}`
+          );
         }}
       ></img>
-      <h3>{mangaData.title}</h3>
+      <h3 className="preview manga-title">{mangaData.title}</h3>
     </li>
   );
 };

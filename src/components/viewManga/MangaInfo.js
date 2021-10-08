@@ -9,7 +9,8 @@ const MangaInfo = () => {
   const mangaId = useSelector((state) => state.manga.id);
   const { mangaData } = useGetMangasQuery([mangaId], {
     selectFromResult: ({ data }) => ({
-      mangaData: data.entities[mangaId],
+      mangaData: data?.entities[mangaId],
+      skip: !mangaId,
     }),
   });
   const nameSelector = {
@@ -18,12 +19,12 @@ const MangaInfo = () => {
     }),
   };
 
-  const { name: authorName } = useGetAuthorQuery(mangaData.authorId, {
+  const { name: authorName } = useGetAuthorQuery(mangaData?.authorId, {
     ...nameSelector,
     skip: !requestAuthorData,
   });
 
-  const { name: artistName } = useGetAuthorQuery(mangaData.artistId, {
+  const { name: artistName } = useGetAuthorQuery(mangaData?.artistId, {
     ...nameSelector,
     skip: !requestAuthorData,
   });
@@ -33,6 +34,18 @@ const MangaInfo = () => {
       setRequestAuthorData(true);
     }
   }, [mangaData, requestAuthorData]);
+
+  if (!mangaData) {
+    return (
+      <div className="manga-info wrapper main-background">
+        <div className="manga-info">
+          <img className="cover"></img>
+          <div className="manga metadata"></div>
+        </div>
+        <p></p>
+      </div>
+    );
+  }
 
   return (
     <div className="manga-info wrapper main-background">
