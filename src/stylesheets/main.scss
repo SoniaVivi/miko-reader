@@ -44,7 +44,12 @@ h3 {
 }
 
 .cover {
+  @include force-size(200px, 250px);
   background-color: $loading-background;
+
+  &.search {
+    @include force-size(40px, 50px);
+  }
 }
 
 .page-counter {
@@ -123,6 +128,12 @@ h3 {
   &.vertical {
     @include force-size(1px, 100%);
   }
+
+  &.dot {
+    @include force-size(3px, 4px);
+    align-self: center;
+    margin: 0 4px;
+  }
 }
 
 .current {
@@ -176,11 +187,9 @@ h3 {
 }
 
 .cover.preview {
-  width: 140px;
-  height: 200px;
   margin-left: 5px;
 }
 
 .manga-title.preview {
-  max-width: 140px;
+  max-width: 200px;
 }

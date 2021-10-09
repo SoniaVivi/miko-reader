@@ -4,15 +4,20 @@ import getCoverUrl from "./components/helpers/getCoverUrl";
 import getTitle from "./components/helpers/getTitle";
 
 const mangaAdapter = createEntityAdapter();
-const chapterAdapter = createEntityAdapter();
-const groupAdapter = createEntityAdapter();
 const mangaInitialState = mangaAdapter.getInitialState();
-const chapterInitialState = chapterAdapter.getInitialState();
-const groupInitialState = groupAdapter.getInitialState();
-
 const findInRelationships = (relationshipName, data = null) =>
   data &&
   data.relationships.find((relation) => relation.type === relationshipName);
+const getDataFromMangas = (response) =>
+  response.data.map((manga) => ({
+    ...manga,
+    coverUrl: getCoverUrl(manga),
+    title: getTitle(manga),
+    publicationStatus: manga.attributes.status,
+    synopsis: manga.attributes.description.en,
+    authorId: findInRelationships("author", manga)?.id,
+    artistId: findInRelationships("artist", manga)?.id,
+  }));
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.mangadex.org" }),
@@ -22,47 +27,30 @@ export const apiSlice = createApi({
         `/manga?ids[]=${mangaIds.join(
           "&ids[]="
         )}&includes[]=artists&includes[]=authors&includes[]=cover_art`,
-      transformResponse: (responseData) => {
-        return mangaAdapter.setAll(
+      transformResponse: (responseData) =>
+        mangaAdapter.addMany(
           mangaInitialState,
-          responseData.data.map((manga) => {
-            return {
-              ...manga,
-              coverUrl: getCoverUrl(manga),
-              title: getTitle(manga),
-              publicationStatus: manga.attributes.status,
-              synopsis: manga.attributes.description.en,
-              authorId: manga.relationships.find(
-                (relation) => relation.type === "author"
-              ).id,
-              artistId: manga.relationships.find(
-                (relation) => relation.type === "artist"
-              ).id,
-            };
-          })
-        );
-      },
+          getDataFromMangas(responseData)
+        ),
     }),
     getChapters: builder.query({
       query: ({ mangaId, offset = 0 }) =>
         `/manga/${mangaId}/feed?&order[volume]=desc&order[chapter]=desc&offset=${offset}`,
       transformResponse: (responseData) => {
-        return chapterAdapter.setAll(
-          chapterInitialState,
-          responseData.data.map((chapter) => {
-            return {
-              ...chapter,
-              id: chapter.id,
-              uploader: findInRelationships("user", chapter),
-              group: findInRelationships("scanlation_group", chapter),
-              title:
-                chapter.attributes.title ||
-                `Chapter ${chapter.attributes.chapter}`,
-              uploaded: chapter.attributes.createdAt,
-              language: chapter.attributes.translatedLanguage,
-              chapterNumber: chapter.attributes.chapter,
-            };
-          })
+        return mangaAdapter.upsertMany(
+          mangaInitialState,
+          responseData.data.map((chapter) => ({
+            ...chapter,
+            id: chapter.id,
+            uploader: findInRelationships("user", chapter),
+            group: findInRelationships("scanlation_group", chapter),
+            title:
+              chapter.attributes.title ||
+              `Chapter ${chapter.attributes.chapter}`,
+            uploaded: chapter.attributes.createdAt,
+            language: chapter.attributes.translatedLanguage,
+            chapterNumber: chapter.attributes.chapter,
+          }))
         );
       },
     }),
@@ -75,8 +63,8 @@ export const apiSlice = createApi({
     getGroups: builder.query({
       query: (groupIds) => `/group?ids[]=${groupIds.join("&ids[]=")}`,
       transformResponse: (responseData) => {
-        return groupAdapter.setAll(
-          groupInitialState,
+        return mangaAdapter.addMany(
+          mangaInitialState,
           responseData.data.map((group) => ({
             ...group,
             name: group.attributes?.name,
@@ -93,17 +81,23 @@ export const apiSlice = createApi({
       query: (chapterId) => `/chapter/${chapterId}`,
       transformResponse: (responseData) => ({
         ...responseData.data,
-        ...{
-          group: findInRelationships("scanlation_group", responseData.data),
-          uploader: findInRelationships("user", responseData.data),
-          pages: responseData.data?.attributes.data,
-          id: responseData.data.id,
-          hash: responseData.data?.attributes.hash,
-        },
+        group: findInRelationships("scanlation_group", responseData.data),
+        uploader: findInRelationships("user", responseData.data),
+        pages: responseData.data?.attributes.data,
+        id: responseData.data.id,
+        hash: responseData.data?.attributes.hash,
       }),
     }),
     getServerURL: builder.query({
       query: (chapterId) => `/at-home/server/${chapterId}`,
+    }),
+    getMangasByTitle: builder.query({
+      query: (mangaTitle) => `/manga?title=${mangaTitle}&includes[]=cover_art`,
+      transformResponse: (responseData) =>
+        mangaAdapter.addMany(
+          mangaInitialState,
+          getDataFromMangas(responseData)
+        ),
     }),
   }),
 });
@@ -117,4 +111,5 @@ export const {
   useGetMangaAggregateQuery,
   useGetChapterQuery,
   useGetServerURLQuery,
+  useGetMangasByTitleQuery,
 } = apiSlice;

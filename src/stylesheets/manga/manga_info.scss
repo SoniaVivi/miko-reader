@@ -27,10 +27,6 @@
   }
 }
 
-.cover {
-  @include force-size(200px, 250px);
-}
-
 .manga-info,
 .chapter-list.main-background {
   display: flex;
@@ -50,4 +46,9 @@
 .manga.metadata {
   display: flex;
   flex-flow: column nowrap;
+}
+
+.manga.synopsis {
+  max-height: 33vh;
+  overflow-y: scroll;
 }

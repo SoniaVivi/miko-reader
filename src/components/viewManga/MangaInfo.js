@@ -94,7 +94,7 @@ const MangaInfo = () => {
           )}
         </div>
       </div>
-      <p>{mangaData.synopsis}</p>
+      <p className="manga synopsis">{mangaData.synopsis}</p>
     </div>
   );
 };

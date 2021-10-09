@@ -14,7 +14,15 @@ const useFetchMangaFromTitle = () => {
     fetch(`https://api.mangadex.org/manga?title=${params.manga}`)
       .then((r) => r.json())
       .then((responseData) => {
-        const currentManga = responseData.data[0];
+        const lowerCaseTitle = params.manga.toLowerCase();
+        let potentialMatch = responseData.data.find((manga) => {
+          const currentTitle = manga.attributes?.title[language].toLowerCase();
+          return (
+            currentTitle == lowerCaseTitle ||
+            currentTitle == lowerCaseTitle.replace(/-/, " ")
+          );
+        });
+        const currentManga = potentialMatch ?? responseData.data[0];
         dispatch(setActiveManga(currentManga.id));
         dispatch(
           setTitle(currentManga.attributes?.title[language] ?? "Unknown")

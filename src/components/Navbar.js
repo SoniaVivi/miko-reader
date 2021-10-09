@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import testProfilePicture from "../assets/testProfilePicture.png";
+import SearchBar from "./searchBar/SearchBar";
 
 const Navbar = (props) => {
   //eslint-disable-next-line no-unused-vars
@@ -15,9 +16,7 @@ const Navbar = (props) => {
         <li className="nav nav-home">
           <a href="/">Home</a>
         </li>
-        <li className="nav">
-          <input className="nav-search"></input>
-        </li>
+        <SearchBar />
         <li className="nav">
           <div className="nav-profile">
             <img
