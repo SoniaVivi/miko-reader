@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const MangaPreview = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { mangaData } = useGetMangasQuery([props.id], {
+  const { mangaData } = useGetMangasQuery(props.query, {
     selectFromResult: ({ data }) => ({
       mangaData: data?.entities[props.id],
     }),
@@ -24,7 +24,7 @@ const MangaPreview = (props) => {
   }
 
   return (
-    <li>
+    <li className="manga preview">
       <img
         src={mangaData.coverUrl}
         className="cover preview"
@@ -48,4 +48,5 @@ export default MangaPreview;
 
 MangaPreview.propTypes = {
   id: PropTypes.string.isRequired,
+  query: PropTypes.array.isRequired,
 };

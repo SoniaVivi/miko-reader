@@ -61,7 +61,7 @@ export const apiSlice = createApi({
       query: (userId) => `/user/${userId}`,
     }),
     getGroups: builder.query({
-      query: (groupIds) => `/group?ids[]=${groupIds.join("&ids[]=")}`,
+      query: (groupIds) => `/group?ids[]=${groupIds.join("&ids[]=")}&limit=100`,
       transformResponse: (responseData) => {
         return mangaAdapter.addMany(
           mangaInitialState,

@@ -9,7 +9,6 @@ import { setLanguage } from "../../../settingsSlice";
 import TrimmedSpan from "./TrimmedSpan";
 
 const ChapterListChild = (props) => {
-  //eslint-disable-next-line no-unused-vars
   const history = useHistory();
   const params = useParams();
   const dispatch = useDispatch();

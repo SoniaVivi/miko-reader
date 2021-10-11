@@ -1,0 +1,16 @@
+.home.container {
+  padding: 20px 5px;
+}
+
+.manga.showcase {
+  display: flex;
+  max-width: 100%;
+}
+
+.manga.preview:not(:first-child) {
+  margin-left: 10px;
+}
+
+.manga-title.preview {
+  max-width: $cover-width;
+}

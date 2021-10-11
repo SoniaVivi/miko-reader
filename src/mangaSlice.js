@@ -4,6 +4,7 @@ const emptyState = {
   id: -1,
   chapterId: -1,
   title: "",
+  recentlyViewed: ["6670ee28-f26d-4b61-b49c-d71149cd5a6e"],
 };
 
 export const slice = createSlice({
@@ -12,7 +13,10 @@ export const slice = createSlice({
   reducers: {
     setActiveManga: {
       reducer(state, action) {
-        return { ...state, ...action.payload };
+        state.id = action.payload.id;
+        state.recentlyViewed.unshift(action.payload.id) >= 11
+          ? state.recentlyViewed.pop()
+          : "";
       },
       prepare(id) {
         return {
@@ -21,9 +25,6 @@ export const slice = createSlice({
           },
         };
       },
-    },
-    closeManga: (state) => {
-      state.manga = { ...emptyState };
     },
     setChapterId: {
       reducer(state, action) {
@@ -44,7 +45,6 @@ export const slice = createSlice({
   },
 });
 
-export const { setActiveManga, closeManga, setChapterId, setTitle } =
-  slice.actions;
+export const { setActiveManga, setChapterId, setTitle } = slice.actions;
 
 export default slice.reducer;

@@ -6,7 +6,6 @@ import testProfilePicture from "../assets/testProfilePicture.png";
 import SearchBar from "./searchBar/SearchBar";
 
 const Navbar = (props) => {
-  //eslint-disable-next-line no-unused-vars
   const history = useHistory();
   const showNav = useSelector((state) => state.settings.showNav);
 
@@ -14,7 +13,7 @@ const Navbar = (props) => {
     <nav className={showNav ? "" : " hide"}>
       <ul className="navbar">
         <li className="nav nav-home">
-          <a href="/">Home</a>
+          <a onClick={() => history.replace("/")}>Home</a>
         </li>
         <SearchBar />
         <li className="nav">

@@ -44,7 +44,7 @@ h3 {
 }
 
 .cover {
-  @include force-size(200px, 250px);
+  @include force-size($cover-width, $cover-height);
   background-color: $loading-background;
 
   &.search {
@@ -176,20 +176,4 @@ h3 {
 
 .center-row {
   justify-content: flex-start;
-}
-
-/* Frontpage Styling */
-
-.manga.showcase {
-  display: flex;
-  max-width: 100%;
-  padding: -5px;
-}
-
-.cover.preview {
-  margin-left: 5px;
-}
-
-.manga-title.preview {
-  max-width: 200px;
 }
