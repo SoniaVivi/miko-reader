@@ -6,7 +6,7 @@ An application to read manga from Mangadex
 
 -Manga summary page
 
--Get a list of chapters, optionally (and by default) sorted by language
+-Get a list of chapters sorted by language
 
 -Full screen when reading a manga. No scrolling
 
@@ -14,11 +14,17 @@ An application to read manga from Mangadex
 
 -Thin progression bar at the bottom
 
-**Features to be included (Mangadex)**
-
--Hides Navbar and sidebar by default unless scrolling up or placing cursor near the respective side
+-Hides Navbar and sidebar by default unless placing cursor near the respective side (chapter view only)
 
 -Opens manga pages in dual mode right to left (default) or left to right
+
+-Search and find mangas based off: Title
+
+-Connects to an Anilist account
+
+-Displays any updated manga with reading status on the homepage
+
+**Features to be included (Mangadex)**
 
 -Button to download any currently open manga pages
 
@@ -32,15 +38,11 @@ An application to read manga from Mangadex
 
 **Features to be included (Anilist)**
 
--Connects to an Anilist account
-
 -Updates current read status automatically
 
 -Button to set read status (finished, reading, dropped)
 
 -Button to set rating
-
--Displays any updated manga with reading status on the homepage
 
 **Running a local copy**
 
@@ -48,4 +50,4 @@ Clone the repository to a directiory of your choosing, then run `yarn` to instal
 
 **Why the name Miko?**:
 
-Miko is the name of the protagonist of *Mieruko-chan* by Izumi Tomoki which I'm a fan of. 
+Miko is the name of the protagonist of the manga *Mieruko-chan* by Izumi Tomoki which I'm a fan of. 
