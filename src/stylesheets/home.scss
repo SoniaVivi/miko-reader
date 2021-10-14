@@ -1,14 +1,20 @@
 .home.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: fit-content;
   padding: 20px 5px;
 }
 
 .manga.showcase {
   display: flex;
+  flex-wrap: wrap;
   max-width: 100%;
 }
 
-.manga.preview:not(:first-child) {
-  margin-left: 10px;
+.manga.preview {
+  margin-right: 10px;
+  margin-bottom: 25px;
 }
 
 .manga-title.preview {

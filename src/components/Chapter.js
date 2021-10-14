@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleNav } from "../settingsSlice";
-import "../stylesheets/manga/no_scroll.scss";
 import useFetchMangaFromTitle from "./useFetchMangaFromTitle";
 import PageDisplay from "./viewChapter/PageDisplay";
 import ProgressBar from "./viewChapter/ProgressBar";
@@ -41,6 +40,11 @@ const Chapter = () => {
     setFullHeight(wrapperRef);
     setFullHeight(chapterViewRef);
   }, [showNav]);
+
+  useEffect(() => {
+    document.querySelector("body").classList.add("no-scroll");
+    return () => document.querySelector("body").classList.remove("no-scroll");
+  }, []);
 
   const navCheck = (e, xCoords) => {
     if (

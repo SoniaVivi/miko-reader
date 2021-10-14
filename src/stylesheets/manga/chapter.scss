@@ -1,8 +1,7 @@
 .chapter-view {
+  position: relative;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  max-height: calc(100vh - #{$navbar-height});
 
   &.full-height {
     max-height: 100vh;
@@ -46,7 +45,6 @@
 
 .sidebar-container {
   position: absolute;
-  top: 360;
   right: 0;
   width: 360px;
   height: 100%;

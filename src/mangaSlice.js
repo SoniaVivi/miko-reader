@@ -14,7 +14,9 @@ export const slice = createSlice({
     setActiveManga: {
       reducer(state, action) {
         state.id = action.payload.id;
-        state.recentlyViewed.unshift(action.payload.id) >= 11
+        const newId = action.payload.id;
+        !state.recentlyViewed.includes(newId) &&
+        state.recentlyViewed.unshift(newId) >= 11
           ? state.recentlyViewed.pop()
           : "";
       },

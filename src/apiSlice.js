@@ -8,8 +8,8 @@ const mangaInitialState = mangaAdapter.getInitialState();
 const findInRelationships = (relationshipName, data = null) =>
   data &&
   data.relationships.find((relation) => relation.type === relationshipName);
-const getDataFromMangas = (response) =>
-  response.data.map((manga) => ({
+const getDataFromMangas = (response) => {
+  const newAttributesFunc = (manga) => ({
     ...manga,
     coverUrl: getCoverUrl(manga),
     title: getTitle(manga),
@@ -17,7 +17,14 @@ const getDataFromMangas = (response) =>
     synopsis: manga.attributes.description.en,
     authorId: findInRelationships("author", manga)?.id,
     artistId: findInRelationships("artist", manga)?.id,
-  }));
+  });
+  if (response.data) {
+    return response.data.map(newAttributesFunc);
+  } else if (response) {
+    return newAttributesFunc(response);
+  }
+  return {};
+};
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.mangadex.org" }),
@@ -99,6 +106,20 @@ export const apiSlice = createApi({
           getDataFromMangas(responseData)
         ),
     }),
+    getMangaByTitle: builder.query({
+      query: (mangaTitle) =>
+        `/manga?title=${mangaTitle}&includes[]=artists&includes[]=authors&includes[]=cover_art`,
+      transformResponse: (responseData) => {
+        try {
+          return mangaAdapter.addOne(
+            mangaInitialState,
+            getDataFromMangas(responseData?.data[0])
+          );
+        } catch (e) {
+          console.log(e);
+        }
+      },
+    }),
   }),
 });
 
@@ -112,4 +133,5 @@ export const {
   useGetChapterQuery,
   useGetServerURLQuery,
   useGetMangasByTitleQuery,
+  useGetMangaByTitleQuery,
 } = apiSlice;

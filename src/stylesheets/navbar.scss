@@ -34,16 +34,29 @@ nav {
   }
 }
 
-.nav-profile {
+/* Nav Profile */
+
+li.nav-profile {
+  position: relative;
   display: flex;
-  align-items: center;
-  width: 120px;
+  flex-direction: column;
+  width: fit-content;
   padding-left: 5px;
   border: 1px solid $main-background;
 
-  &:hover {
+  &:hover,
+  &.active {
     border-color: $extra-light-border;
+    max-height: fit-content;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
+}
+
+.nav-profile.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   :last-child {
     margin-left: 5px;
@@ -53,6 +66,30 @@ nav {
 .profile.round {
   @include circle(32px);
   border: 1px solid $main-background;
+}
+
+.nav-profile.actions {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  z-index: $second-level-z-index;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% + 2px);
+  padding: 5px;
+  border: 1px solid $extra-light-border;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: unset;
+  background-color: $main-background;
+
+  a {
+    font-weight: 600;
+  }
+
+  a:not(:first-child) {
+    margin-top: 3px;
+  }
 }
 
 /* Navbar Search and Search Results */

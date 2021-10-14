@@ -1,26 +1,22 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useGetMangasQuery } from "../apiSlice";
+import { useGetMangaByTitleQuery } from "../apiSlice";
 import { setActiveManga, setTitle } from "../mangaSlice";
 import PropTypes from "prop-types";
 
-const MangaPreview = (props) => {
+const AniListMangaPreview = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { mangaData } = useGetMangasQuery(props.query, {
+  const { mangaData } = useGetMangaByTitleQuery(props.title, {
     selectFromResult: ({ data }) => ({
-      mangaData: data?.entities[props.id],
+      mangaData: data?.entities ? Object.values(data?.entities)[0] : null,
     }),
+    skip: !props.title,
   });
 
   if (!mangaData) {
-    return (
-      <li className="manga preview">
-        <img className="cover preview"></img>
-        <h3>Loading...</h3>
-      </li>
-    );
+    return null;
   }
 
   return (
@@ -29,7 +25,7 @@ const MangaPreview = (props) => {
         src={mangaData.coverUrl}
         className="cover preview"
         onClick={() => {
-          dispatch(setActiveManga(props.id));
+          dispatch(setActiveManga(mangaData.id));
           dispatch(setTitle(mangaData.title));
           history.push(
             `/${mangaData.title
@@ -44,9 +40,8 @@ const MangaPreview = (props) => {
   );
 };
 
-export default MangaPreview;
+export default AniListMangaPreview;
 
-MangaPreview.propTypes = {
-  id: PropTypes.string.isRequired,
-  query: PropTypes.array.isRequired,
+AniListMangaPreview.propTypes = {
+  title: PropTypes.string.isRequired,
 };
