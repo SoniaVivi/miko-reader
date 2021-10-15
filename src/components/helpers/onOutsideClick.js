@@ -1,9 +1,15 @@
-const onOutsideClick = (event, toggle, { parent = false }) => {
+const onOutsideClick = (
+  event,
+  toggle,
+  { parent = false, custom = false } = {}
+) => {
   let container;
-  if (!parent) {
+  if (parent) {
+    container = event.target.parentNode;
+  } else if (!parent && !custom) {
     container = event.target;
   } else {
-    container = event.target.parentNode;
+    container = event;
   }
 
   const closeMenu = (mouseUpEvent) => {

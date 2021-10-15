@@ -208,3 +208,13 @@
     flex-direction: row-reverse;
   }
 }
+
+.sidebar.anilist-status {
+  .anilist-status.active {
+    margin-left: 0;
+  }
+
+  ul.anilist-status {
+    margin-left: 20px;
+  }
+}

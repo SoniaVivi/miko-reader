@@ -11,6 +11,7 @@ import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
 import { setChapterId } from "../../mangaSlice";
 import PageLayout from "./PageLayout";
 import PageDirection from "./PageDirection";
+import AniListStatus from "../aniList/AniListStatus";
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
@@ -82,6 +83,7 @@ const Sidebar = (props) => {
         <People />
         <span>{group ?? "Unknown"}</span>
       </div>
+      <AniListStatus className="sidebar" />
       <PageLayout />
       <PageDirection />
     </div>

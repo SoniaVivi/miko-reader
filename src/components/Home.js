@@ -1,8 +1,11 @@
 import React from "react";
 import MangaPreview from "./MangaPreview";
 import { useSelector } from "react-redux";
-import { useGetReadingListQuery } from "../aniListSlice";
-import AniListMangaPreview from "./AniListMangaPreview";
+import {
+  useGetPlanningListQuery,
+  useGetReadingListQuery,
+} from "../aniListSlice";
+import AniListMangaPreview from "./aniList/AniListMangaPreview";
 
 const Home = () => {
   const recentlyViewed = useSelector((state) => state.manga.recentlyViewed);
@@ -19,25 +22,54 @@ const Home = () => {
       }
     );
 
+  const { data: planningList, isSuccess: isPlanningListSuccessful } =
+    useGetPlanningListQuery(
+      { accessToken, userId },
+      {
+        skip: !userId || !accessToken,
+      }
+    );
+
+  const showDivider = (...args) =>
+    args.includes(true) ? <div className="divider home"></div> : null;
+
   return (
     <div className="container home">
       {recentlyViewed.length ? (
-        <section className="recently-viewed">
-          <h3>Recently Viewed</h3>
-          <ul className="showcase manga">
-            {recentlyViewed.map((id, i) => (
-              <MangaPreview id={id} key={i} query={recentlyViewed} />
-            ))}
-          </ul>
-        </section>
+        <React.Fragment>
+          <section className="recently-viewed">
+            <h3>Recently Viewed</h3>
+            <ul className="showcase manga">
+              {recentlyViewed.map((id, i) => (
+                <MangaPreview id={id} key={i} query={recentlyViewed} />
+              ))}
+            </ul>
+          </section>
+          {showDivider(isReadListSuccessful, isPlanningListSuccessful)}
+        </React.Fragment>
       ) : (
         ""
       )}
       {isReadListSuccessful && currentlyReading.length ? (
+        <React.Fragment>
+          <section>
+            <h3>Currently Reading</h3>
+            <ul className="showcase manga">
+              {currentlyReading.map((title, i) => (
+                <AniListMangaPreview title={title} key={i} />
+              ))}
+            </ul>
+          </section>
+          {showDivider(isPlanningListSuccessful)}
+        </React.Fragment>
+      ) : (
+        ""
+      )}
+      {isPlanningListSuccessful && planningList.length ? (
         <section>
-          <h3>Currently Reading</h3>
+          <h3>Planning to Read</h3>
           <ul className="showcase manga">
-            {currentlyReading.map((title, i) => (
+            {planningList.map((title, i) => (
               <AniListMangaPreview title={title} key={i} />
             ))}
           </ul>

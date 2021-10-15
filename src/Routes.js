@@ -12,19 +12,20 @@ import { useGetCurrentUserQuery } from "./aniListSlice";
 const Routes = () => {
   const { accessToken } = useSelector(tokenSelector);
   const dispatch = useDispatch();
-  const { name, id } = useGetCurrentUserQuery(accessToken, {
+  const { name, id, avatar } = useGetCurrentUserQuery(accessToken, {
     selectFromResult: ({ data }) => ({
       id: data?.data?.Viewer?.id,
       name: data?.data?.Viewer?.name,
+      avatar: data?.data?.Viewer?.avatar?.medium,
     }),
     skip: !accessToken,
   });
 
   useEffect(() => {
     if (name && id) {
-      dispatch(setUserData(name, id));
+      dispatch(setUserData(name, id, avatar));
     }
-  }, [dispatch, name, id]);
+  }, [dispatch, name, id, avatar]);
 
   return (
     <React.Fragment>

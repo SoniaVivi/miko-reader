@@ -15,7 +15,9 @@ const emptyState = {
   },
   name: "",
   id: "",
+  avatar: "",
 };
+
 export const slice = createSlice({
   name: "user",
   initialState: emptyState,
@@ -32,14 +34,22 @@ export const slice = createSlice({
       reducer(state, action) {
         return { ...state, ...action.payload };
       },
-      prepare(name, id) {
-        return { payload: { name, id } };
+      prepare(name, id, avatar) {
+        return { payload: { name, id, avatar: avatar ? avatar : "" } };
       },
+    },
+    logoutFromAniList: {
+      reducer(state) {
+        //eslint-disable-next-line no-unused-vars
+        state = emptyState;
+      },
+      prepare: () => ({ payload: {} }),
     },
   },
 });
 
-export const { setAccessTokenData, setUserData } = slice.actions;
+export const { setAccessTokenData, setUserData, logoutFromAniList } =
+  slice.actions;
 
 export const tokenSelector = (state) => state.user.accessTokenData;
 

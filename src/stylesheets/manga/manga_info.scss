@@ -52,3 +52,12 @@
   max-height: 33vh;
   overflow-y: scroll;
 }
+
+div.anilist-status {
+  margin-right: 0;
+  background-color: unset;
+}
+
+.anilist-status.manga-info {
+  margin-left: -8px;
+}

@@ -9,7 +9,7 @@ const Navbar = () => {
   const showNav = useSelector((state) => state.settings.showNav);
 
   return (
-    <nav className={showNav ? "" : " hide"}>
+    <nav className={showNav ? null : " hide"}>
       <ul className="navbar">
         <li className="nav nav-home">
           <a onClick={() => history.replace("/")}>Home</a>

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetMangasQuery, useGetAuthorQuery } from "../../apiSlice";
 import Brush from "../../assets/svgs/Brush";
 import Pen from "../../assets/svgs/Pen";
+import AniListStatus from "../aniList/AniListStatus";
 
 const MangaInfo = () => {
   const [requestAuthorData, setRequestAuthorData] = useState(false);
@@ -10,8 +11,8 @@ const MangaInfo = () => {
   const { mangaData } = useGetMangasQuery([mangaId], {
     selectFromResult: ({ data }) => ({
       mangaData: data?.entities[mangaId],
-      skip: !mangaId,
     }),
+    skip: !mangaId,
   });
   const nameSelector = {
     selectFromResult: ({ data }) => ({
@@ -92,6 +93,7 @@ const MangaInfo = () => {
           ) : (
             ""
           )}
+          <AniListStatus className={"manga-info"} />
         </div>
       </div>
       <p className="manga synopsis">{mangaData.synopsis}</p>

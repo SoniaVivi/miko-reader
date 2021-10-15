@@ -74,6 +74,12 @@ const ChapterList = () => {
     [mangaId, requestChapters]
   );
 
+  useEffect(
+    () => (currentPage ? setCurrentPage(0) : ""),
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+    [mangaId]
+  );
+
   if (!languages.length) {
     if (offset != 0) {
       setMaxOffset(offset);

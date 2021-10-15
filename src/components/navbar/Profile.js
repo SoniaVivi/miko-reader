@@ -1,24 +1,39 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import testProfilePicture from "../../assets/testProfilePicture.png";
-import { isLoggedIn } from "../../userSlice";
+import { isLoggedIn, logoutFromAniList } from "../../userSlice";
+import onOutsideClick from "../helpers/onOutsideClick";
 
 const Profile = () => {
-  const userName = useSelector((state) => state.user.name);
+  const { name: userName, avatar } = useSelector((state) => ({
+    name: state.user.name,
+    avatar: state.user.avatar,
+  }));
   const [isExpanded, setIsExpanded] = useState(false);
   const loggedIn = useSelector(isLoggedIn);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   return (
     <li
       className={`nav-profile${isExpanded ? " active" : ""}`}
-      onClick={() => setIsExpanded((prevState) => !prevState)}
+      onClick={(e) => {
+        setIsExpanded((prevState) => !prevState);
+        onOutsideClick(
+          e.target.parentNode.parentNode,
+          () => setIsExpanded(false),
+          {
+            custom: true,
+          }
+        );
+      }}
     >
       <div className={`nav-profile wrapper${isExpanded ? " active" : ""}`}>
         <img
           className="profile round"
-          src={testProfilePicture}
+          src={avatar.length ? avatar : testProfilePicture}
           width="75"
           height="75"
         ></img>
@@ -27,9 +42,16 @@ const Profile = () => {
       {isExpanded ? (
         <div className="nav-profile actions">
           {loggedIn ? (
-            <a>Logout</a>
+            <button
+              className="hover"
+              onClick={() => dispatch(logoutFromAniList())}
+            >
+              Logout
+            </button>
           ) : (
-            <a onClick={() => history.push("/login")}>Login</a>
+            <a className="hover" onClick={() => history.push("/login")}>
+              Login
+            </a>
           )}
         </div>
       ) : (

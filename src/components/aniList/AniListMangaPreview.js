@@ -1,9 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useGetMangaByTitleQuery } from "../apiSlice";
-import { setActiveManga, setTitle } from "../mangaSlice";
-import PropTypes from "prop-types";
+import { useGetMangaByTitleQuery } from "../../apiSlice";
+import { setActiveManga, setTitle } from "../../mangaSlice";
 
 const AniListMangaPreview = (props) => {
   const dispatch = useDispatch();

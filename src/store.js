@@ -4,13 +4,11 @@ import settingsReducer from "./settingsSlice";
 import userReducer from "./userSlice";
 import { apiSlice } from "./apiSlice";
 import { aniListSlice } from "./aniListSlice";
-import { isRejected } from "@reduxjs/toolkit";
 
 const aniListErrorHandler = (storeAPI) => (next) => (action) => {
   if (
-    isRejected(action) &&
-    action.payload &&
-    action.payload.data.errors.find(
+    action.type == "aniList/executeQuery/rejected" &&
+    action?.payload?.data?.errors.find(
       (error) => error.message == "Invalid token"
     ) &&
     Date.now() -
