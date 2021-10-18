@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import firstPage from "../../assets/01.png";
-import secondPage from "../../assets/02.png";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
 import {
   useGetServerURLQuery,
@@ -89,8 +87,8 @@ const PageDisplay = (props) => {
   if (!id || !serverUrl || !readingSettings) {
     return (
       <div className="manga-page flex">
-        <img src={firstPage}></img>
-        <img src={secondPage}></img>
+        <img></img>
+        <img></img>
       </div>
     );
   }
@@ -100,10 +98,16 @@ const PageDisplay = (props) => {
   }
 
   const changeChapters = (action) =>
-    Object.values(mangaData).forEach((volume) =>
-      Object.values(volume.chapters).forEach((chapter) => {
+    Object.values(mangaData)
+      .reduce(
+        (newArry, volume) => [...newArry, ...Object.values(volume.chapters)],
+        []
+      )
+      .sort((a, b) => Number(a.chapter) - Number(b.chapter))
+      .find((chapter) => {
         const current = Number(params.chapter);
         const chapterNum = Number(chapter.chapter);
+
         if (
           ((chapterNum < current && action == "decrement") ||
             (chapterNum > current && action == "increment")) &&
@@ -111,9 +115,9 @@ const PageDisplay = (props) => {
         ) {
           dispatch(setChapterId(chapter.id));
           history.push(`/${params.manga}/${chapterNum}/1`);
+          return true;
         }
-      })
-    );
+      });
 
   const changePage = (action) => {
     const currentPage = Number(params.page);
