@@ -34,50 +34,55 @@ const Home = () => {
     args.includes(true) ? <div className="divider home"></div> : null;
 
   return (
-    <div className="container home">
-      {recentlyViewed.length ? (
-        <React.Fragment>
-          <section className="recently-viewed">
-            <h3>Recently Viewed</h3>
-            <ul className="showcase manga">
-              {recentlyViewed.map((id, i) => (
-                <MangaPreview id={id} key={i} query={recentlyViewed} />
-              ))}
-            </ul>
-          </section>
-          {showDivider(isReadListSuccessful, isPlanningListSuccessful)}
-        </React.Fragment>
-      ) : (
-        ""
-      )}
-      {isReadListSuccessful && currentlyReading.length ? (
-        <React.Fragment>
+    <React.Fragment>
+      <div className="container home">
+        {recentlyViewed.length ? (
+          <React.Fragment>
+            <section className="recently-viewed">
+              <h3>Recently Viewed</h3>
+              <ul className="showcase manga">
+                {recentlyViewed.map((id, i) => (
+                  <MangaPreview id={id} key={i} query={recentlyViewed} />
+                ))}
+              </ul>
+            </section>
+            {showDivider(isReadListSuccessful, isPlanningListSuccessful)}
+          </React.Fragment>
+        ) : (
+          ""
+        )}
+        {isReadListSuccessful && currentlyReading.length ? (
+          <React.Fragment>
+            <section>
+              <h3>Currently Reading</h3>
+              <ul className="showcase manga">
+                {currentlyReading.map((title, i) => (
+                  <AniListMangaPreview title={title} key={i} />
+                ))}
+              </ul>
+            </section>
+            {showDivider(isPlanningListSuccessful)}
+          </React.Fragment>
+        ) : (
+          ""
+        )}
+        {isPlanningListSuccessful && planningList.length ? (
           <section>
-            <h3>Currently Reading</h3>
+            <h3>Planning to Read</h3>
             <ul className="showcase manga">
-              {currentlyReading.map((title, i) => (
+              {planningList.map((title, i) => (
                 <AniListMangaPreview title={title} key={i} />
               ))}
             </ul>
           </section>
-          {showDivider(isPlanningListSuccessful)}
-        </React.Fragment>
-      ) : (
-        ""
-      )}
-      {isPlanningListSuccessful && planningList.length ? (
-        <section>
-          <h3>Planning to Read</h3>
-          <ul className="showcase manga">
-            {planningList.map((title, i) => (
-              <AniListMangaPreview title={title} key={i} />
-            ))}
-          </ul>
-        </section>
-      ) : (
-        ""
-      )}
-    </div>
+        ) : (
+          ""
+        )}
+      </div>
+      <div className="footer">
+        <div className="container">Powered by Mangadex and AniList APIs</div>
+      </div>
+    </React.Fragment>
   );
 };
 

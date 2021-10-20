@@ -34,6 +34,10 @@ button {
   background-color: unset;
 }
 
+#root {
+  min-height: 100vh;
+}
+
 .main-background {
   background-color: $main-background;
 }

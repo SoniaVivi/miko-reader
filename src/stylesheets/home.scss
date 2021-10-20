@@ -1,7 +1,6 @@
 .home.container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   min-height: fit-content;
   padding: 20px 5px;
 
@@ -27,4 +26,18 @@
 
 .home.divider {
   margin-bottom: 25px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 32px;
+
+  .container {
+    padding: 5px 10px;
+    opacity: 0.6;
+  }
 }
