@@ -1,46 +1,33 @@
+
 # Miko Reader
 
-An application to read manga from Mangadex
+![Miko Reader preview](https://user-images.githubusercontent.com/55420399/138030827-7e4c3751-7371-4d47-a265-575a231e009b.png)
 
-**Current Features**
+An application to read manga from Mangadex and fetch user relevant data from AniList
 
--Manga summary page
+**Features**
 
--Get a list of chapters sorted by language
+-Log into your AniList account to display manga on your Reading and Planning to Read lists
 
--Full screen when reading a manga. No scrolling
+-Sort Manga chapters by language
 
--Dual page feature
+-Read single or dual pages in full screen
 
--Thin progression bar at the bottom
+-Update reading status when viewing a manga or reading a chapter
 
--Hides Navbar and sidebar by default unless placing cursor near the respective side (chapter view only)
+-Search and find mangas based off title
 
--Opens manga pages in dual mode right to left (default) or left to right
-
--Search and find mangas based off: Title
-
--Connects to an Anilist account
-
--Displays any updated manga with reading status on the homepage
-
-**Features to be included (Mangadex)**
+**Planned Features**
 
 -Button to download any currently open manga pages
 
--Connect to Mangadex account utilizing the Mangadex API
+-New chapter notifications for any manga updated on Reading lists
 
--New chapter notifications for any manga updated in the meantime (may require a separate backend server)
-
--Search and find mangas based off: Title, artist, and genre (minimum)
+-Search and find mangas based off: artist, and genre
 
 -Dark Theme
 
-**Features to be included (Anilist)**
-
 -Updates current read status automatically
-
--Button to set read status (finished, reading, dropped)
 
 -Button to set rating
 
@@ -50,4 +37,4 @@ Clone the repository to a directiory of your choosing, then run `yarn` to instal
 
 **Why the name Miko?**:
 
-Miko is the name of the protagonist of the manga *Mieruko-chan* by Izumi Tomoki which I'm a fan of. 
+Miko is the name of the protagonist of *Mieruko-chan* by Izumi Tomoki which I'm a fan of. 
