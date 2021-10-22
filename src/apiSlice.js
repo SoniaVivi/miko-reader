@@ -28,6 +28,10 @@ const getDataFromMangas = (response) => {
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.mangadex.org" }),
+  prepareHeaders: (headers) => {
+    headers.set("mode", `no-cors`);
+    return headers;
+  },
   endpoints: (builder) => ({
     getMangas: builder.query({
       query: (mangaIds) =>

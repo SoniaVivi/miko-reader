@@ -32,6 +32,10 @@ export const aniListSlice = createApi({
   reducerPath: "aniList",
   baseQuery: fetchBaseQuery({ baseUrl: "https://graphql.anilist.co" }),
   tagTypes: ["Status"],
+  prepareHeaders: (headers) => {
+    headers.set("mode", `no-cors`);
+    return headers;
+  },
   endpoints: (builder) => ({
     getCurrentUser: builder.query({
       query: (accessToken) => ({
