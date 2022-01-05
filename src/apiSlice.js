@@ -28,8 +28,8 @@ const getDataFromMangas = (response) => {
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "https://boiling-brook-07461.herokuapp.com/https://api.mangadex.org",
+    //eslint-disable-next-line no-undef
+    baseUrl: process.env.REACT_APP_MANGADEX,
   }),
   endpoints: (builder) => ({
     getMangas: builder.query({

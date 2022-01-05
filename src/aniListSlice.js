@@ -31,8 +31,8 @@ const selectTitlesFromMediaListQuery = (response) =>
 export const aniListSlice = createApi({
   reducerPath: "aniList",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "https://boiling-brook-07461.herokuapp.com/https://graphql.anilist.co",
+    //eslint-disable-next-line no-undef
+    baseUrl: process.env.REACT_APP_ANILIST,
   }),
   tagTypes: ["Status"],
   endpoints: (builder) => ({
