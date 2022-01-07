@@ -38,7 +38,7 @@
     flex-flow: column nowrap;
   }
 
-  &:not(.wrapper) * {
+  &:not(.wrapper) *:not(.cover, .overlay) {
     margin-right: 5px;
   }
 }
@@ -60,4 +60,22 @@ div.anilist-status {
 
 .anilist-status.manga-info {
   margin-left: -8px;
+}
+
+div.cover {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .overlay {
+    left: -2px;
+  }
+
+  &:hover {
+    .corner-arrows,
+    .overlay {
+      display: block;
+    }
+  }
 }

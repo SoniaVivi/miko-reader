@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetMangasQuery, useGetAuthorQuery } from "../../apiSlice";
+import ArrowsFullscreen from "../../assets/svgs/ArrowsFullscreen";
 import Brush from "../../assets/svgs/Brush";
 import Pen from "../../assets/svgs/Pen";
 import AniListStatus from "../aniList/AniListStatus";
@@ -8,6 +9,7 @@ import AniListStatus from "../aniList/AniListStatus";
 const MangaInfo = () => {
   const [requestAuthorData, setRequestAuthorData] = useState(false);
   const mangaId = useSelector((state) => state.manga.id);
+  const [showLargeCover, setShowLargeCover] = useState(false);
   const { mangaData } = useGetMangasQuery([mangaId], {
     selectFromResult: ({ data }) => ({
       mangaData: data?.entities[mangaId],
@@ -51,7 +53,11 @@ const MangaInfo = () => {
   return (
     <div className="manga-info wrapper main-background">
       <div className="manga-info">
-        <img className="cover" src={mangaData.coverUrl}></img>
+        <div className="cover" onClick={() => setShowLargeCover(true)}>
+          <img className="cover" src={mangaData.coverUrl}></img>
+          <ArrowsFullscreen className="corner" />
+          <div className="overlay"></div>
+        </div>
         <div className="manga metadata">
           <h3>{mangaData.title}</h3>
           <span className="publication-status">
@@ -97,6 +103,12 @@ const MangaInfo = () => {
         </div>
       </div>
       <p className="manga synopsis">{mangaData.synopsis}</p>
+      {showLargeCover ? (
+        <div className="modal" onClick={() => setShowLargeCover(false)}>
+          <div className="overlay"></div>
+          <img src={mangaData.coverUrl} className="preview modal"></img>
+        </div>
+      ) : null}
     </div>
   );
 };
