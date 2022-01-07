@@ -17,10 +17,15 @@ export const slice = createSlice({
         state.id = action.payload.id;
         state.aniListId = action.payload.aniListId;
         const newId = action.payload.id;
-        !state.recentlyViewed.includes(newId) &&
-        state.recentlyViewed.unshift(newId) >= 11
-          ? state.recentlyViewed.pop()
-          : "";
+        if (state.recentlyViewed.includes(newId)) {
+          state.recentlyViewed = state.recentlyViewed.sort((x, y) =>
+            x == newId ? -1 : y == newId ? 1 : 0
+          );
+        } else {
+          state.recentlyViewed.unshift(newId) >= 11
+            ? state.recentlyViewed.pop()
+            : "";
+        }
       },
       prepare(id, aniListId = -1) {
         return {
