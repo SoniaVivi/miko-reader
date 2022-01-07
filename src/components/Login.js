@@ -30,7 +30,8 @@ const Login = () => {
     <div className="container-sm main-background login">
       <a
         className="login anilist hover"
-        href="https://anilist.co/api/v2/oauth/authorize?client_id=6715&response_type=token"
+        //eslint-disable-next-line no-undef
+        href={`https://anilist.co/api/v2/oauth/authorize?client_id=${process.env.REACT_APP_ANILIST_CLIENT_ID}&response_type=token`}
       >
         Login with AniList
       </a>
