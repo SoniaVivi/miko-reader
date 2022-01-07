@@ -85,10 +85,11 @@ const PageDisplay = (props) => {
             .join(" ");
           clearTimeout(timeoutId.current);
         }
-        timeoutId.current = setTimeout(
-          () => (props.classRef.current.className += " no-cursor"),
-          2000
-        );
+        timeoutId.current = setTimeout(() => {
+          if (props.classRef?.current) {
+            props.classRef.current.className += " no-cursor";
+          }
+        }, 2000);
       }}
     >
       {firstImage}

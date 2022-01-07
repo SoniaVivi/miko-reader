@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useGetMangasQuery } from "../apiSlice";
 import { setActiveManga, setTitle } from "../mangaSlice";
 import PropTypes from "prop-types";
+import titleToUrl from "./helpers/titleToUrl";
 
 const MangaPreview = (props) => {
   const dispatch = useDispatch();
@@ -31,12 +32,7 @@ const MangaPreview = (props) => {
         onClick={() => {
           dispatch(setActiveManga(props.id));
           dispatch(setTitle(mangaData.title));
-          history.push(
-            `/${mangaData.title
-              .toLowerCase()
-              .replace(/ /g, "-")
-              .replace(/[^\w-]+/g, "")}`
-          );
+          history.push(titleToUrl(mangaData.title));
         }}
       ></img>
       <h3 className="preview manga-title">{mangaData.title}</h3>

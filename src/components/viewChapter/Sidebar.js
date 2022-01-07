@@ -12,6 +12,7 @@ import { setChapterId } from "../../mangaSlice";
 import PageLayout from "./PageLayout";
 import PageDirection from "./PageDirection";
 import AniListStatus from "../aniList/AniListStatus";
+import titleToUrl from "../helpers/titleToUrl";
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
@@ -55,7 +56,12 @@ const Sidebar = (props) => {
     <div
       className={`sidebar-container flex column${props.show ? "" : " hide"}`}
     >
-      <h3 className="sidebar">{mangaTitle}</h3>
+      <h3
+        className="sidebar"
+        onClick={() => history.push(titleToUrl(mangaTitle))}
+      >
+        {mangaTitle}
+      </h3>
       <div className="counter-container">
         <Counter
           data={mangaData}
