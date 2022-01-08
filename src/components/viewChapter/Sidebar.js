@@ -13,6 +13,7 @@ import PageLayout from "./PageLayout";
 import PageDirection from "./PageDirection";
 import AniListStatus from "../aniList/AniListStatus";
 import titleToUrl from "../helpers/titleToUrl";
+import AnilistScore from "../aniList/AniListScore";
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const Sidebar = (props) => {
       >
         {mangaTitle}
       </h3>
+      <AnilistScore />
       <div className="counter-container">
         <Counter
           data={mangaData}

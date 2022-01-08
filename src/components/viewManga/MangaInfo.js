@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetMangasQuery, useGetAuthorQuery } from "../../apiSlice";
+import ArrowDiagonal from "../../assets/svgs/ArrowDiagonal";
 import ArrowsFullscreen from "../../assets/svgs/ArrowsFullscreen";
 import Brush from "../../assets/svgs/Brush";
 import Pen from "../../assets/svgs/Pen";
+import AnilistScore from "../aniList/AniListScore";
 import AniListStatus from "../aniList/AniListStatus";
+import useMangaFromAuthenicatedQuery from "../aniList/useMangaFromAuthenicatedQuery";
 
 const MangaInfo = () => {
   const [requestAuthorData, setRequestAuthorData] = useState(false);
   const mangaId = useSelector((state) => state.manga.id);
+  const { mediaId, loggedIn } = useMangaFromAuthenicatedQuery(({ data }) => ({
+    mediaId: data?.id,
+  }));
   const [showLargeCover, setShowLargeCover] = useState(false);
   const { mangaData } = useGetMangasQuery([mangaId], {
     selectFromResult: ({ data }) => ({
@@ -99,7 +105,24 @@ const MangaInfo = () => {
           ) : (
             ""
           )}
+          {loggedIn && mediaId ? (
+            <React.Fragment>
+              <div className="divider anilist"></div>
+              <button
+                className="anilist-link"
+                onClick={() =>
+                  window.open(`https://anilist.co/manga/${mediaId}/`, "_blank")
+                }
+              >
+                <ArrowDiagonal>
+                  <div className="hint">AniList Link</div>
+                </ArrowDiagonal>
+                <span className="hover">AniList</span>
+              </button>
+            </React.Fragment>
+          ) : null}
           <AniListStatus className={"manga-info"} />
+          <AnilistScore />
         </div>
       </div>
       <p className="manga synopsis">{mangaData.synopsis}</p>

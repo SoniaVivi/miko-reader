@@ -70,6 +70,20 @@ h3 {
   }
 }
 
+.score-container {
+  display: flex;
+}
+
+.star-container {
+  @include force-size(15px, 15px);
+
+  div.hint {
+    z-index: 5;
+    left: -62px;
+    min-width: 140px;
+  }
+}
+
 .flex {
   display: flex;
 }
@@ -252,7 +266,7 @@ h3 {
 /* AniList */
 
 div.anilist-status {
-  height: 32px;
+  height: 24px;
   align-items: flex-start;
   user-select: none;
   background-color: $main-background;

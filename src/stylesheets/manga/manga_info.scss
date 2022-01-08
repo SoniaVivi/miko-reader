@@ -27,8 +27,8 @@
   }
 }
 
-.manga-info,
-.chapter-list.main-background {
+.manga-info:not(.anilist-status),
+.chapter-list.main-background:not(.anilist-status) {
   display: flex;
   padding: 8px;
 }
@@ -38,7 +38,7 @@
     flex-flow: column nowrap;
   }
 
-  &:not(.wrapper) *:not(.cover, .overlay) {
+  &:not(.wrapper) *:not(img.cover, .overlay, .star) {
     margin-right: 5px;
   }
 }
@@ -58,24 +58,50 @@ div.anilist-status {
   background-color: unset;
 }
 
-.anilist-status.manga-info {
-  margin-left: -8px;
-}
-
-div.cover {
+.manga-info div.cover {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .overlay {
-    left: -2px;
-  }
 
   &:hover {
     .corner-arrows,
     .overlay {
       display: block;
     }
+  }
+}
+
+.manga-info .anilist.divider {
+  margin-top: 5px;
+}
+
+.manga-info .anilist-link {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  span {
+    display: flex;
+    min-width: 75px;
+    padding: 0 4px;
+    padding-bottom: 3px;
+  }
+
+  .hint {
+    left: -40px;
+    justify-content: center;
+    width: 100px;
+  }
+}
+
+.manga-info .arrow.diagonal {
+  @include force-size(16px, 16px);
+  stroke: $text-color;
+  stroke-width: 0.4px;
+  border-radius: unset;
+
+  &:hover {
+    background-color: unset;
   }
 }

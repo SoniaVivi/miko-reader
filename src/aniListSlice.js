@@ -6,7 +6,7 @@ const mediaListQuery = `query getList($userId: Int, $type: MediaType, $status: M
       entries {
         mediaId
         status
-        score
+        score (format: POINT_5)
         media {
           title {
             native
@@ -34,7 +34,7 @@ export const aniListSlice = createApi({
     //eslint-disable-next-line no-undef
     baseUrl: process.env.REACT_APP_ANILIST,
   }),
-  tagTypes: ["Status"],
+  tagTypes: ["Status", "Score"],
   endpoints: (builder) => ({
     getCurrentUser: builder.query({
       query: (accessToken) => ({
@@ -69,7 +69,7 @@ export const aniListSlice = createApi({
         },
       }),
       transformResponse: selectTitlesFromMediaListQuery,
-      providesTags: ["Status"],
+      providesTags: ["Status", "Score"],
     }),
     getPlanningList: builder.query({
       query: ({ accessToken, userId }) => ({
@@ -86,7 +86,7 @@ export const aniListSlice = createApi({
         },
       }),
       transformResponse: selectTitlesFromMediaListQuery,
-      providesTags: ["Status"],
+      providesTags: ["Status", "Score"],
     }),
     getMangaFromTitle: builder.query({
       query: ({ accessToken, search }) => ({
@@ -100,7 +100,7 @@ export const aniListSlice = createApi({
                 id
                 mediaListEntry {
                   status
-                  score
+                  score (format: POINT_5)
                 }
               }
             }
@@ -114,9 +114,9 @@ export const aniListSlice = createApi({
         id: responseData?.data?.Media?.id,
         ...responseData?.data?.Media?.mediaListEntry,
       }),
-      providesTags: ["Status"],
+      providesTags: ["Status", "Score"],
     }),
-    updateManga: builder.mutation({
+    updateMangaStatus: builder.mutation({
       query: ({ accessToken, mediaId, newStatus }) => ({
         url: "/",
         method: "POST",
@@ -135,6 +135,25 @@ export const aniListSlice = createApi({
       }),
       invalidatesTags: ["Status"],
     }),
+    updateMangaScore: builder.mutation({
+      query: ({ accessToken, mediaId, score }) => ({
+        url: "/",
+        method: "POST",
+        headers: tokenHeaders(accessToken),
+        body: {
+          query: `
+          mutation ($mediaId: Int, $score: Int) {
+            SaveMediaListEntry (mediaId: $mediaId, scoreRaw: $score) {
+                id
+                score
+            }
+          }
+          `,
+          variables: { mediaId, score: score },
+        },
+      }),
+      invalidatesTags: ["Score"],
+    }),
   }),
 });
 
@@ -143,5 +162,6 @@ export const {
   useGetReadingListQuery,
   useGetPlanningListQuery,
   useGetMangaFromTitleQuery,
-  useUpdateMangaMutation,
+  useUpdateMangaStatusMutation,
+  useUpdateMangaScoreMutation,
 } = aniListSlice;

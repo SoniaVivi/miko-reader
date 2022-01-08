@@ -1,30 +1,20 @@
 import React, { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import {
-  useGetMangaFromTitleQuery,
-  useUpdateMangaMutation,
-} from "../../aniListSlice";
-import { tokenSelector } from "../../userSlice";
+import { useUpdateMangaStatusMutation } from "../../aniListSlice";
 import onOutsideClick from "../helpers/onOutsideClick";
 import Book from "../../assets/svgs/Book";
+import useMangaFromAuthenicatedQuery from "./useMangaFromAuthenicatedQuery";
 
 const AniListStatus = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const mangaTitle = useSelector((state) => state.manga.title);
-  const userToken = useSelector(tokenSelector);
-  const { status, mediaId } = useGetMangaFromTitleQuery(
-    { accessToken: userToken.accessToken, search: mangaTitle },
-    {
-      selectFromResult: ({ data }) => ({
-        status: data?.status,
-        listId: data?.listId,
-        mediaId: data?.id,
-      }),
-      skip: !mangaTitle || !userToken?.accessToken,
-    }
+  const { status, mediaId, userToken } = useMangaFromAuthenicatedQuery(
+    ({ data }) => ({
+      status: data?.status,
+      listId: data?.listId,
+      mediaId: data?.id,
+    })
   );
-  const updateMangaStatus = useUpdateMangaMutation()[0];
+  const updateMangaStatus = useUpdateMangaStatusMutation()[0];
   const statuses = useMemo(
     () => ({
       CURRENT: "Reading",
