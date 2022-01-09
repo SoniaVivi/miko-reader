@@ -11,7 +11,13 @@ const useGetCurrentChapterQuery = () => {
   });
 
   return (
-    chapterData ?? { user: null, group: null, pages: [], id: null, hash: null }
+    chapterData ?? {
+      user: null,
+      group: null,
+      pages: null,
+      id: null,
+      hash: null,
+    }
   );
 };
 

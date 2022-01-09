@@ -50,7 +50,7 @@ const useChangePage = (recachePages, secondImage, wasPrevImageLandscape) => {
     if (!newPage || newPage <= 0) {
       changeChapters("decrement");
       return;
-    } else if (newPage > pages.length) {
+    } else if (newPage > pages) {
       changeChapters("increment");
       return;
     }

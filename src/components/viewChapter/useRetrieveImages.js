@@ -12,14 +12,17 @@ const useRetrieveImages = () => {
   const [secondImage, setSecondImage] = useState(null);
   const [cachePages, setCachePages] = useState(true);
   const loading = useRef(false);
-  const { hash, pages, id } = useGetCurrentChapterQuery();
+  const { id } = useGetCurrentChapterQuery();
   const readingSettings = useSelector((state) => ({
     pageLayout: state.settings.pageLayout,
     currentlyViewing: state.settings.currentlyViewing,
   }));
-  const { serverUrl } = useGetServerURLQuery(id, {
+  //eslint-disable-next-line
+  const { serverUrl, pages, hash } = useGetServerURLQuery(id, {
     selectFromResult: ({ data }) => ({
       serverUrl: data?.baseUrl,
+      pages: data?.pages,
+      hash: data?.hash,
     }),
     skip: !id,
   });
@@ -27,6 +30,9 @@ const useRetrieveImages = () => {
 
   const setImages = useCallback(
     (newPage) => {
+      if (!pages) {
+        return;
+      }
       loading.current = true;
       const getImageUrl = (increment = 0) =>
         [serverUrl, "data", hash, pages[newPage - 1 + increment]].join("/");

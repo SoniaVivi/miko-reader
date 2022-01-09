@@ -5,6 +5,7 @@ import { cropDate } from "../../dateHelpers";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { setActiveManga, setTitle } from "../../mangaSlice";
+import titleToUrl from "../helpers/titleToUrl";
 
 const SearchResult = (props) => {
   const dispatch = useDispatch();
@@ -23,12 +24,7 @@ const SearchResult = (props) => {
         onClick={() => {
           dispatch(setActiveManga(mangaData.id));
           dispatch(setTitle(mangaData.title));
-          history.push(
-            `/${mangaData.title
-              .toLowerCase()
-              .replace(/ /g, "-")
-              .replace(/[^\w-]+/g, "")}`
-          );
+          history.push(titleToUrl(mangaData.title));
           props.onClick ? props.onClick() : "";
         }}
       >

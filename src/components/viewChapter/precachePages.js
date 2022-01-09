@@ -6,7 +6,7 @@ const precachePages = async (current, total, urlFunc) => {
       const newImg = new Image();
       newImg.src = url;
       newImg.addEventListener("load", () => {
-        setTimeout(() => resolve(newImg), 500);
+        setTimeout(() => resolve(newImg), 250);
       });
     });
 

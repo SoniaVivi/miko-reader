@@ -12,7 +12,7 @@ const ProgressBar = (props) => {
   );
   const direction = useSelector((state) => state.settings.pageDirection);
   const chapterData = useGetCurrentChapterQuery();
-  const length = chapterData?.pages?.length ?? 0;
+  const length = chapterData?.pages ?? 0;
   let current;
   if (currentlyViewing == 2) {
     current = [Number(params.page), Number(params.page) + 1];

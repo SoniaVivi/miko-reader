@@ -93,13 +93,18 @@ export const apiSlice = createApi({
         ...responseData.data,
         group: findInRelationships("scanlation_group", responseData.data),
         uploader: findInRelationships("user", responseData.data),
-        pages: responseData.data?.attributes.data,
+        pages: responseData.data?.attributes?.pages,
         id: responseData.data.id,
         hash: responseData.data?.attributes.hash,
       }),
     }),
     getServerURL: builder.query({
       query: (chapterId) => `/at-home/server/${chapterId}`,
+      transformResponse: (responseData) => ({
+        baseUrl: responseData?.baseUrl,
+        pages: responseData?.chapter?.data,
+        hash: responseData?.chapter?.hash,
+      }),
     }),
     getMangasByTitle: builder.query({
       query: (mangaTitle) => `/manga?title=${mangaTitle}&includes[]=cover_art`,
