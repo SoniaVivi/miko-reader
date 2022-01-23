@@ -6,6 +6,42 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { setActiveManga, setTitle } from "../../mangaSlice";
 import titleToUrl from "../helpers/titleToUrl";
+import styled from "styled-components";
+import MangaCover from "../styled/MangaCover";
+import ColoredSpan from "../styled/ColoredSpan";
+import Divider from "../styled/Divider";
+
+const SearchResultContainer = styled.li`
+  display: flex;
+  flex-flow: column nowrap;
+
+  &:not(:last-child)::after {
+    content: "";
+    width: 80%;
+    height: 1px;
+    margin: 8px auto;
+    background-color: ${(props) => props.theme.darkBorder};
+  }
+`;
+
+const ResultWrapper = styled.div`
+  max-width: 100%;
+  margin-left: 5px;
+  word-wrap: break-word;
+  word-break: break-all;
+`;
+
+const MetadataContainer = styled.div`
+  display: flex;
+
+  * {
+    color: ${(props) => props.theme.lightText};
+  }
+
+  .divider {
+    background-color: ${(props) => props.theme.lightText};
+  }
+`;
 
 const SearchResult = (props) => {
   const dispatch = useDispatch();
@@ -18,9 +54,9 @@ const SearchResult = (props) => {
   });
 
   return (
-    <li className="search result">
+    <SearchResultContainer>
       <div
-        className="search result wrapper"
+        className="flex"
         onClick={() => {
           dispatch(setActiveManga(mangaData.id));
           dispatch(setTitle(mangaData.title));
@@ -28,22 +64,22 @@ const SearchResult = (props) => {
           props.onClick ? props.onClick() : "";
         }}
       >
-        <img className="search cover" src={mangaData.coverUrl}></img>
-        <div className="search wrapper">
-          <span className="search manga-title">{mangaData.title}</span>
-          <div className="search manga-metadata">
-            <span>
+        <MangaCover isSearch={true} src={mangaData.coverUrl}></MangaCover>
+        <ResultWrapper>
+          <ColoredSpan>{mangaData.title}</ColoredSpan>
+          <MetadataContainer>
+            <ColoredSpan>
               {cropDate(new Date(Date.parse(mangaData.attributes.createdAt)))}
-            </span>
-            <div className="dot divider"></div>
-            <span>
+            </ColoredSpan>
+            <Divider dividerType="dot"></Divider>
+            <ColoredSpan>
               {mangaData.publicationStatus.slice(0, 1).toUpperCase() +
                 mangaData.publicationStatus.slice(1)}
-            </span>
-          </div>
-        </div>
+            </ColoredSpan>
+          </MetadataContainer>
+        </ResultWrapper>
       </div>
-    </li>
+    </SearchResultContainer>
   );
 };
 

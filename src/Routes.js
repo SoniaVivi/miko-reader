@@ -8,8 +8,10 @@ import Login from "./components/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData, tokenSelector } from "./userSlice";
 import { useGetCurrentUserQuery } from "./aniListSlice";
+import { ThemeProvider } from "styled-components";
 
 const Routes = () => {
+  const theme = useSelector((state) => state.settings.theme.style);
   const { accessToken } = useSelector(tokenSelector);
   const dispatch = useDispatch();
   const { name, id, avatar } = useGetCurrentUserQuery(accessToken, {
@@ -26,9 +28,12 @@ const Routes = () => {
       dispatch(setUserData(name, id, avatar));
     }
   }, [dispatch, name, id, avatar]);
+  useEffect(() => {
+    document.querySelector("body").style.backgroundColor = theme.bodyBackground;
+  }, [theme]);
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Navbar />
         <Switch>
@@ -38,7 +43,7 @@ const Routes = () => {
           <Route exact path="/:manga" component={Manga} />
         </Switch>
       </BrowserRouter>
-    </React.Fragment>
+    </ThemeProvider>
   );
 };
 

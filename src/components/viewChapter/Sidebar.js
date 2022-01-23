@@ -14,6 +14,43 @@ import PageDirection from "./PageDirection";
 import AniListStatus from "../aniList/AniListStatus";
 import titleToUrl from "../helpers/titleToUrl";
 import AnilistScore from "../aniList/AniListScore";
+import styled from "styled-components";
+import ColoredSpan from "../styled/ColoredSpan";
+
+const Container = styled.div`
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-flow: column;
+  width: 360px;
+  height: 100%;
+  padding: 0 30px;
+  padding-top: 48px;
+  background-color: ${(props) => props.theme.mainBackground};
+  transition: margin-right ${(props) => props.theme.navTransitionTiming};
+
+  &.hide {
+    margin-right: -360px;
+  }
+
+  > * {
+    display: flex;
+    margin-bottom: 15px;
+  }
+`;
+
+const CounterContainer = styled.div`
+  justify-content: center;
+`;
+
+const MangaTitle = styled.h3`
+  color: ${(props) => props.theme.textColor};
+`;
+
+//eslint-disable-next-line no-unused-vars
+const UploaderName = styled(ColoredSpan)`
+  margin-left: 5px;
+`;
 
 const Sidebar = (props) => {
   const dispatch = useDispatch();
@@ -54,17 +91,12 @@ const Sidebar = (props) => {
   }
 
   return (
-    <div
-      className={`sidebar-container flex column${props.show ? "" : " hide"}`}
-    >
-      <h3
-        className="sidebar"
-        onClick={() => history.push(titleToUrl(mangaTitle))}
-      >
+    <Container className={props.show ? "" : " hide"}>
+      <MangaTitle onClick={() => history.push(titleToUrl(mangaTitle))}>
         {mangaTitle}
-      </h3>
+      </MangaTitle>
       <AnilistScore />
-      <div className="counter-container">
+      <CounterContainer>
         <Counter
           data={mangaData}
           current={currentVolume.volume}
@@ -82,19 +114,19 @@ const Sidebar = (props) => {
             dispatch(setChapterId(id));
           }}
         />
-      </div>
-      <div className="upload sidebar">
+      </CounterContainer>
+      <div>
         <Person />
-        <span>{uploader ?? "Unknown"}</span>
+        <UploaderName>{uploader ?? "Unknown"}</UploaderName>
       </div>
-      <div className="upload sidebar">
+      <div>
         <People />
-        <span>{group ?? "Unknown"}</span>
+        <UploaderName>{group ?? "Unknown"}</UploaderName>
       </div>
       <AniListStatus className="sidebar" />
       <PageLayout />
       <PageDirection />
-    </div>
+    </Container>
   );
 };
 

@@ -23,6 +23,7 @@
     "sass": "^1.38.1",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
+    "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2",
     "webpack": "^5.51.1"
   },
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.0.2",
     "eslint-plugin-react": "^7.24.0",
     "prop-types": "^15.7.2",
     "redux-devtools": "^3.7.0"

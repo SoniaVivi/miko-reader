@@ -1,9 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
+import HintContainer from "../../components/styled/HintContainer";
+import styled from "styled-components";
+import { forceSize } from "../../components/styled/mixins";
+
+const Container = styled(HintContainer)`
+  ${forceSize("16px", "16px")}
+  stroke: ${(props) => props.theme.textColor};
+  stroke-width: 0.4px;
+  border-radius: unset;
+
+  &:hover {
+    background-color: unset;
+  }
+`;
 
 const ArrowDiagonal = (props) => {
   return (
-    <div className="icon-container hint-container">
+    <Container className="icon-container">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -18,7 +32,7 @@ const ArrowDiagonal = (props) => {
         />
       </svg>
       {props.children}
-    </div>
+    </Container>
   );
 };
 

@@ -5,6 +5,17 @@ import MangaInfo from "./viewManga/MangaInfo";
 import ChapterList from "./viewManga/chapterList/ChapterList";
 import useFetchMangaFromTitle from "./useFetchMangaFromTitle";
 import { toggleNav } from "../settingsSlice";
+import styled from "styled-components";
+import Container from "./styled/Container";
+
+const MangaContainer = styled(Container)`
+  display: flex;
+  padding: 8px;
+
+  > * {
+    flex-basis: 50%;
+  }
+`;
 
 const Manga = () => {
   const mangaData = useSelector((state) => state.manga);
@@ -20,10 +31,10 @@ const Manga = () => {
   }
 
   return (
-    <div className="container manga">
+    <MangaContainer>
       <MangaInfo />
       <ChapterList />
-    </div>
+    </MangaContainer>
   );
 };
 

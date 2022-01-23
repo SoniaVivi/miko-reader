@@ -5,6 +5,21 @@ import useFetchMangaFromTitle from "./useFetchMangaFromTitle";
 import PageDisplay from "./viewChapter/PageDisplay";
 import ProgressBar from "./viewChapter/ProgressBar";
 import Sidebar from "./viewChapter/Sidebar";
+import styled from "styled-components";
+import PageBase from "./viewChapter/PageBase";
+
+const Container = styled.div`
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - ${(props) => props.theme.navbarHeight});
+  transition: height ${(props) => props.theme.navTransitionTiming};
+
+  &.full-height {
+    height: 100vh;
+    max-height: 100vh;
+  }
+`;
 
 const Chapter = () => {
   const queryParams = useSelector((state) => ({
@@ -57,12 +72,12 @@ const Chapter = () => {
   };
 
   if (!queryParams || queryParams.id == -1) {
-    return <div className="chapter-view flex"></div>;
+    return <Container className="flex"></Container>;
   }
   return (
     <React.Fragment>
-      <div
-        className="chapter-view flex"
+      <Container
+        className="flex"
         ref={chapterViewRef}
         onMouseMove={(e) => {
           const xCoords = e.clientX - window.screen.width;
@@ -72,11 +87,11 @@ const Chapter = () => {
           setShowProgressBar(yCoords >= -200 && xCoords <= -360);
         }}
       >
-        <div ref={wrapperRef} className="manga-page wrapper flex">
+        <PageBase ref={wrapperRef}>
           <PageDisplay classRef={mangaPageRef} />
-        </div>
+        </PageBase>
         <Sidebar show={showSidebar} />
-      </div>
+      </Container>
       <ProgressBar show={showProgressBar} />
     </React.Fragment>
   );

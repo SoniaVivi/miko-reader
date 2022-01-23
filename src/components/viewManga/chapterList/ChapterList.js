@@ -5,6 +5,79 @@ import ChapterListChild from "./ChapterListChild";
 import ArrowContainer from "./ArrowContainer";
 import { pageMenu } from "./pageMenu";
 import PageCounterChild from "./PageCounterChild";
+import styled from "styled-components";
+import HoverButton from "../../styled/HoverButton";
+import { bevel, center } from "../../styled/mixins";
+
+const _languageButtonHeight = "60%";
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  min-height: 453px;
+  margin-left: 30px;
+  padding: 8px;
+  background-color: ${(props) => props.theme.mainBackground};
+`;
+
+const ListWrapper = styled.ul`
+  flex-grow: 1;
+  width: 100%;
+`;
+
+const LanguageList = styled.ul`
+  display: flex;
+  align-items: center;
+
+  .current {
+    font-weight: 700;
+    font-family: "Lato Bold";
+
+    &:not(:hover) {
+      background-color: unset;
+    }
+  }
+`;
+
+const LanguageButtonContainer = styled.li`
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  &:not(:last-child)::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    min-height: ${_languageButtonHeight};
+    max-height: ${_languageButtonHeight};
+    margin: auto 4px;
+    background-color: ${(props) => props.theme.lightBorder};
+  }
+`;
+
+const LanguageButton = styled(HoverButton)`
+  padding: 2px 4px;
+  font-size: 16px;
+`;
+
+const PageCounter = styled.div`
+  color: ${(props) => props.theme.textColor};
+`;
+
+const MangaFetchContainer = styled.div`
+  display: flex;
+  height: 32px;
+  margin: auto 0;
+  margin-bottom: 5px;
+`;
+
+const FetchButton = styled(HoverButton)`
+  ${center}
+  ${bevel("32")};
+  padding: 8px;
+  padding-bottom: 12px;
+`;
 
 const ChapterList = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("en");
@@ -69,10 +142,11 @@ const ChapterList = () => {
     }
   }, [currentPage, chapters, totalPages]);
 
-  useEffect(
-    () => (mangaId && !requestChapters ? setRequestChapters(true) : ""),
-    [mangaId, requestChapters]
-  );
+  useEffect(() => {
+    setRequestChapters(true);
+    setMaxOffset(2 ** 32);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mangaId]);
 
   useEffect(
     () => (currentPage ? setCurrentPage(0) : ""),
@@ -89,12 +163,12 @@ const ChapterList = () => {
   }
 
   return (
-    <div className="chapter-list main-background">
-      <ul className="languages-list manga">
+    <Container>
+      <LanguageList>
         {[...languages]
           .sort((a, b) => a.localeCompare(b))
           .map((language, i) => (
-            <li
+            <LanguageButtonContainer
               key={i}
               className="languages manga"
               onClick={() => {
@@ -102,26 +176,24 @@ const ChapterList = () => {
                 setSelectedLanguage(language);
               }}
             >
-              <button
-                className={`hover${
-                  language == selectedLanguage ? " current" : ""
-                }`}
+              <LanguageButton
+                className={language == selectedLanguage ? " current" : null}
               >
                 {language.slice(0, 1).toUpperCase() + language.slice(1)}
-              </button>
-            </li>
+              </LanguageButton>
+            </LanguageButtonContainer>
           ))}
-      </ul>
+      </LanguageList>
       <ArrowContainer
         top={true}
         onLeftArrowClick={decrementPage}
         onRightArrowClick={incrementPage}
       >
-        <div className="page-counter">
+        <PageCounter className="no-select">
           Page {currentPage + 1} of {totalPages}
-        </div>
+        </PageCounter>
       </ArrowContainer>
-      <ul className="chapter-list">
+      <ListWrapper>
         {currentChapters.map((chapterData, i) => (
           <ChapterListChild
             key={i}
@@ -135,33 +207,33 @@ const ChapterList = () => {
             chapterNumber={chapterData?.chapterNumber}
           />
         ))}
-      </ul>
-      <div className="chapter-list-bottom-buttons">
+      </ListWrapper>
+      <MangaFetchContainer>
         {offset != 0 ? (
-          <button
+          <FetchButton
             onClick={() => {
               resetPage();
-              setOffset((prev) => (prev -= 96));
+              setOffset((prev) => prev - 96);
             }}
           >
             Go Back
-          </button>
+          </FetchButton>
         ) : (
           ""
         )}
         {offset + 96 < maxOffset && currentPage == totalPages - 1 ? (
-          <button
+          <FetchButton
             onClick={() => {
               resetPage();
-              setOffset((prev) => (prev += 96));
+              setOffset((prev) => prev + 96);
             }}
           >
             Look for more Chapters
-          </button>
+          </FetchButton>
         ) : (
           ""
         )}
-      </div>
+      </MangaFetchContainer>
       <ArrowContainer
         className="align-btm"
         onLeftArrowClick={decrementPage}
@@ -176,7 +248,7 @@ const ChapterList = () => {
           />
         ))}
       </ArrowContainer>
-    </div>
+    </Container>
   );
 };
 

@@ -3,19 +3,6 @@
   width: 100%;
 }
 
-@mixin bevel($height, $radius: $height * 0.75) {
-  height: $height;
-  border-radius: $radius;
-}
-
-@mixin circle($size) {
-  max-width: $size;
-  max-height: $size;
-  min-width: $size;
-  min-height: $size;
-  border-radius: 50%;
-}
-
 @mixin force-size($width, $height) {
   max-width: $width;
   max-height: $height;

@@ -1,11 +1,90 @@
+@use "stylesheets/_mixins" as mixin;
 @import "./stylesheets/fonts.scss";
-@import "./stylesheets/_variables.scss";
-@import "./stylesheets/darkMode.scss";
-@import "./stylesheets/_mixins.scss";
-@import "./stylesheets/main.scss";
-@import "./stylesheets/navbar.scss";
-@import "./stylesheets/home.scss";
-@import "./stylesheets/login.scss";
-@import "./stylesheets/manga/manga_info.scss";
-@import "./stylesheets/manga/chapter_list.scss";
-@import "./stylesheets/manga/chapter.scss";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Lato";
+  font-size: 16px;
+}
+
+body {
+  position: relative;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  border: unset;
+  background-color: unset;
+}
+
+h3 {
+  font-size: 24px;
+  font-family: "Lato Bold";
+}
+
+/* Utility Classes */
+
+.flex {
+  display: flex;
+}
+
+.center,
+.center-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-row {
+  justify-content: flex-start;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.container-sm {
+  display: flex;
+  max-width: 100%;
+  width: 540px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.nav {
+  margin-right: 8px;
+}
+
+.arrow.diagonal {
+  stroke-width: 0.4px;
+  border-radius: unset;
+
+  &:hover {
+    background-color: unset;
+  }
+}
+
+.icon-container,
+.icon {
+  @include mixin.force-size(20px, 20px);
+}
+
+.no-select {
+  user-select: none;
+}
+
+.no-cursor {
+  cursor: none;
+}

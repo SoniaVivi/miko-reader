@@ -8,6 +8,137 @@ import Pen from "../../assets/svgs/Pen";
 import AnilistScore from "../aniList/AniListScore";
 import AniListStatus from "../aniList/AniListStatus";
 import useMangaFromAuthenicatedQuery from "../aniList/useMangaFromAuthenicatedQuery";
+import styled from "styled-components";
+import MangaCover from "../styled/MangaCover";
+import Hint from "../styled/Hint";
+import ColoredSpan from "../styled/ColoredSpan";
+import Divider from "../styled/Divider";
+import HoverButton from "../styled/HoverButton";
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  flex-basis: 50%;
+  padding: 8px;
+  background-color: ${(props) => props.theme.mainBackground};
+`;
+
+const MetadataContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+
+  > * {
+    margin-bottom: 3px;
+  }
+
+  .center-row {
+    margin-bottom: 5px;
+  }
+
+  .vertical-icon-container {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-right: 0;
+  }
+`;
+
+const MangaHeading = styled.h3`
+  margin-left: 25px;
+  color: ${(props) => props.theme.textColor};
+`;
+
+const CoverWrapper = styled(MangaCover)`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+
+  &:hover * {
+    display: flex;
+  }
+`;
+
+const Overlay = styled.div`
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const Modal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3000;
+
+  * {
+    display: flex;
+  }
+`;
+
+const ModalPreview = styled.img`
+  position: relative;
+  z-index: 4;
+  display: block;
+  max-height: 75%;
+  width: auto;
+  height: fit-content;
+  border: 2px solid #000000;
+  border-radius: 5px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  padding: 8px;
+  margin-right: 5px;
+`;
+
+const NameSpan = styled(ColoredSpan)`
+  margin-left: 5px;
+`;
+
+const AnilistDivider = styled(Divider)`
+  margin-top: 5px;
+`;
+
+const AnilistLink = styled.button`
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  span {
+    display: flex;
+    min-width: 75px;
+    padding: 0 4px;
+    padding-bottom: 3px;
+  }
+
+  ${Hint} {
+    left: -40px;
+    justify-content: center;
+    width: 100px;
+  }
+
+  ${HoverButton} {
+    margin-left: 6px;
+  }
+`;
+
+const Synopsis = styled.p`
+  max-height: 33vh;
+  overflow-y: scroll;
+  color: ${(props) => props.theme.textColor};
+`;
 
 const MangaInfo = () => {
   const [requestAuthorData, setRequestAuthorData] = useState(false);
@@ -46,93 +177,92 @@ const MangaInfo = () => {
 
   if (!mangaData) {
     return (
-      <div className="manga-info wrapper main-background">
-        <div className="manga-info">
-          <img className="cover"></img>
-          <div className="manga metadata"></div>
-        </div>
+      <InfoContainer>
+        <Container>
+          <MangaCover></MangaCover>
+          <MetadataContainer></MetadataContainer>
+        </Container>
         <p></p>
-      </div>
+      </InfoContainer>
     );
   }
 
   return (
-    <div className="manga-info wrapper main-background">
-      <div className="manga-info">
-        <div className="cover" onClick={() => setShowLargeCover(true)}>
-          <img className="cover" src={mangaData.coverUrl}></img>
+    <InfoContainer>
+      <Container>
+        <CoverWrapper as={"div"} onClick={() => setShowLargeCover(true)}>
+          <MangaCover src={mangaData.coverUrl}></MangaCover>
           <ArrowsFullscreen className="corner" />
-          <div className="overlay"></div>
-        </div>
-        <div className="manga metadata">
-          <h3>{mangaData.title}</h3>
-          <span className="publication-status">
+          <Overlay></Overlay>
+        </CoverWrapper>
+        <MetadataContainer>
+          <MangaHeading>{mangaData.title}</MangaHeading>
+          <MangaHeading as={"span"}>
             {mangaData.publicationStatus
               ? mangaData.publicationStatus.slice(0, 1).toUpperCase() +
                 mangaData.publicationStatus.slice(1)
               : ""}
-          </span>
-          <span className={authorName != artistName ? "center-row" : "flex"}>
+          </MangaHeading>
+          <div className={authorName != artistName ? "center-row" : "flex"}>
             {
               <React.Fragment>
-                <div className="vertical-icon-container">
+                <div>
                   <Pen>
-                    <div className="hint">Author</div>
+                    <Hint>Author</Hint>
                   </Pen>
                   {authorName == artistName ? (
                     <Brush>
-                      <div className="hint">Artist</div>
+                      <Hint>Artist</Hint>
                     </Brush>
                   ) : (
                     ""
                   )}
                 </div>
-                {authorName}
+                <NameSpan>{authorName}</NameSpan>
               </React.Fragment>
             }
-          </span>
+          </div>
           {authorName != artistName ? (
-            <span className="center-row">
+            <div className="center-row">
               {
                 <React.Fragment>
                   <Brush>
-                    <div className="hint">Artist</div>
+                    <Hint>Artist</Hint>
                   </Brush>
-                  {artistName}
+                  <NameSpan>{artistName}</NameSpan>
                 </React.Fragment>
               }
-            </span>
+            </div>
           ) : (
             ""
           )}
           {loggedIn && mediaId ? (
             <React.Fragment>
-              <div className="divider anilist"></div>
-              <button
-                className="anilist-link"
+              <AnilistDivider dividerType="horizontal"></AnilistDivider>
+              <AnilistLink
                 onClick={() =>
                   window.open(`https://anilist.co/manga/${mediaId}/`, "_blank")
                 }
               >
                 <ArrowDiagonal>
-                  <div className="hint">AniList Link</div>
+                  <Hint>AniList Link</Hint>
                 </ArrowDiagonal>
-                <span className="hover">AniList</span>
-              </button>
+                <HoverButton as={ColoredSpan}>AniList</HoverButton>
+              </AnilistLink>
             </React.Fragment>
           ) : null}
-          <AniListStatus className={"manga-info"} />
-          <AnilistScore />
-        </div>
-      </div>
-      <p className="manga synopsis">{mangaData.synopsis}</p>
+          <AniListStatus appearance="manga-info" />
+          <AnilistScore marginRight={true} />
+        </MetadataContainer>
+      </Container>
+      <Synopsis>{mangaData.synopsis}</Synopsis>
       {showLargeCover ? (
-        <div className="modal" onClick={() => setShowLargeCover(false)}>
-          <div className="overlay"></div>
-          <img src={mangaData.coverUrl} className="preview modal"></img>
-        </div>
+        <Modal onClick={() => setShowLargeCover(false)}>
+          <Overlay></Overlay>
+          <ModalPreview src={mangaData.coverUrl}></ModalPreview>
+        </Modal>
       ) : null}
-    </div>
+    </InfoContainer>
   );
 };
 

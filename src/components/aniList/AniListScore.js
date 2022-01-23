@@ -4,7 +4,7 @@ import { useUpdateMangaScoreMutation } from "../../aniListSlice";
 import Star from "../../assets/svgs/Star";
 import useMangaFromAuthenicatedQuery from "./useMangaFromAuthenicatedQuery";
 
-const AnilistScore = () => {
+const AnilistScore = (props) => {
   const { score, mediaId, loggedIn, userToken } = useMangaFromAuthenicatedQuery(
     ({ data }) => ({
       score: data?.score,
@@ -19,13 +19,14 @@ const AnilistScore = () => {
   }
 
   return (
-    <div className="score-container anilist-score">
+    <div className="flex">
       {Array(5)
         .fill()
         .map((_, i) => (
           <Star
             key={i}
             starType={i < (score ?? 0) ? "fill" : "outline"}
+            {...props}
             onClick={() =>
               userToken &&
               updateMangaScore({

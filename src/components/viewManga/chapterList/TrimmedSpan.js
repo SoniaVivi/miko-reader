@@ -1,5 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import HintContainer from "../../styled/HintContainer";
+import Hint from "../../styled/Hint";
+import styled from "styled-components";
+
+const ShiftedHint = styled(Hint)`
+  left: 40%;
+`;
 
 const TrimmedSpan = (props) => {
   const maxLength = props.maxLength ?? 12;
@@ -13,14 +20,14 @@ const TrimmedSpan = (props) => {
   };
 
   return (
-    <span className={`hint-container ${props.className ?? ""}`}>
+    <HintContainer className={props.className ?? ""}>
       {trimString(props.text)}
       {props.text && props.text.length > maxLength ? (
-        <span className="hint">{props.text}</span>
+        <ShiftedHint>{props.text}</ShiftedHint>
       ) : (
         ""
       )}
-    </span>
+    </HintContainer>
   );
 };
 

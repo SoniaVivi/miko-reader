@@ -1,13 +1,20 @@
 import React from "react";
 import PageLayoutButton from "./PageLayoutButton";
+import styled from "styled-components";
+import Divider from "../styled/Divider";
+
+const Container = styled.div`
+  width: 50%;
+  height: 30px;
+`;
 
 const PageLayout = () => {
   return (
-    <div className="page-layout sidebar">
+    <Container>
       <PageLayoutButton mode="dual" />
-      <div className="divider vertical"></div>
+      <Divider dividerType="vertical" />
       <PageLayoutButton mode="single" />
-    </div>
+    </Container>
   );
 };
 

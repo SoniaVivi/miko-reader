@@ -1,39 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { useGetMangaByTitleQuery } from "../../apiSlice";
-import { setActiveManga, setTitle } from "../../mangaSlice";
-import titleToUrl from "../helpers/titleToUrl";
+import PreviewWrapper from "../home/PreviewWrapper";
 
 const AniListMangaPreview = (props) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { mangaData } = useGetMangaByTitleQuery(props.title, {
-    selectFromResult: ({ data }) => ({
-      mangaData: data?.entities ? Object.values(data?.entities)[0] : null,
-    }),
+  const {
+    id,
+    title: mangadexTitle,
+    coverUrl,
+  } = useGetMangaByTitleQuery(props.title, {
+    selectFromResult: ({ data }) =>
+      data?.entities
+        ? Object.values(data?.entities)[0]
+        : { id: null, title: null, coverUrl: null },
+
     skip: !props.title,
   });
 
-  if (!mangaData) {
+  if (!id) {
     return null;
   }
 
-  return (
-    <li className="manga preview">
-      <img
-        src={mangaData.coverUrl}
-        className="cover preview"
-        onClick={() => {
-          dispatch(setActiveManga(mangaData.id));
-          dispatch(setTitle(mangaData.title));
-          history.push(titleToUrl(mangaData.title));
-        }}
-      ></img>
-      <h3 className="preview manga-title">{mangaData.title}</h3>
-    </li>
-  );
+  return <PreviewWrapper src={coverUrl} title={mangadexTitle} id={id} />;
 };
 
 export default AniListMangaPreview;

@@ -3,6 +3,46 @@ import PropTypes from "prop-types";
 import { useParams, useHistory } from "react-router";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
+import Divider from "../styled/Divider";
+
+const _containerHeight = "36px";
+
+const Container = styled.div`
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: ${_containerHeight};
+  margin-top: -${_containerHeight};
+  border-top: 1px solid ${(props) => props.theme.lightBorder};
+  background-color: ${(props) => props.theme.mainBackground};
+  transition: all ${(props) => props.theme.navTransitionTiming};
+
+  &.to-right {
+    flex-direction: row;
+  }
+
+  &.hide {
+    opacity: 0;
+  }
+
+  &.left {
+    flex-direction: row-reverse;
+  }
+`;
+
+const Page = styled.div`
+  flex-grow: 1;
+  border-radius: 0;
+
+  &.read {
+    background-color: ${(props) => props.theme.read};
+  }
+
+  &.current {
+    background-color: ${(props) => props.theme.currentPage};
+  }
+`;
 
 const ProgressBar = (props) => {
   const params = useParams();
@@ -21,14 +61,14 @@ const ProgressBar = (props) => {
   }
 
   return (
-    <div
-      className={`progression-bar${props.show ? "" : " hide"} ${direction
+    <Container
+      className={`${props.show ? "" : " hide"} ${direction
         .slice(2)
         .toLowerCase()}`}
     >
       {[...Array(length)].map((_, i) => (
         <React.Fragment key={i}>
-          <div
+          <Page
             className={`${
               i + 1 < Math.min(...current)
                 ? "read"
@@ -39,11 +79,11 @@ const ProgressBar = (props) => {
             onClick={() =>
               history.push(`/${params.manga}/${params.chapter}/${i + 1}`)
             }
-          ></div>
-          <div className="divider vertical"></div>
+          ></Page>
+          <Divider dividerType="vertical" />
         </React.Fragment>
       ))}
-    </div>
+    </Container>
   );
 };
 

@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import HintContainer from "../../components/styled/HintContainer";
 
 const Book = (props) => (
-  <div className="icon-container hint-container">
+  <HintContainer className="icon-container">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
+      fill="currentColor"
       className={`book icon ${props.className ?? ""}`}
       viewBox="0 0 16 16"
     >
@@ -15,7 +17,7 @@ const Book = (props) => (
       <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
     </svg>
     {props.children}
-  </div>
+  </HintContainer>
 );
 
 export default Book;

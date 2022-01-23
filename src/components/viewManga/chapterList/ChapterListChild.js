@@ -7,6 +7,55 @@ import useGetUserAndGroupQuery from "../../useGetUserAndGroupQuery";
 import { setChapterId } from "../../../mangaSlice";
 import { setLanguage } from "../../../settingsSlice";
 import TrimmedSpan from "./TrimmedSpan";
+import HoverButton from "../../styled/HoverButton";
+import styled from "styled-components";
+import ColoredSpan from "../../styled/ColoredSpan";
+
+const _baseCss = `
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+`;
+
+const Container = styled(HoverButton)`
+  ${_baseCss}
+  flex-flow: row wrap;
+  min-height: 30px;
+  padding: 0 4px;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    margin: 4px auto;
+    background-color: ${(props) => props.theme.lightBorder};
+  }
+`;
+
+const MetadataContainer = styled.div`
+  ${_baseCss}
+  > * {
+    display: flex;
+    align-items: center;
+
+    &:first-child::after {
+      content: "";
+      display: inline-block;
+      width: 1px;
+      height: 50%;
+      margin: 0 8px;
+      margin-top: 3px;
+      background-color: #000000;
+    }
+
+    &:nth-child(2) {
+      margin-right: 12px;
+    }
+  }
+`;
 
 const ChapterListChild = (props) => {
   const history = useHistory();
@@ -33,8 +82,8 @@ const ChapterListChild = (props) => {
   };
 
   return (
-    <li
-      className="chapter-list-item hover"
+    <Container
+      as="li"
       onClick={() => {
         dispatch(setChapterId(props.chapterId));
         dispatch(setLanguage(props.language));
@@ -44,12 +93,14 @@ const ChapterListChild = (props) => {
       <div>
         <TrimmedSpan maxLength={22} text={props.title} />
       </div>
-      <div className="chapter-list-item metadata">
+      <MetadataContainer>
         <TrimmedSpan maxLength={16} text={groupName ?? props.group} />
         <TrimmedSpan text={uploaderName ?? props.uploader} />
-        <span>{relativeTime(Date.parse(props.uploaded), timeFormatFunc)}</span>
-      </div>
-    </li>
+        <ColoredSpan>
+          {relativeTime(Date.parse(props.uploaded), timeFormatFunc)}
+        </ColoredSpan>
+      </MetadataContainer>
+    </Container>
   );
 };
 

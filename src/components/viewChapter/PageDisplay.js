@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import useRetrieveImages from "./useRetrieveImages";
 import useChangePage from "./useChangePage";
+import PageBase from "./PageBase";
 
 const PageDisplay = (props) => {
   const params = useParams();
@@ -55,11 +56,9 @@ const PageDisplay = (props) => {
     setImages(Number(params.page));
   }
   return (
-    <div
+    <PageBase
       tabIndex="-1"
-      className={`manga-page flex ${readingSettings.pageDirection
-        .slice(2)
-        .toLowerCase()}`}
+      className={readingSettings.pageDirection.slice(2).toLowerCase()}
       ref={props.classRef}
       onKeyDown={(e) => {
         if (e.repeat) return;
@@ -94,7 +93,7 @@ const PageDisplay = (props) => {
     >
       {firstImage}
       {secondImage}
-    </div>
+    </PageBase>
   );
 };
 
