@@ -45,10 +45,10 @@ const PageDisplay = (props) => {
 
   if (!id || !serverUrl || !readingSettings) {
     return (
-      <div className="manga-page flex">
+      <PageBase>
         <img></img>
         <img></img>
-      </div>
+      </PageBase>
     );
   }
 
