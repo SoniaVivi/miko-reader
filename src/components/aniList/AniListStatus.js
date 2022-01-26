@@ -91,9 +91,8 @@ const DisplayedButton = styled(HoverButton)`
 const AniListStatus = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { status, mediaId, userToken } = useMangaFromAuthenicatedQuery(
-    ({ data }) => ({
+    (data) => ({
       status: data?.status,
-      listId: data?.listId,
       mediaId: data?.id,
     })
   );

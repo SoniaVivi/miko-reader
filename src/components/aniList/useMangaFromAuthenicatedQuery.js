@@ -12,7 +12,9 @@ const useMangaFromAuthenicatedQuery = (selector) => {
       selectFromResult: (data) => ({
         isError: data.isError,
         isLoading: data.isLoading,
-        mediaData: selector(data),
+        mediaData: data.data?.ids
+          ? selector(data.data?.entities[data.data?.ids[0]])
+          : selector({}),
       }),
       skip: !mangaTitle || !userToken?.accessToken,
     }

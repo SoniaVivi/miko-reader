@@ -30,7 +30,7 @@ const StyledLink = styled.button`
 `;
 
 const AniListLink = () => {
-  const { mediaId, loggedIn } = useMangaFromAuthenicatedQuery(({ data }) => ({
+  const { mediaId, loggedIn } = useMangaFromAuthenicatedQuery((data) => ({
     mediaId: data?.id,
   }));
 

@@ -6,9 +6,8 @@ import useMangaFromAuthenicatedQuery from "./useMangaFromAuthenicatedQuery";
 
 const AnilistScore = (props) => {
   const { score, mediaId, loggedIn, userToken } = useMangaFromAuthenicatedQuery(
-    ({ data }) => ({
+    (data) => ({
       score: data?.score,
-      listId: data?.listId,
       mediaId: data?.id,
     })
   );

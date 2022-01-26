@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import MangaPreview from "./MangaPreview";
 import { useSelector } from "react-redux";
 import {
@@ -55,21 +55,41 @@ const Home = () => {
     accessToken: state.user.accessTokenData.accessToken,
   }));
 
-  const { data: currentlyReading, isSuccess: isReadListSuccessful } =
-    useGetReadingListQuery(
-      { accessToken, userId },
-      {
-        skip: !userId || !accessToken,
-      }
-    );
-
-  const { data: planningList, isSuccess: isPlanningListSuccessful } =
+  const { readingListData, isReadListSuccessful } = useGetReadingListQuery(
+    { accessToken, userId },
+    {
+      selectFromResult: (response) => ({
+        readingListData: response?.data?.entities,
+        isReadListSuccessful: response.isSuccess,
+      }),
+      skip: !userId || !accessToken,
+    }
+  );
+  const currentlyReading = useMemo(
+    () =>
+      readingListData
+        ? Object.values(readingListData).map((mangaData) => mangaData.title)
+        : [],
+    [readingListData]
+  );
+  const { planningListData, isPlanningListSuccessful } =
     useGetPlanningListQuery(
       { accessToken, userId },
       {
+        selectFromResult: (response) => ({
+          planningListData: response?.data?.entities,
+          isPlanningListSuccessful: response.isSuccess,
+        }),
         skip: !userId || !accessToken,
       }
     );
+  const planningList = useMemo(
+    () =>
+      planningListData
+        ? Object.values(planningListData).map((data) => data.title)
+        : [],
+    [planningListData]
+  );
 
   const showDivider = (...args) =>
     args.includes(true) ? (

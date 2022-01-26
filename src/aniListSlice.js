@@ -1,3 +1,4 @@
+import { createEntityAdapter } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const mediaListQuery = `query getList($userId: Int, $type: MediaType, $status: MediaListStatus) {
@@ -24,9 +25,15 @@ const tokenHeaders = (token) => ({
 });
 
 const selectTitlesFromMediaListQuery = (response) =>
-  response.data.MediaListCollection.lists[0].entries.map(
-    (mangaData) => mangaData.media.title.native
-  );
+  response.data.MediaListCollection.lists[0].entries.map((mangaData) => ({
+    id: mangaData?.mediaId,
+    score: mangaData?.score,
+    status: mangaData?.status,
+    title: mangaData?.media?.title?.native,
+  }));
+
+const mangaAdapter = createEntityAdapter();
+const mangaInitialState = mangaAdapter.getInitialState();
 
 export const aniListSlice = createApi({
   reducerPath: "aniList",
@@ -34,7 +41,7 @@ export const aniListSlice = createApi({
     //eslint-disable-next-line no-undef
     baseUrl: process.env.REACT_APP_ANILIST,
   }),
-  tagTypes: ["Status", "Score"],
+  tagTypes: ["Status", "Score", "Progress"],
   endpoints: (builder) => ({
     getCurrentUser: builder.query({
       query: (accessToken) => ({
@@ -68,7 +75,11 @@ export const aniListSlice = createApi({
           },
         },
       }),
-      transformResponse: selectTitlesFromMediaListQuery,
+      transformResponse: (responseData) =>
+        mangaAdapter.addMany(
+          mangaInitialState,
+          selectTitlesFromMediaListQuery(responseData)
+        ),
       providesTags: ["Status", "Score"],
     }),
     getPlanningList: builder.query({
@@ -85,7 +96,11 @@ export const aniListSlice = createApi({
           },
         },
       }),
-      transformResponse: selectTitlesFromMediaListQuery,
+      transformResponse: (responseData) =>
+        mangaAdapter.addMany(
+          mangaInitialState,
+          selectTitlesFromMediaListQuery(responseData)
+        ),
       providesTags: ["Status", "Score"],
     }),
     getMangaFromTitle: builder.query({
@@ -98,6 +113,9 @@ export const aniListSlice = createApi({
             query getMangaFromName($search: String) {
               Media (search: $search, type: MANGA) {
                 id
+                title {
+                  native
+                }
                 mediaListEntry {
                   status
                   score (format: POINT_5)
@@ -110,10 +128,13 @@ export const aniListSlice = createApi({
           },
         },
       }),
-      transformResponse: (responseData) => ({
-        id: responseData?.data?.Media?.id,
-        ...responseData?.data?.Media?.mediaListEntry,
-      }),
+      transformResponse: (responseData) =>
+        mangaAdapter.addOne(mangaInitialState, {
+          id: responseData?.data?.Media?.id,
+          title: responseData?.data?.Media?.title?.native,
+          status: responseData?.data?.Media?.mediaListEntry.status,
+          score: responseData?.data?.Media?.mediaListEntry.score,
+        }),
       providesTags: ["Status", "Score"],
     }),
     updateMangaStatus: builder.mutation({
@@ -153,6 +174,25 @@ export const aniListSlice = createApi({
         },
       }),
       invalidatesTags: ["Score"],
+    }),
+    updateMangaProgress: builder.mutation({
+      query: ({ accessToken, mediaId, progress }) => ({
+        url: "/",
+        method: "POST",
+        headers: tokenHeaders(accessToken),
+        body: {
+          query: `
+          mutation ($mediaId: Int, $progress: Int) {
+            SaveMediaListEntry (mediaId: $mediaId, progress: $progress) {
+                id
+                progress
+            }
+          }
+          `,
+          variables: { mediaId, progress },
+        },
+      }),
+      invalidatesTags: ["Progress"],
     }),
   }),
 });

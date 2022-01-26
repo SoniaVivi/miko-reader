@@ -119,7 +119,7 @@ const Synopsis = styled.p`
 const MangaInfo = () => {
   const [requestAuthorData, setRequestAuthorData] = useState(false);
   const mangaId = useSelector((state) => state.manga.id);
-  const { mediaId, loggedIn } = useMangaFromAuthenicatedQuery(({ data }) => ({
+  const { mediaId, loggedIn } = useMangaFromAuthenicatedQuery((data) => ({
     mediaId: data?.id,
   }));
   const [showLargeCover, setShowLargeCover] = useState(false);
