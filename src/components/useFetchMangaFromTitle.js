@@ -11,7 +11,8 @@ const useFetchMangaFromTitle = () => {
   const loading = useRef(false);
   if (!loading.current && mangaId == -1 && language) {
     loading.current = true;
-    fetch(`https://api.mangadex.org/manga?title=${params.manga}`)
+    //eslint-disable-next-line no-undef
+    fetch(`${process.env.REACT_APP_MANGADEX}/manga?title=${params.manga}`)
       .then((r) => r.json())
       .then((responseData) => {
         const lowerCaseTitle = params.manga.toLowerCase();
@@ -29,7 +30,8 @@ const useFetchMangaFromTitle = () => {
         );
         if (params.chapter) {
           fetch(
-            `https://api.mangadex.org/chapter?manga=${currentManga.id}&translatedLanguage[]=${language}&chapter=${params.chapter}`
+            //eslint-disable-next-line no-undef
+            `${process.env.REACT_APP_MANGADEX}/chapter?manga=${currentManga.id}&translatedLanguage[]=${language}&chapter=${params.chapter}`
           )
             .then((r) => r.json())
             .then((response) => dispatch(setChapterId(response.data[0].id)))
