@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetMangasQuery, useGetAuthorQuery } from "../../apiSlice";
-import ArrowDiagonal from "../../assets/svgs/ArrowDiagonal";
 import ArrowsFullscreen from "../../assets/svgs/ArrowsFullscreen";
 import Brush from "../../assets/svgs/Brush";
 import Pen from "../../assets/svgs/Pen";
@@ -13,7 +12,7 @@ import MangaCover from "../styled/MangaCover";
 import Hint from "../styled/Hint";
 import ColoredSpan from "../styled/ColoredSpan";
 import Divider from "../styled/Divider";
-import HoverButton from "../styled/HoverButton";
+import AniListLink from "../aniList/AniListLink";
 
 const InfoContainer = styled.div`
   display: flex;
@@ -109,29 +108,6 @@ const NameSpan = styled(ColoredSpan)`
 
 const AnilistDivider = styled(Divider)`
   margin-top: 5px;
-`;
-
-const AnilistLink = styled.button`
-  display: flex;
-  align-items: center;
-  width: fit-content;
-
-  span {
-    display: flex;
-    min-width: 75px;
-    padding: 0 4px;
-    padding-bottom: 3px;
-  }
-
-  ${Hint} {
-    left: -40px;
-    justify-content: center;
-    width: 100px;
-  }
-
-  ${HoverButton} {
-    margin-left: 6px;
-  }
 `;
 
 const Synopsis = styled.p`
@@ -237,20 +213,9 @@ const MangaInfo = () => {
             ""
           )}
           {loggedIn && mediaId ? (
-            <React.Fragment>
-              <AnilistDivider dividerType="horizontal"></AnilistDivider>
-              <AnilistLink
-                onClick={() =>
-                  window.open(`https://anilist.co/manga/${mediaId}/`, "_blank")
-                }
-              >
-                <ArrowDiagonal>
-                  <Hint>AniList Link</Hint>
-                </ArrowDiagonal>
-                <HoverButton as={ColoredSpan}>AniList</HoverButton>
-              </AnilistLink>
-            </React.Fragment>
+            <AnilistDivider dividerType="horizontal"></AnilistDivider>
           ) : null}
+          <AniListLink />
           <AniListStatus appearance="manga-info" />
           <AnilistScore marginRight={true} />
         </MetadataContainer>

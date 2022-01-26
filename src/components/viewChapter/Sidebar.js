@@ -16,6 +16,7 @@ import titleToUrl from "../helpers/titleToUrl";
 import AnilistScore from "../aniList/AniListScore";
 import styled from "styled-components";
 import ColoredSpan from "../styled/ColoredSpan";
+import AniListLink from "../aniList/AniListLink";
 
 const Container = styled.div`
   position: absolute;
@@ -47,7 +48,6 @@ const MangaTitle = styled.h3`
   color: ${(props) => props.theme.textColor};
 `;
 
-//eslint-disable-next-line no-unused-vars
 const UploaderName = styled(ColoredSpan)`
   margin-left: 5px;
 `;
@@ -83,11 +83,7 @@ const Sidebar = (props) => {
   }, [currentVolume, mangaData, params.chapter]);
 
   if (!mangaData || !currentVolume) {
-    return (
-      <div
-        className={`sidebar-container flex column${props.show ? "" : " hide"}`}
-      ></div>
-    );
+    return <Container className={props.show ? "" : " hide"}></Container>;
   }
 
   return (
@@ -123,6 +119,7 @@ const Sidebar = (props) => {
         <People />
         <UploaderName>{group ?? "Unknown"}</UploaderName>
       </div>
+      <AniListLink />
       <AniListStatus className="sidebar" />
       <PageLayout />
       <PageDirection />
