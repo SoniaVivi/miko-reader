@@ -159,7 +159,10 @@ const ChapterList = () => {
       setMaxOffset(offset);
       setOffset((prev) => prev - 96);
     }
-    return <div className="chapter-list main-background"></div>;
+  }
+
+  if (!chapterData) {
+    return <Container></Container>;
   }
 
   return (
