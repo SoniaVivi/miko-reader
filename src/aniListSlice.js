@@ -76,11 +76,11 @@ export const aniListSlice = createApi({
         },
       }),
       transformResponse: (responseData) =>
-        mangaAdapter.addMany(
+        mangaAdapter.upsertMany(
           mangaInitialState,
           selectTitlesFromMediaListQuery(responseData)
         ),
-      providesTags: ["Status", "Score"],
+      providesTags: ["Status", "Score", "Progress"],
     }),
     getPlanningList: builder.query({
       query: ({ accessToken, userId }) => ({
@@ -97,11 +97,11 @@ export const aniListSlice = createApi({
         },
       }),
       transformResponse: (responseData) =>
-        mangaAdapter.addMany(
+        mangaAdapter.upsertMany(
           mangaInitialState,
           selectTitlesFromMediaListQuery(responseData)
         ),
-      providesTags: ["Status", "Score"],
+      providesTags: ["Status", "Score", "Progress"],
     }),
     getMangaFromTitle: builder.query({
       query: ({ accessToken, search }) => ({
@@ -135,7 +135,7 @@ export const aniListSlice = createApi({
           status: responseData?.data?.Media?.mediaListEntry.status,
           score: responseData?.data?.Media?.mediaListEntry.score,
         }),
-      providesTags: ["Status", "Score"],
+      providesTags: ["Status", "Score", "Progress"],
     }),
     updateMangaStatus: builder.mutation({
       query: ({ accessToken, mediaId, newStatus }) => ({
