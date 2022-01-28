@@ -23,14 +23,24 @@ const LoadingScreen = styled.div`
   height: 100%;
 `;
 
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: ${(props) => props.theme.secondLevelZIndex};
+  background-color: ${(props) => props.theme.mainBackground};
+  opacity: 0.25;
+`;
+
 const Circle = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border-top: ${circleThickness} solid ${(props) => props.theme.bodyBackground};
+  border-top: ${circleThickness} solid rgba(255,255,255,0);
   border-left: ${circleThickness} solid ${(props) => props.theme.textColor};
-  border-bottom: ${circleThickness} solid ${(props) =>
-  props.theme.bodyBackground};
+  border-bottom: ${circleThickness} solid rgba(255,255,255,0);
   animation-iteration-count: infinite;
   animation-duration: 1.5s;
   animation-name: spin;
@@ -130,12 +140,15 @@ const PageDisplay = (props) => {
       }}
     >
       {loading ? (
-        <LoadingScreen>
-          <Circle />
-        </LoadingScreen>
-      ) : (
-        [firstImage, secondImage]
-      )}
+        <React.Fragment>
+          <Overlay />
+          <LoadingScreen>
+            <Circle />
+          </LoadingScreen>
+        </React.Fragment>
+      ) : null}
+      {firstImage}
+      {secondImage}
     </PageBase>
   );
 };
