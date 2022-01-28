@@ -17,6 +17,7 @@ import AnilistScore from "../aniList/AniListScore";
 import styled from "styled-components";
 import ColoredSpan from "../styled/ColoredSpan";
 import AniListLink from "../aniList/AniListLink";
+import AniListProgressForm from "../aniList/AniListProgressForm";
 
 const Container = styled.div`
   position: absolute;
@@ -41,6 +42,7 @@ const Container = styled.div`
 `;
 
 const CounterContainer = styled.div`
+  flex-wrap: wrap;
   justify-content: center;
 `;
 
@@ -110,6 +112,7 @@ const Sidebar = (props) => {
             dispatch(setChapterId(id));
           }}
         />
+        <AniListProgressForm input="button" />
       </CounterContainer>
       <div>
         <Person />

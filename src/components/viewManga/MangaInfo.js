@@ -13,6 +13,7 @@ import Hint from "../styled/Hint";
 import ColoredSpan from "../styled/ColoredSpan";
 import Divider from "../styled/Divider";
 import AniListLink from "../aniList/AniListLink";
+import AniListProgressForm from "../aniList/AniListProgressForm";
 
 const InfoContainer = styled.div`
   display: flex;
@@ -218,6 +219,7 @@ const MangaInfo = () => {
           <AniListLink />
           <AniListStatus appearance="manga-info" />
           <AnilistScore marginRight={true} />
+          <AniListProgressForm input="number" />
         </MetadataContainer>
       </Container>
       <Synopsis>{mangaData.synopsis}</Synopsis>

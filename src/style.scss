@@ -30,6 +30,18 @@ h3 {
   font-family: "Lato Bold";
 }
 
+input,
+textarea {
+  max-width: 100%;
+  padding-left: 10px;
+  font-size: 16px;
+
+  &:focus {
+    border: unset;
+    outline: unset;
+  }
+}
+
 /* Utility Classes */
 
 .flex {
@@ -87,4 +99,8 @@ h3 {
 
 .no-cursor {
   cursor: none;
+}
+
+.clickable {
+  cursor: pointer;
 }

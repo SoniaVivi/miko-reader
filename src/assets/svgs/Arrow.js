@@ -15,6 +15,10 @@ const ArrowSvg = styled(HoverButton)`
     transform: rotate(-90deg);
   }
 
+  &.top {
+    transform: rotate(180deg);
+  }
+
   &.rectangle {
     border-radius: 0;
   }

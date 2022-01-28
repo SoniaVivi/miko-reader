@@ -8,6 +8,7 @@ const mediaListQuery = `query getList($userId: Int, $type: MediaType, $status: M
         mediaId
         status
         score (format: POINT_5)
+        progress
         media {
           title {
             native
@@ -30,6 +31,7 @@ const selectTitlesFromMediaListQuery = (response) =>
     score: mangaData?.score,
     status: mangaData?.status,
     title: mangaData?.media?.title?.native,
+    progress: mangaData?.media?.progress,
   }));
 
 const mangaAdapter = createEntityAdapter();
@@ -117,6 +119,7 @@ export const aniListSlice = createApi({
                   native
                 }
                 mediaListEntry {
+                  progress
                   status
                   score (format: POINT_5)
                 }
@@ -134,6 +137,7 @@ export const aniListSlice = createApi({
           title: responseData?.data?.Media?.title?.native,
           status: responseData?.data?.Media?.mediaListEntry.status,
           score: responseData?.data?.Media?.mediaListEntry.score,
+          progress: responseData?.data?.Media?.mediaListEntry.progress,
         }),
       providesTags: ["Status", "Score", "Progress"],
     }),
@@ -204,4 +208,5 @@ export const {
   useGetMangaFromTitleQuery,
   useUpdateMangaStatusMutation,
   useUpdateMangaScoreMutation,
+  useUpdateMangaProgressMutation,
 } = aniListSlice;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { forceSize } from "./mixins";
 
@@ -19,3 +20,7 @@ const Divider = styled.div`
 `;
 
 export default Divider;
+
+Divider.propTypes = {
+  dividerType: PropTypes.oneOf(["vertical", "horizontal", "dot"]).isRequired,
+};
