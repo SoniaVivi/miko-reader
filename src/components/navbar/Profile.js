@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -83,8 +83,15 @@ const Profile = () => {
   }));
   const [isExpanded, setIsExpanded] = useState(false);
   const loggedIn = useSelector(isLoggedIn);
+  const showNav = useSelector((state) => state.settings.showNav);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(
+    () => (!showNav && isExpanded ? setIsExpanded(false) : null),
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+    [showNav]
+  );
 
   return (
     <ProfileContainer
