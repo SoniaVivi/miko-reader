@@ -3,6 +3,7 @@ import { setChapterId } from "../../mangaSlice";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
 import { useGetMangaAggregateQuery } from "../../apiSlice";
 import { useHistory, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const useChangePage = (recachePages, secondImage, wasPrevImageLandscape) => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const useChangePage = (recachePages, secondImage, wasPrevImageLandscape) => {
   const params = useParams();
   const queryParams = useSelector((state) => ({
     mangaId: state.manga.id,
+    mangaTitle: state.manga.title,
     language: state.settings.language,
   }));
   const { data: mangaData } = useGetMangaAggregateQuery(queryParams, {
@@ -56,6 +58,11 @@ const useChangePage = (recachePages, secondImage, wasPrevImageLandscape) => {
     }
     history.push(`/${params.manga}/${params.chapter}/${newPage}`);
   };
+  useEffect(() => {
+    document.title = `Ch. ${params.chapter} Pg. ${params.page} - ${queryParams.mangaTitle}`;
+    return () => (document.title = "Miko Reader");
+  }, [params.page, params.chapter, queryParams.mangaTitle]);
+
   return changePage;
 };
 
