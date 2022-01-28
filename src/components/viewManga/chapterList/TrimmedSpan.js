@@ -5,7 +5,7 @@ import Hint from "../../styled/Hint";
 import styled from "styled-components";
 
 const ShiftedHint = styled(Hint)`
-  left: 40%;
+  left: 0;
 `;
 
 const TrimmedSpan = (props) => {

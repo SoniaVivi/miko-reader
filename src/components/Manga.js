@@ -14,6 +14,16 @@ const MangaContainer = styled(Container)`
 
   > * {
     flex-basis: 50%;
+    min-width: 472px;
+  }
+
+  ${(props) => props.theme.lgBreakpoint} {
+    justify-content: center;
+    flex-wrap: wrap;
+
+    > :first-child {
+      margin-bottom: 30px;
+    }
   }
 `;
 

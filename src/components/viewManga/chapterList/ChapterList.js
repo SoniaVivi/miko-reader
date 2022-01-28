@@ -19,6 +19,10 @@ const Container = styled.div`
   margin-left: 30px;
   padding: 8px;
   background-color: ${(props) => props.theme.mainBackground};
+
+  ${(props) => props.theme.lgBreakpoint} {
+    margin-left: 0;
+  }
 `;
 
 const ListWrapper = styled.ul`

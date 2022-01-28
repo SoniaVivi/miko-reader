@@ -37,6 +37,7 @@ const Container = styled(HoverButton)`
 
 const MetadataContainer = styled.div`
   ${_baseCss}
+  flex-basis: 60%;
   > * {
     display: flex;
     align-items: center;
@@ -55,6 +56,10 @@ const MetadataContainer = styled.div`
       margin-right: 12px;
     }
   }
+`;
+
+const TitleText = styled.div`
+  flex-basis: 40%;
 `;
 
 const ChapterListChild = (props) => {
@@ -90,11 +95,11 @@ const ChapterListChild = (props) => {
         history.push(`/${params.manga}/${props.chapterNumber}/1`);
       }}
     >
-      <div>
+      <TitleText>
         <TrimmedSpan maxLength={22} text={props.title} />
-      </div>
+      </TitleText>
       <MetadataContainer>
-        <TrimmedSpan maxLength={16} text={groupName ?? props.group} />
+        <TrimmedSpan text={groupName ?? props.group} />
         <TrimmedSpan text={uploaderName ?? props.uploader} />
         <ColoredSpan>
           {relativeTime(Date.parse(props.uploaded), timeFormatFunc)}

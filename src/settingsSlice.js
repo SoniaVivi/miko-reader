@@ -10,6 +10,7 @@ const defaultStyles = {
   highestLevelZIndex: "99999999999999",
   coverWidth: "210px",
   coverHeight: "300px",
+  lgBreakpoint: "@media (max-width: 920px)",
 };
 
 const lightTheme = {
