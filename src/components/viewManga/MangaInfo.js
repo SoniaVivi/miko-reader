@@ -40,6 +40,10 @@ const MetadataContainer = styled.div`
     flex-flow: column nowrap;
     margin-right: 0;
   }
+
+  .anilist-progress {
+    margin-top: 5px;
+  }
 `;
 
 const MangaHeading = styled.h3`
@@ -219,7 +223,7 @@ const MangaInfo = () => {
           <AniListLink />
           <AniListStatus appearance="manga-info" />
           <AnilistScore marginRight={true} />
-          <AniListProgressForm input="number" />
+          <AniListProgressForm input="number" className="anilist-progress" />
         </MetadataContainer>
       </Container>
       <Synopsis>{mangaData.synopsis}</Synopsis>

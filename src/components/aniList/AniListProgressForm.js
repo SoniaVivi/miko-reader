@@ -27,10 +27,15 @@ const ButtonContainer = styled(HintContainer)`
   }
 `;
 
-const NumberContainer = styled.div`
+const NumberContainer = styled(HintContainer)`
   width: fit-content;
   border: 1px solid ${(props) => props.theme.lightBorder};
   border-radius: 5px;
+
+  ${Hint} {
+    left: -50%;
+    width: 200%;
+  }
 `;
 
 const CenteredSpan = styled(ColoredSpan)`
@@ -72,7 +77,7 @@ const AniListProgressForm = (props) => {
               progress: chapter,
             })
           }
-          className="clickable"
+          className={`clickable${props.className ?? ""}`}
         >
           <CenteredSpan>AniList Progress: {progress ?? 0}</CenteredSpan>
           {params.chapter > progress ? (
@@ -82,7 +87,7 @@ const AniListProgressForm = (props) => {
       );
     case "number":
       return (
-        <NumberContainer>
+        <NumberContainer className={props.className ?? null}>
           <NumberForm
             value={progress ?? 0}
             onSend={(newVal) =>
@@ -95,6 +100,7 @@ const AniListProgressForm = (props) => {
               })
             }
           />
+          <Hint>AniList Chapter Progress</Hint>
         </NumberContainer>
       );
   }
@@ -104,4 +110,5 @@ export default AniListProgressForm;
 
 AniListProgressForm.propTypes = {
   input: PropTypes.oneOf(["button", "number"]).isRequired,
+  className: PropTypes.string,
 };

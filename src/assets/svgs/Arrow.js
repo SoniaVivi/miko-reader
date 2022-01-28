@@ -32,7 +32,7 @@ const Arrow = (props) => {
       width={props.width ?? "16"}
       height={props.height ?? "16"}
       fill="currentColor"
-      className={`arrow ${props.className ?? ""}`}
+      className={`arrow clickable ${props.className ?? ""}`}
       viewBox="0 0 16 16"
       onClick={props.onClick ?? (() => {})}
     >
