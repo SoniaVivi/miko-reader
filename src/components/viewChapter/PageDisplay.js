@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
 import { useGetServerURLQuery } from "../../apiSlice";
 import { useParams, useHistory } from "react-router";
@@ -7,6 +8,43 @@ import { useSelector } from "react-redux";
 import useRetrieveImages from "./useRetrieveImages";
 import useChangePage from "./useChangePage";
 import PageBase from "./PageBase";
+
+const circleThickness = "5px";
+
+const LoadingScreen = styled.div`
+  position: absolute;
+  z-index: ${(props) => props.theme.thirdLevelZIndex};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+
+const Circle = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border-top: ${circleThickness} solid ${(props) => props.theme.bodyBackground};
+  border-left: ${circleThickness} solid ${(props) => props.theme.textColor};
+  border-bottom: ${circleThickness} solid ${(props) =>
+  props.theme.bodyBackground};
+  animation-iteration-count: infinite;
+  animation-duration: 1.5s;
+  animation-name: spin;
+  animation-timing-function: linear;
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+`;
 
 const PageDisplay = (props) => {
   const params = useParams();
@@ -52,7 +90,7 @@ const PageDisplay = (props) => {
     );
   }
 
-  if (firstImage == null && secondImage == null && loading.current == false) {
+  if (firstImage == null && secondImage == null && loading == false) {
     setImages(Number(params.page));
   }
   return (
@@ -91,8 +129,13 @@ const PageDisplay = (props) => {
         }, 2000);
       }}
     >
-      {firstImage}
-      {secondImage}
+      {loading ? (
+        <LoadingScreen>
+          <Circle />
+        </LoadingScreen>
+      ) : (
+        [firstImage, secondImage]
+      )}
     </PageBase>
   );
 };

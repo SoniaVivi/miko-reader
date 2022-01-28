@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetServerURLQuery } from "../../apiSlice";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
@@ -11,13 +11,12 @@ const useRetrieveImages = () => {
   const [firstImage, setFirstImage] = useState(null);
   const [secondImage, setSecondImage] = useState(null);
   const [cachePages, setCachePages] = useState(true);
-  const loading = useRef(false);
+  const [loading, setLoading] = useState(false);
   const { id } = useGetCurrentChapterQuery();
   const readingSettings = useSelector((state) => ({
     pageLayout: state.settings.pageLayout,
     currentlyViewing: state.settings.currentlyViewing,
   }));
-  //eslint-disable-next-line
   const { serverUrl, pages, hash } = useGetServerURLQuery(id, {
     selectFromResult: ({ data }) => ({
       serverUrl: data?.baseUrl,
@@ -33,7 +32,7 @@ const useRetrieveImages = () => {
       if (!pages) {
         return;
       }
-      loading.current = true;
+      setLoading(true);
       const getImageUrl = (increment = 0) =>
         [serverUrl, "data", hash, pages[newPage - 1 + increment]].join("/");
 
@@ -74,7 +73,7 @@ const useRetrieveImages = () => {
           );
           dispatch(setCurrentlyViewing(2));
         }
-        loading.current = false;
+        setLoading(false);
       });
     },
     [hash, pages, serverUrl, readingSettings.pageLayout, dispatch, cachePages]
@@ -85,7 +84,7 @@ const useRetrieveImages = () => {
     setImages,
     isPrevImageLandscape: wasPrevImageLandscape,
     recachePages: () => setCachePages(true),
-    loading: loading,
+    loading,
   };
 };
 
