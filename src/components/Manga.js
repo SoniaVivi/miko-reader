@@ -35,6 +35,10 @@ const Manga = () => {
   const dispatch = useDispatch();
 
   useEffect(() => (nav ? null : dispatch(toggleNav())), [nav, dispatch]);
+  useEffect(() => {
+    mangaData.title ? (document.title = mangaData.title) : null;
+    return () => (document.title = "Miko Reader");
+  }, [mangaData.title]);
 
   if (mangaData.id == "-1") {
     return <div></div>;
