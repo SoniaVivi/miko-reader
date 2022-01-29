@@ -63,8 +63,10 @@ export const aniListSlice = createApi({
         },
       }),
     }),
-    getReadingList: builder.query({
-      query: ({ accessToken, userId }) => ({
+    getMangaList: builder.query({
+      // listType must be a string with a value of one of the following (in all uppercase):
+      // current, planning, completed, dropped, paused, or repeating
+      query: ({ accessToken, userId, listType }) => ({
         url: "/",
         method: "POST",
         headers: tokenHeaders(accessToken),
@@ -72,28 +74,7 @@ export const aniListSlice = createApi({
           query: mediaListQuery,
           variables: {
             type: "MANGA",
-            status: "CURRENT",
-            userId: userId,
-          },
-        },
-      }),
-      transformResponse: (responseData) =>
-        mangaAdapter.upsertMany(
-          mangaInitialState,
-          selectTitlesFromMediaListQuery(responseData)
-        ),
-      providesTags: ["Status", "Score", "Progress"],
-    }),
-    getPlanningList: builder.query({
-      query: ({ accessToken, userId }) => ({
-        url: "/",
-        method: "POST",
-        headers: tokenHeaders(accessToken),
-        body: {
-          query: mediaListQuery,
-          variables: {
-            type: "MANGA",
-            status: "PLANNING",
+            status: listType,
             userId: userId,
           },
         },
@@ -135,9 +116,9 @@ export const aniListSlice = createApi({
         mangaAdapter.addOne(mangaInitialState, {
           id: responseData?.data?.Media?.id,
           title: responseData?.data?.Media?.title?.native,
-          status: responseData?.data?.Media?.mediaListEntry.status,
-          score: responseData?.data?.Media?.mediaListEntry.score,
-          progress: responseData?.data?.Media?.mediaListEntry.progress,
+          status: responseData?.data?.Media?.mediaListEntry?.status,
+          score: responseData?.data?.Media?.mediaListEntry?.score,
+          progress: responseData?.data?.Media?.mediaListEntry?.progress,
         }),
       providesTags: ["Status", "Score", "Progress"],
     }),
@@ -203,10 +184,9 @@ export const aniListSlice = createApi({
 
 export const {
   useGetCurrentUserQuery,
-  useGetReadingListQuery,
-  useGetPlanningListQuery,
   useGetMangaFromTitleQuery,
   useUpdateMangaStatusMutation,
   useUpdateMangaScoreMutation,
   useUpdateMangaProgressMutation,
+  useGetMangaListQuery,
 } = aniListSlice;

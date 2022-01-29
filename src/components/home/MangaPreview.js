@@ -1,6 +1,6 @@
 import React from "react";
-import { useGetMangasQuery } from "../apiSlice";
-import PreviewWrapper, { LoadingPreview } from "./home/PreviewWrapper";
+import { useGetMangasQuery } from "../../apiSlice";
+import PreviewWrapper, { LoadingPreview } from "./PreviewWrapper";
 import PropTypes from "prop-types";
 
 const MangaPreview = (props) => {
