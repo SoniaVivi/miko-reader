@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Arrow from "../../assets/svgs/Arrow";
 import Divider from "../styled/Divider";
 import onOutsideClick from "../helpers/onOutsideClick";
 import HoverButton from "../styled/HoverButton";
+import Plus from "../../assets/svgs/Plus";
+import Dash from "../../assets/svgs/Dash";
 
 const inputSize = 30;
 
@@ -14,17 +15,13 @@ const NumberFormWrapper = styled.div`
   align-items: center;
   height: 25px;
   background-color: ${(props) => props.theme.mainBackground};
-
-  > *:not(${Divider}) {
-    border: unset;
-    background-color: unset;
-  }
 `;
 
 const ColoredInput = styled.input`
   width: ${inputSize}px;
   height: 100%;
-  padding-left: ${inputSize / 2 - 5}px;
+  border: unset;
+  background-color: unset;
   color: ${(props) => props.theme.textColor};
 `;
 
@@ -32,10 +29,8 @@ const ArrowWrapper = styled(HoverButton)`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  svg {
-    border-radius: 0;
-  }
+  height: 100%;
+  border-radius: 0;
 `;
 
 const NumberForm = (props) => {
@@ -88,7 +83,7 @@ const NumberForm = (props) => {
       }}
     >
       <ArrowWrapper>
-        <Arrow onClick={valueStepFunc()} className="left" />
+        <Dash onClick={valueStepFunc(-1)} className="right" />
       </ArrowWrapper>
       <Divider dividerType="vertical" />
       <ColoredInput
@@ -96,8 +91,8 @@ const NumberForm = (props) => {
         onChange={(e) => setValue(e.target.value)}
       ></ColoredInput>
       <Divider dividerType="vertical" />
-      <ArrowWrapper>
-        <Arrow onClick={valueStepFunc(-1)} className="right" />
+      <ArrowWrapper as={HoverButton}>
+        <Plus onClick={valueStepFunc()} />
       </ArrowWrapper>
     </NumberFormWrapper>
   );
