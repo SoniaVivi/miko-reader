@@ -1,5 +1,7 @@
 # Miko Reader
 
+![mikoReader](https://user-images.githubusercontent.com/55420399/151719477-79fecda0-62b1-4580-a2ae-25cf1fc54706.png)
+
 An application to read manga from Mangadex and fetch user relevant data from AniList.
 
 ### Features
