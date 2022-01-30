@@ -23,6 +23,7 @@ const HomeContainer = styled(Container)`
   }
 
   section {
+    min-height: 80vh;
     background-color: ${(props) => props.theme.mainBackground};
   }
 `;
