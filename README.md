@@ -1,37 +1,33 @@
 # Miko Reader
 
-![Miko Reader preview](https://user-images.githubusercontent.com/55420399/138030827-7e4c3751-7371-4d47-a265-575a231e009b.png)
-
 An application to read manga from Mangadex and fetch user relevant data from AniList.
 
-**Features**
+### Features
 
--Log into your AniList account to display manga on your Reading and Planning lists.
+- Log into your AniList account to display entries in manga lists sorted by reading status.
 
--Button to set Anilist rating in Sidebar and manga preview.
+- Buttons to update AniList: reading status, personal rating, and chapter progress when reading or viewing a manga.
 
--Sorts Manga chapters by language.
+- Sort manga chapters by language.
 
--Read single or dual pages in full screen.
+- Read single or dual pages in full screen.
 
--Update reading status when viewing a manga or reading a chapter.
+- Search and find mangas based off title.
 
--Search and find mangas based off title.
+- Toggle between light and dark themes.
 
-**Planned Features**
+### Planned Features
 
--New chapter notifications for any manga updated on Reading lists.
+- New chapter notifications for any manga updated on Reading lists.
 
--Search and find mangas based off: artist, and genre.
+- Search and find mangas based off: artist, and genre.
 
--Dark Theme.
+- Update manga chapter progress automatically.
 
--Updates current read status automatically.
+### Running a local copy
 
-**Running a local copy**
+Clone the repository to a directiory of your choosing, then run `yarn` to install dependencies. Startup a local server by running `yarn devstart`.
 
-Clone the repository to a directiory of your choosing, then run `yarn` to install dependencies.
-
-**Why the name Miko?**:
+### Why the name Miko?:
 
 Miko is the name of the protagonist of _Mieruko-chan_ by Izumi Tomoki which I'm a fan of.
