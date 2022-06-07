@@ -8,11 +8,17 @@ const AniListMangaPreview = (props) => {
     id,
     title: mangadexTitle,
     coverUrl,
+    publicationStatus,
   } = useGetMangaByTitleQuery(props.title, {
     selectFromResult: ({ data }) =>
       data?.entities
         ? Object.values(data?.entities)[0]
-        : { id: null, title: null, coverUrl: null },
+        : {
+            id: null,
+            title: null,
+            coverUrl: null,
+            publicationStatus: null,
+          },
 
     skip: !props.title,
   });
@@ -21,7 +27,14 @@ const AniListMangaPreview = (props) => {
     return null;
   }
 
-  return <PreviewWrapper src={coverUrl} title={mangadexTitle} id={id} />;
+  return (
+    <PreviewWrapper
+      src={coverUrl}
+      title={mangadexTitle}
+      id={id}
+      publicationStatus={publicationStatus}
+    />
+  );
 };
 
 export default AniListMangaPreview;

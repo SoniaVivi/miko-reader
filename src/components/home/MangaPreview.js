@@ -18,6 +18,7 @@ const MangaPreview = (props) => {
     <PreviewWrapper
       src={mangaData.coverUrl}
       title={mangaData.title}
+      publicationStatus={mangaData.publicationStatus}
       id={props.id}
     />
   );

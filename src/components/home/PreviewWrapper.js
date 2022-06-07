@@ -17,6 +17,10 @@ const Title = styled.h3`
   color: ${(props) => props.theme.textColor};
 `;
 
+const MangaStatus = styled.span`
+  font-weight: 600;
+`;
+
 const PreviewWrapper = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -33,6 +37,13 @@ const PreviewWrapper = (props) => {
         }}
       ></MangaCover>
       <Title>{props.title}</Title>
+      <div>
+        Publication:{" "}
+        <MangaStatus>
+          {props.publicationStatus.slice(0, 1).toUpperCase() +
+            props.publicationStatus.slice(1).toLowerCase()}
+        </MangaStatus>
+      </div>
     </Container>
   );
 };
@@ -52,4 +63,5 @@ PreviewWrapper.propTypes = {
   id: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  publicationStatus: PropTypes.string.isRequired,
 };

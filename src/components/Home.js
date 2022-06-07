@@ -16,7 +16,6 @@ const HomeContainer = styled(Container)`
   padding: 20px 5px;
 
   h3 {
-    margin-bottom: 25px;
     color: ${(props) => props.theme.textColor};
   }
 
