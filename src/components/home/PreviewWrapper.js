@@ -17,29 +17,37 @@ const Title = styled.h3`
   color: ${(props) => props.theme.textColor};
 `;
 
-const MangaStatus = styled.span`
+const FadedSpan = styled.span`
+  opacity: 0.6;
+`;
+
+const MangaStatus = styled(FadedSpan)`
   font-weight: 600;
+  opacity: 0.6;
 `;
 
 const PreviewWrapper = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const viewManga = () => {
+    dispatch(setActiveManga(props.id));
+    dispatch(setTitle(props.title));
+    history.push(titleToUrl(props.title));
+  };
 
   return (
     <Container>
       <MangaCover
         src={props.src}
-        className="cover preview"
-        onClick={() => {
-          dispatch(setActiveManga(props.id));
-          dispatch(setTitle(props.title));
-          history.push(titleToUrl(props.title));
-        }}
+        className="cover preview clickable no-select"
+        onClick={viewManga}
       ></MangaCover>
-      <Title>{props.title}</Title>
+      <Title className="clickable" onClick={viewManga}>
+        {props.title}
+      </Title>
       <div>
-        Publication:{" "}
-        <MangaStatus>
+        <FadedSpan className="no-select">Publication: </FadedSpan>
+        <MangaStatus className="no-select">
           {props.publicationStatus.slice(0, 1).toUpperCase() +
             props.publicationStatus.slice(1).toLowerCase()}
         </MangaStatus>
