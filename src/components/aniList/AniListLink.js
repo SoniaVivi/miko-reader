@@ -4,7 +4,6 @@ import Hint from "../styled/Hint";
 import HoverButton from "../styled/HoverButton";
 import ArrowDiagonal from "../../assets/svgs/ArrowDiagonal";
 import useMangaFromAuthenicatedQuery from "./useMangaFromAuthenicatedQuery";
-import ColoredSpan from "../styled/ColoredSpan";
 
 const StyledLink = styled.button`
   display: flex;
@@ -47,7 +46,7 @@ const AniListLink = () => {
       <ArrowDiagonal>
         <Hint>AniList Link</Hint>
       </ArrowDiagonal>
-      <HoverButton as={ColoredSpan}>AniList</HoverButton>
+      <HoverButton as={"span"}>AniList</HoverButton>
     </StyledLink>
   );
 };

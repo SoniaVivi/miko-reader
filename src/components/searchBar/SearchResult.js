@@ -8,7 +8,6 @@ import { setActiveManga, setTitle } from "../../mangaSlice";
 import titleToUrl from "../helpers/titleToUrl";
 import styled from "styled-components";
 import MangaCover from "../styled/MangaCover";
-import ColoredSpan from "../styled/ColoredSpan";
 import Divider from "../styled/Divider";
 
 const SearchResultContainer = styled.li`
@@ -66,16 +65,16 @@ const SearchResult = (props) => {
       >
         <MangaCover isSearch={true} src={mangaData.coverUrl}></MangaCover>
         <ResultWrapper>
-          <ColoredSpan>{mangaData.title}</ColoredSpan>
+          <span>{mangaData.title}</span>
           <MetadataContainer>
-            <ColoredSpan>
+            <span>
               {cropDate(new Date(Date.parse(mangaData.attributes.createdAt)))}
-            </ColoredSpan>
+            </span>
             <Divider dividerType="dot"></Divider>
-            <ColoredSpan>
+            <span>
               {mangaData.publicationStatus.slice(0, 1).toUpperCase() +
                 mangaData.publicationStatus.slice(1)}
-            </ColoredSpan>
+            </span>
           </MetadataContainer>
         </ResultWrapper>
       </div>

@@ -10,7 +10,6 @@ import useMangaFromAuthenicatedQuery from "../aniList/useMangaFromAuthenicatedQu
 import styled from "styled-components";
 import MangaCover from "../styled/MangaCover";
 import Hint from "../styled/Hint";
-import ColoredSpan from "../styled/ColoredSpan";
 import Divider from "../styled/Divider";
 import AniListLink from "../aniList/AniListLink";
 import AniListProgressForm from "../aniList/AniListProgressForm";
@@ -107,7 +106,7 @@ const Container = styled.div`
   margin-right: 5px;
 `;
 
-const NameSpan = styled(ColoredSpan)`
+const NameSpan = styled.span`
   margin-left: 5px;
 `;
 

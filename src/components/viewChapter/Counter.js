@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import onOutsideClick from "../helpers/onOutsideClick";
 import styled from "styled-components";
 import HoverButton from "../styled/HoverButton";
-import ColoredSpan from "../styled/ColoredSpan";
 
 const _buttonSidePadding = "4px";
 const _menuButtonSize = "40px";
@@ -34,7 +33,7 @@ const Form = styled(Container)`
   }
 `;
 
-const TextWrapper = styled(ColoredSpan)`
+const TextWrapper = styled.span`
   width: 25px;
 `;
 
@@ -81,7 +80,7 @@ const Counter = (props) => {
           });
         }}
       >
-        <ColoredSpan>{getDisplayTitle(props.current)}</ColoredSpan>
+        <span>{getDisplayTitle(props.current)}</span>
       </Form>
       <Menu
         className={showForm ? "" : " hide"}

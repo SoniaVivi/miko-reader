@@ -5,6 +5,7 @@ import Chapter from "./components/Chapter";
 import Manga from "./components/Manga";
 import Navbar from "./components//Navbar";
 import Login from "./components/Login";
+import GlobalStyle from "./components/styled/GlobalStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData, tokenSelector } from "./userSlice";
 import { useGetCurrentUserQuery } from "./aniListSlice";
@@ -34,6 +35,7 @@ const Routes = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyle />
       <BrowserRouter>
         <Navbar />
         <Switch>

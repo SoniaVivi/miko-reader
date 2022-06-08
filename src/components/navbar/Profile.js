@@ -10,7 +10,6 @@ import styled from "styled-components";
 import { circle } from "../styled/mixins";
 import HoverButton from "../styled/HoverButton";
 import HoverLink from "../styled/HoverLink";
-import ColoredSpan from "../styled/ColoredSpan";
 
 const ProfileContainer = styled.li`
   position: relative;
@@ -113,7 +112,7 @@ const Profile = () => {
           width="75"
           height="75"
         ></ProfileIcon>
-        <ColoredSpan>{userName ? userName : "Nullpo"}</ColoredSpan>
+        <span>{userName ? userName : "Nullpo"}</span>
       </UserWrapper>
       {isExpanded ? (
         <ProfileMenu>

@@ -9,7 +9,6 @@ import { setLanguage } from "../../../settingsSlice";
 import TrimmedSpan from "./TrimmedSpan";
 import HoverButton from "../../styled/HoverButton";
 import styled from "styled-components";
-import ColoredSpan from "../../styled/ColoredSpan";
 
 const _baseCss = `
   display: flex;
@@ -101,9 +100,7 @@ const ChapterListChild = (props) => {
       <MetadataContainer>
         <TrimmedSpan text={groupName ?? props.group} />
         <TrimmedSpan text={uploaderName ?? props.uploader} />
-        <ColoredSpan>
-          {relativeTime(Date.parse(props.uploaded), timeFormatFunc)}
-        </ColoredSpan>
+        <span>{relativeTime(Date.parse(props.uploaded), timeFormatFunc)}</span>
       </MetadataContainer>
     </Container>
   );

@@ -15,7 +15,6 @@ import AniListStatus from "../aniList/AniListStatus";
 import titleToUrl from "../helpers/titleToUrl";
 import AnilistScore from "../aniList/AniListScore";
 import styled from "styled-components";
-import ColoredSpan from "../styled/ColoredSpan";
 import AniListLink from "../aniList/AniListLink";
 import AniListProgressForm from "../aniList/AniListProgressForm";
 
@@ -50,7 +49,7 @@ const MangaTitle = styled.h3`
   color: ${(props) => props.theme.textColor};
 `;
 
-const UploaderName = styled(ColoredSpan)`
+const UploaderName = styled.span`
   margin-left: 5px;
 `;
 

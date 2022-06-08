@@ -3,7 +3,6 @@ import Arrow from "../../assets/svgs/Arrow";
 import { setPageDirection } from "../../settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import ColoredSpan from "../styled/ColoredSpan";
 import { forceSize } from "../styled/mixins";
 
 const Container = styled.div`
@@ -17,7 +16,7 @@ const Container = styled.div`
   }
 `;
 
-const Text = styled(ColoredSpan)`
+const Text = styled.span`
   display: flex;
   align-items: center;
 `;

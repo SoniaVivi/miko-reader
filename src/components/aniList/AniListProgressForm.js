@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useUpdateMangaProgressMutation } from "../../aniListSlice";
-import ColoredSpan from "../styled/ColoredSpan";
 import Hint from "../styled/Hint";
 import HintContainer from "../styled/HintContainer";
 import HoverButton from "../styled/HoverButton";
@@ -38,7 +37,7 @@ const NumberContainer = styled(HintContainer)`
   }
 `;
 
-const CenteredSpan = styled(ColoredSpan)`
+const CenteredSpan = styled.span`
   flex-shrink: 0;
   text-align: center;
   user-select: none;
