@@ -61,6 +61,7 @@ const HomeNavbar = (props) => {
       >
         Featured
       </MangaListsTab>
+      <Divider dividerType="vertical" />
       {loggedIn ? (
         <React.Fragment>
           <MangaListsTab
