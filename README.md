@@ -12,6 +12,8 @@ An application to read manga from Mangadex and fetch user relevant data from Ani
 
 - Sort manga chapters by language.
 
+- Start on the next unread chapter based on your AniList progress.
+
 - Read single or dual pages in full screen.
 
 - Search and find mangas based off title.
