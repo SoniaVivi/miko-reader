@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import SearchBar from "./searchBar/SearchBar";
-import Profile from "./navbar/Profile";
+import SearchBar from "../searchBar/SearchBar";
+import Profile from "./Profile";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
@@ -52,7 +52,9 @@ const Navbar = () => {
     <StyledNav className={showNav ? null : " hide"}>
       <NavList>
         <HomeButton>
-          <a onClick={() => history.replace("/")}>Home</a>
+          <a className="clickable" onClick={() => history.replace("/")}>
+            Home
+          </a>
         </HomeButton>
         <SearchBar />
         <Profile />

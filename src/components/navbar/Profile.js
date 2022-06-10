@@ -94,7 +94,7 @@ const Profile = () => {
 
   return (
     <ProfileContainer
-      className={isExpanded ? "active" : null}
+      className={`clickable no-select${isExpanded ? " active" : null}`}
       onClick={(e) => {
         setIsExpanded((prevState) => !prevState);
         onOutsideClick(

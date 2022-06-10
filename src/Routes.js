@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Home from "./components/Home";
 import Chapter from "./components/Chapter";
 import Manga from "./components/Manga";
-import Navbar from "./components//Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Login from "./components/Login";
 import GlobalStyle from "./components/styled/GlobalStyle";
 import { useDispatch, useSelector } from "react-redux";
