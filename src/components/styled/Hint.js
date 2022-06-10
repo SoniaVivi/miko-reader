@@ -4,9 +4,9 @@ const Hint = styled.div`
   display: none;
   position: absolute;
   top: 120%;
-  left: -80%;
+  left: ${(props) => props.left || "-80%"};
   min-width: 100%;
-  width: fit-content;
+  width: ${(props) => props.width || "fit-content"};
   z-index: 3;
   padding: 4px;
   font-family: "Lato Bold";

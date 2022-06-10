@@ -1,14 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
 import { relativeTime } from "../../../dateHelpers";
 import useGetUserAndGroupQuery from "../../useGetUserAndGroupQuery";
-import { setChapterId } from "../../../mangaSlice";
-import { setLanguage } from "../../../settingsSlice";
 import TrimmedSpan from "./TrimmedSpan";
 import HoverButton from "../../styled/HoverButton";
 import styled from "styled-components";
+import useSetMangaChapter from "./useSetMangaChapter";
 
 const _baseCss = `
   display: flex;
@@ -62,14 +59,12 @@ const TitleText = styled.div`
 `;
 
 const ChapterListChild = (props) => {
-  const history = useHistory();
-  const params = useParams();
-  const dispatch = useDispatch();
   const { user: uploaderName, group: groupName } = useGetUserAndGroupQuery({
     user: props.uploader,
     groups: props.groups,
     group: props.group,
   });
+  const setMangaChapter = useSetMangaChapter();
 
   const timeFormatFunc = (time, units) => {
     const timeUnits = {
@@ -88,11 +83,13 @@ const ChapterListChild = (props) => {
   return (
     <Container
       as="li"
-      onClick={() => {
-        dispatch(setChapterId(props.chapterId));
-        dispatch(setLanguage(props.language));
-        history.push(`/${params.manga}/${props.chapterNumber}/1`);
-      }}
+      onClick={() =>
+        setMangaChapter({
+          chapterId: props.chapterId,
+          language: props.language,
+          chapterNumber: props.chapterNumber,
+        })
+      }
     >
       <TitleText>
         <TrimmedSpan maxLength={22} text={props.title} />

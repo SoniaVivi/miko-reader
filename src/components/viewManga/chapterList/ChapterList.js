@@ -8,6 +8,7 @@ import PageCounterChild from "./PageCounterChild";
 import styled from "styled-components";
 import HoverButton from "../../styled/HoverButton";
 import { bevel, center } from "../../styled/mixins";
+import StartFromLastChapterButton from "./StartFromLastChapterButton";
 
 const _languageButtonHeight = "60%";
 
@@ -191,6 +192,7 @@ const ChapterList = () => {
             </LanguageButtonContainer>
           ))}
       </LanguageList>
+      <StartFromLastChapterButton chapters={chapters} />
       <ArrowContainer
         top={true}
         onLeftArrowClick={decrementPage}
