@@ -7,6 +7,7 @@ import HomeList from "./home/HomeList";
 import Arrow from "../assets/svgs/Arrow";
 import HomeNavbar from "./home/HomeNavbar";
 import FeaturedList from "./home/FeaturedList";
+import { useSelector } from "react-redux";
 
 const HomeContainer = styled(Container)`
   display: flex;
@@ -64,7 +65,12 @@ const GoToTopButton = styled.div`
 
 const Home = () => {
   const tabContainerRef = useRef(null);
-  const [currentTab, setCurrentTab] = useState("recentlyViewed");
+  const hasViewedManga = useSelector(
+    (state) => state.manga.recentlyViewed.length != 0
+  );
+  const [currentTab, setCurrentTab] = useState(
+    hasViewedManga ? "recentlyViewed" : "featured"
+  );
   const tabOnClick = (e) => setCurrentTab(toCamelCase(e.target.textContent));
   const getActiveStatusClassName = (tabName) =>
     tabName == currentTab ? "active clickable" : "clickable";
