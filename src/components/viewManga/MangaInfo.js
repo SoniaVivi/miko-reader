@@ -172,8 +172,8 @@ const MangaInfo = () => {
       <Container>
         <CoverWrapper as={"div"} onClick={() => setShowLargeCover(true)}>
           <MangaCover src={mangaData.coverUrl}></MangaCover>
-          <ArrowsFullscreen className="corner" />
-          <Overlay></Overlay>
+          <ArrowsFullscreen className="corner clickable" />
+          <Overlay className="clickable"></Overlay>
         </CoverWrapper>
         <MetadataContainer>
           <MangaHeading>{mangaData.title}</MangaHeading>
