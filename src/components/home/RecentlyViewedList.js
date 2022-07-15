@@ -9,8 +9,8 @@ const RecentlyViewedList = () => {
   return (
     <section>
       <MangaShowcase>
-        {recentlyViewed.map((id, i) => (
-          <MangaPreview id={id} key={i} query={recentlyViewed} />
+        {recentlyViewed.map((id) => (
+          <MangaPreview id={id} key={id} query={recentlyViewed} />
         ))}
       </MangaShowcase>
     </section>

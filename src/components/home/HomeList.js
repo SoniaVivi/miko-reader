@@ -10,8 +10,8 @@ const HomeList = (props) => {
   return (
     <section>
       <MangaShowcase>
-        {mangaTitles.map((title, i) => (
-          <AniListMangaPreview title={title} key={i} />
+        {mangaTitles.map((title) => (
+          <AniListMangaPreview title={title} key={title} />
         ))}
       </MangaShowcase>
     </section>
