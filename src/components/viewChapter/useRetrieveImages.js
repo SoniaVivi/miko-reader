@@ -34,6 +34,8 @@ const useRetrieveImages = () => {
       }
       setLoading(true);
       const getImageUrl = (increment = 0) =>
+        //eslint-disable-next-line no-undef
+        process.env.REACT_APP_PAGE_BASE_URL +
         [serverUrl, "data", hash, pages[newPage - 1 + increment]].join("/");
 
       if (cachePages && serverUrl && hash) {

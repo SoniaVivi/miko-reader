@@ -4,7 +4,8 @@ const getCoverUrl = (mangaData) => {
     mangaData.relationships.length >= 3 &&
     mangaData.relationships[2].attributes
   ) {
-    return `https://uploads.mangadex.org/covers/${mangaData.id}/${mangaData.relationships[2].attributes.fileName}.512.jpg`;
+    //eslint-disable-next-line no-undef
+    return `${process.env.REACT_APP_COVER_MANGADEX}${mangaData.id}/${mangaData.relationships[2].attributes.fileName}.512.jpg`;
   }
   return "";
 };

@@ -4,7 +4,8 @@ const precachePages = async (current, total, urlFunc) => {
   const loadImage = (url) =>
     new Promise((resolve) => {
       const newImg = new Image();
-      newImg.src = url;
+      //eslint-disable-next-line no-undef
+      newImg.src = process.env.REACT_APP_PAGE_BASE_URL + url;
       newImg.addEventListener("load", () => {
         setTimeout(() => resolve(newImg), 250);
       });

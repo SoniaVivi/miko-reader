@@ -4,7 +4,8 @@ const getImages = (imageUrls) => {
     (url) =>
       new Promise((resolve) => {
         const newImg = new Image();
-        newImg.src = url;
+        //eslint-disable-next-line no-undef
+        newImg.src = process.env.REACT_APP_PAGE_BASE_URL + url;
         newImg.addEventListener("load", () => {
           resolve(newImg);
         });
