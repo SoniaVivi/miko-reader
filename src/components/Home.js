@@ -45,7 +45,7 @@ const Footer = styled.div`
 
 const GoToTopButton = styled.div`
   position: fixed;
-  bottom: 25px;
+  bottom: 40px;
   display: flex;
   justify-content: flex-end;
   max-width: 960px;
