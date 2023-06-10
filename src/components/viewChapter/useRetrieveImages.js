@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetServerURLQuery } from "../../apiSlice";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
@@ -35,7 +35,7 @@ const useRetrieveImages = () => {
       setLoading(true);
       const getImageUrl = (increment = 0) =>
         //eslint-disable-next-line no-undef
-        process.env.REACT_APP_PAGE_BASE_URL +
+
         [serverUrl, "data", hash, pages[newPage - 1 + increment]].join("/");
 
       if (cachePages && serverUrl && hash) {
@@ -59,20 +59,13 @@ const useRetrieveImages = () => {
         if (newPage > 1) setWasPrevImageLandscape(sizes.shift());
 
         const isLandscape = sizes.shift();
-        setFirstImage(
-          <img
-            src={getImageUrl()}
-            className={isLandscape ? "landscape" : ""}
-          ></img>
-        );
+        setFirstImage({ landscape: isLandscape, src: getImageUrl() });
         if (isLandscape || !sizes.length) {
           setSecondImage(null);
           dispatch(setCurrentlyViewing(1));
         } else {
           // Returns false if portrait, true if landscape
-          setSecondImage(
-            sizes.shift() ? null : <img src={getImageUrl(1)}></img>
-          );
+          setSecondImage({ landscape: false, src: getImageUrl(1) });
           dispatch(setCurrentlyViewing(2));
         }
         setLoading(false);

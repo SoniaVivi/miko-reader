@@ -147,8 +147,19 @@ const PageDisplay = (props) => {
           </LoadingScreen>
         </React.Fragment>
       ) : null}
-      {firstImage}
-      {secondImage}
+      {firstImage !== null ? (
+        <img
+          //eslint-disable-next-line no-undef
+          src={process.env.REACT_APP_PAGE_BASE_URL + firstImage.src}
+          className={firstImage.landscape ? "landscape" : null}
+        ></img>
+      ) : null}
+      {firstImage === null ||
+      firstImage.landscape ||
+      secondImage === null ? null : (
+        //eslint-disable-next-line no-undef
+        <img src={process.env.REACT_APP_PAGE_BASE_URL + secondImage.src}></img>
+      )}
     </PageBase>
   );
 };
