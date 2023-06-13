@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetServerURLQuery } from "../../apiSlice";
 import useGetCurrentChapterQuery from "./useGetCurrentChapterQuery";
-import precachePages from "./precachePages";
+// import precachePages from "./precachePages";
 import getImages from "./getImages";
 import { setCurrentlyViewing } from "../../settingsSlice";
 
@@ -40,9 +40,9 @@ const useRetrieveImages = () => {
 
       if (cachePages && serverUrl && hash) {
         setCachePages(false);
-        precachePages(newPage, pages.length, (page) =>
-          [serverUrl, "data", hash, pages[page]].join("/")
-        );
+        // precachePages(newPage, pages.length, (page) =>
+        //   [serverUrl, "data", hash, pages[page]].join("/")
+        // );
       }
 
       let imageUrls = [getImageUrl()];

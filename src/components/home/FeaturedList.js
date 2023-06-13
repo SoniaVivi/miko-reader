@@ -15,8 +15,8 @@ const FeaturedList = () => {
   ];
   return (
     <MangaShowcase>
-      {mangas.map((mangaId) => (
-        <MangaPreview key={mangaId} id={mangaId} query={mangas} />
+      {mangas.map((mangaId, i) => (
+        <MangaPreview key={mangaId} id={mangaId} query={mangas} delay={i} />
       ))}
     </MangaShowcase>
   );

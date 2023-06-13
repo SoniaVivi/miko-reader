@@ -56,11 +56,11 @@ const PreviewWrapper = (props) => {
   );
 };
 
-export const LoadingPreview = () => {
+export const LoadingPreview = ({ title }) => {
   return (
     <Container>
       <MangaCover></MangaCover>
-      <Title>Loading...</Title>
+      <Title>Loading {title}</Title>
     </Container>
   );
 };
@@ -72,4 +72,8 @@ PreviewWrapper.propTypes = {
   src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   publicationStatus: PropTypes.string.isRequired,
+};
+
+LoadingPreview.propTypes = {
+  title: PropTypes.string.isRequired,
 };

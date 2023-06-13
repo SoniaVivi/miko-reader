@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useGetMangaByTitleQuery } from "../../apiSlice";
-import PreviewWrapper from "../home/PreviewWrapper";
+import PreviewWrapper, { LoadingPreview } from "../home/PreviewWrapper";
 
 const AniListMangaPreview = (props) => {
+  const [delay, setDelay] = useState(
+    props.delay == undefined ? 0 : props.delay * 500
+  );
   const {
     id,
     title: mangadexTitle,
@@ -20,11 +23,22 @@ const AniListMangaPreview = (props) => {
             publicationStatus: null,
           },
 
-    skip: !props.title,
+    skip: !props.title || delay > 0,
   });
+
+  useEffect(() => {
+    if (delay <= 0) return;
+    setTimeout(() => {
+      setDelay((current) => current - 500);
+    }, 500);
+  }, [delay]);
 
   if (!id) {
     return null;
+  }
+
+  if (delay > 0) {
+    return <LoadingPreview title={props.title} />;
   }
 
   return (
@@ -41,4 +55,5 @@ export default AniListMangaPreview;
 
 AniListMangaPreview.propTypes = {
   title: PropTypes.string.isRequired,
+  delay: PropTypes.number,
 };
